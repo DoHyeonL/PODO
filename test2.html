@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <style>
+
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    
+    body {
+      background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .signup-form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .input-field, .phone-input select, .phone-input input[type="tel"] {
+      height: 44px;
+      padding: 0 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      background: white;
+    }
+
+    
+    .btn {
+      background-color: #6e67cf;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #8cd875;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .phone-input {
+  display: flex;
+  width: 100%;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-button .input-field {
+  flex: 1; /* 입력칸이 최대한 공간을 차지 */
+}
+
+.check-btn {
+  height: 44px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #eee;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.check-btn:hover {
+  background-color: #ddd;
+}
+
+.sub-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  color: #555;
+}
+.sub-checkbox-group input[type="checkbox"] {
+  margin-right: 6px;
+}
+.sub-checkbox-group div {
+  display: flex;
+  align-items: center;
+}
+
+.guardian-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 중앙 정렬 */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;  /* 모달 너비 */
+  max-width: 90%;  /* 화면 크기에 따라 유동적 */
+}
+
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    .guardian-entry {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: opacity 0.5s ease, height 0.5s ease;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .input-field {
+      height: 40px;
+      padding: 0 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-cancel {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .btn-save {
+      background-color: #6e67cf;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background-color: #8cd875;
+    }
+
+    .btn-add {
+      background-color: #eee;
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 16px;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .fade-out {
+      opacity: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .summary-list {
+      margin-top: 16px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f5f5f5;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .summary-buttons button {
+      margin-left: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .edit-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<form action="#" method="post" class="signup-form">
+
+  <h2 class="form-title">회원가입</h2>
+
+  <div class="form-group">
+   <label for="id">이름</label>
+   <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
+  </div>
+
+  <div class="form-group">
+    <label for="id">아이디</label>
+    <div class="input-with-button">
+      <input type="text" id="id" name="id" class="input-field" placeholder="아이디 입력">
+      <button type="button" class="check-btn">중복확인</button>
+    </div>
+  </div>
+  
+
+  <div class="form-group">
+    <label for="pw">비밀번호</label>
+    <input type="password" id="pw" name="pw" class="input-field" placeholder="비밀번호 입력">
+  </div>
+
+  <div class="form-group">
+    <label for="pw_ok">비밀번호 확인</label>
+    <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
+  </div>
+
+  <div class="form-group">
+    <label for="ad">주소</label>
+    <input type="text" id="ad" name="ad" class="input-field" placeholder="주소 입력">
+  </div>
+
+
+  <div class="form-group">
+  <label for="phone">휴대폰 번호</label>
+  <div class="phone-input">
+    <select name="phone1">
+      <option>010</option>
+      <option>011</option>
+      <option>016</option>
+      <option>017</option>
+      <option>018</option>
+      <option>019</option>
+    </select>
+    <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
+  </div>
+
+
+  <div class="form-group">
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
+  </div>
+
+  <button class="btn" onclick="openModal()"
+  style="background-color:#555;">
+    보호자 추가하기 +
+  </button>
+
+  
+
+  <div class="checkbox-group" style="margin-top: 15px;">
+    <input type="checkbox" id="agree">
+    <label for="agree">전체 동의</label>
+  </div>
+  
+  <div class="sub-checkbox-group">
+    <div>
+      <input type="checkbox" id="privacy" required>
+      <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
+    </div>
+    <div>
+      <input type="checkbox" id="age" required>
+      <label for="age">[필수] 만 14세 이상입니다.</label>
+    </div>
+  </div>
+  
+  <button type="submit" class="btn">동의 후 가입하기</button>
+
+</form>
+
+<div class="overlay" id="overlay">
+  <div class="guardian-form">
+    <h2 class="form-title">보호자 리스트 추가하기</h2>
+
+    <div id="guardian-list"></div>
+
+    <button type="button" class="btn-add" id="btnAddGuardian" onclick="addGuardian()">+ 보호자 추가</button>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-cancel" onclick="closeModal()">취소</button>
+      <button type="button" class="btn btn-save" onclick="saveGuardian()">저장하기</button>
+    </div>
+
+    <div class="summary-list" id="summaryListModal"></div>
+  </div>
+</div>
+
+
+
+<!--입력을 안 했을 때 가입이 안 되게 막기-->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.signup-form');
+    const nameInput = document.getElementById('name');
+    const idInput = document.getElementById('id');
+    const pwInput = document.getElementById('pw');
+    const pwOkInput = document.getElementById('pw_ok');
+    const adInput = document.getElementById('ad');
+    const phone2Input = document.querySelector('input[name="phone2"]');
+    const emailInput = document.getElementById('email');
+    const agreeCheckbox = document.getElementById('agree');
+
+    form.addEventListener('submit', function (e) {
+      if (
+        !nameInput.value.trim() ||
+        !idInput.value.trim() ||
+        !pwInput.value.trim() ||
+        !pwOkInput.value.trim() ||
+        !adInput.value.trim() ||
+        !phone2Input.value.trim() ||
+        !emailInput.value.trim()
+      ) {
+        e.preventDefault();
+        alert('모든 필수 항목을 입력해주세요.');
+        return;
+      }
+
+      if (pwInput.value !== pwOkInput.value) {
+        e.preventDefault();
+        alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        return;
+      }
+
+      if (!agreeCheckbox.checked) {
+        e.preventDefault();
+        alert('회원가입을 위해 전체 동의에 체크해주세요.');
+        return;
+      }
+
+      e.preventDefault(); // 기본 전송 막고
+      window.location.href = 'main.html'; // 이동
+
+    });
+  });
+</script>
+
+
+
+  <!--메인 약관 체크했을 때 서브 약관도 체크, 모두 체크하지 않으면 가입 불가능-->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.signup-form');
+    const agreeAll = document.getElementById('agree');
+    const privacy = document.getElementById('privacy');
+    const age = document.getElementById('age');
+  
+    // 전체 동의 체크 시 하위 필수 항목 체크/해제
+    agreeAll.addEventListener('change', function () {
+      privacy.checked = agreeAll.checked;
+      age.checked = agreeAll.checked;
+    });
+  
+    // 회원가입 폼 제출 시 필수 항목 체크 여부 검사
+    form.addEventListener('submit', function (e) {
+      if (!privacy.checked || !age.checked) {
+        e.preventDefault(); // 전송 막기
+        alert('필수 항목에 동의하셔야 가입할 수 있습니다.');
+      }
+    });
+  });
+  </script>
+
+<script>
+  // 모달을 여는 함수
+  function openModal() {
+    document.getElementById('overlay').style.display = 'block';  // 모달을 보이게 설정
+  }
+
+  // 모달을 닫는 함수
+  function closeModal() {
+    document.getElementById('overlay').style.display = 'none';  // 모달을 숨기기
+  }
+</script>
+
+
+<script>
+  let guardianData = [];  // 보호자 데이터 배열
+  const MAX_GUARDIANS = 3;  // 최대 보호자 수
+  let guardianCount = 0;  // 보호자 수 카운트
+
+  // 보호자 추가 함수
+  function addGuardian(data = {}) {
+    if (guardianCount >= MAX_GUARDIANS) {
+      return;
+    }
+
+    guardianCount++;
+
+    const id = Date.now();
+    const container = document.getElementById('guardian-list');
+
+    const div = document.createElement('div');
+    div.className = 'guardian-entry';
+    div.setAttribute('data-id', id);
+
+    div.innerHTML = `
+      <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+      <div class="form-group">
+        <label>이름</label>
+        <input type="text" name="g_name[]" class="input-field" value="${data.g_name || ''}">
+      </div>
+      <div class="form-group">
+        <label>관계</label>
+        <input type="text" name="g_relation[]" class="input-field" value="${data.g_relation || ''}">
+      </div>
+      <div class="form-group">
+        <label>전화번호</label>
+        <input type="tel" name="g_phone[]" class="input-field" value="${data.g_phone || ''}">
+      </div>
+    `;
+
+    container.appendChild(div);
+
+
+  }
+
+  // 보호자 삭제 함수
+  function removeGuardian(btn) {
+    const entry = btn.closest('.guardian-entry');
+    entry.remove();
+    guardianCount--;
+
+  }
+
+  // 보호자 수에 따라 추가 버튼 활성화/비활성화 체크
+  function checkGuardianCount() {
+    if (guardianCount >= MAX_GUARDIANS) {
+      document.getElementById('btnAdd').disabled = true;
+    } else {
+      document.getElementById('btnAdd').disabled = false;
+    }
+  }
+
+  // 저장 함수
+  function saveGuardian() {
+    const entries = document.querySelectorAll('.guardian-entry');
+    if (entries.length === 0) {
+      alert('입력할 보호자가 없습니다.');
+      return;
+    }
+
+    const lastEntry = entries[entries.length - 1];
+    const name = lastEntry.querySelector('[name="g_name"]').value.trim();
+    const relation = lastEntry.querySelector('[name="g_relation"]').value.trim();
+    const phone = lastEntry.querySelector('[name="g_phone"]').value.trim();
+
+    if (!name || !relation || !phone) {
+      if (!name) {
+        alert('이름을 입력하세요.');
+      } else if (!relation) {
+        alert('관계를 입력하세요.');
+      } else if (!phone) {
+        alert('전화번호를 입력하세요.');
+      }
+      return;
+    }
+
+    // 저장
+    const id = lastEntry.getAttribute('data-id');
+    guardianData.push({ id, g_name: name, g_relation: relation, g_phone: phone });
+
+    // 폼 제거 애니메이션
+    lastEntry.classList.add('fade-out');
+    setTimeout(() => lastEntry.remove(), 500);
+    guardianCount--;
+
+    // 요약 리스트에 표시
+    const summaryDiv = document.createElement('div');
+    summaryDiv.className = 'summary-item';
+    summaryDiv.setAttribute('data-id', id);
+    summaryDiv.innerHTML = `
+      <span>${name}</span>
+      <div class="summary-buttons">
+        <button class="delete-btn" onclick="deleteGuardian('${id}')">삭제</button>
+      </div>
+    `;
+    document.getElementById('summaryList').appendChild(summaryDiv);
+  }
+
+
+
+  // 보호자 삭제 함수
+  function deleteGuardian(id, removeSummary = true) {
+    const index = guardianData.findIndex(g => g.id === id);
+    if (index !== -1) {
+      guardianData.splice(index, 1);
+      guardianCount--;
+    }
+
+    if (removeSummary) {
+      const item = document.querySelector(`.summary-item[data-id="${id}"]`);
+      if (item) item.remove();
+    }
+
+    // 보호자 수가 3명 미만일 경우 추가 버튼 활성화
+    checkGuardianCount();
+  }
+
+  // 초기 1개 보호자 폼 생성
+  window.onload = () => addGuardian();
+</script>
+  
+
+</body>
+</html>

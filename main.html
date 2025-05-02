@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 화면</title>
+    <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=qjdtka4as3"></script>
+    <style>
+
+
+        #map {
+            width: 100%;
+            height: 100vh; 
+
+        }
+
+        #search-path{
+            position: fixed;
+            left : 7.5%;
+            top: 50px;      
+            width: 85vw;
+            height: 45px;
+
+            min-width: 300px;
+            max-width: 100%;
+
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            border-radius: 6px;
+            background-color: #ffffff;
+            gap: 9px;
+
+
+        }
+
+        
+        
+        #search-path.expand{
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            border-radius: 0px;
+            background-color: rgb(255, 255, 255);
+            z-index: 1;
+            transition: 
+                top 0.6s ease, 
+                left 0.6s ease, 
+                width 0.6s ease, 
+                height 0.6s ease, 
+                background-color 0.6s ease;            
+        }
+
+
+        #inputhBtn{
+            width: 100%;
+        }
+
+        #sidebarMember{  
+            width: 60vw;
+            min-width: 250px;        /* 최소 너비: 250px 이하로 줄어들지 않음 */
+            max-width: 350px;
+
+            height: 100%; /* 화면 넓이의 60%, 높이 100%를 차지하는 사이드바 */
+            background-color: #fff;
+            z-index: 9999; /* 화면 제일 앞으로 고정 */    
+            overflow-x: hidden; /*가로 방향(x축)**으로 요소 내부 내용이 넘칠 경우 넘친 부분을 보이지 않게 숨김.*/
+            overflow-y: auto;  /*세로 방향(y축)**으로 내용이 넘칠 경우 필요할 때만 스크롤바를 자동 생성.*/
+            word-break: keep-all; /*영어나 숫자 단어는 잘라도 되지만, 한글은 한 글자씩 자르지 않고 단어 단위로 줄바꿈.*/     
+         }
+
+         #sidebarGuest{  
+            width: 60vw;
+            min-width: 250px;        /* 최소 너비: 250px 이하로 줄어들지 않음 */
+            max-width: 350px;
+
+            height: 100%; /* 화면 넓이의 60%, 높이 100%를 차지하는 사이드바 */
+            background-color: #fff;
+            z-index: 9999; /* 화면 제일 앞으로 고정 */    
+            overflow-x: hidden; /*가로 방향(x축)**으로 요소 내부 내용이 넘칠 경우 넘친 부분을 보이지 않게 숨김.*/
+            overflow-y: auto;  /*세로 방향(y축)**으로 내용이 넘칠 경우 필요할 때만 스크롤바를 자동 생성.*/
+            word-break: keep-all; /*영어나 숫자 단어는 잘라도 되지만, 한글은 한 글자씩 자르지 않고 단어 단위로 줄바꿈.*/     
+         }
+
+        #menu-icon {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center; /* 아이콘을 수직 중앙에 배치 */
+            top: 25px; /* 아이콘 메뉴를 화면 위(top) 기준으로 25px 아래에 생성*/
+            width: 30px; /*메뉴 아이콘이라는 컨테이너틀의 너비를 30px로 설정*/
+            height: 20px; /*메뉴 아이콘이라는 컨테이너틀의 높이를 25px로 설정*/
+        }
+
+        #menu-icon .bar{
+            height: 2px;
+            width: 100%;
+            background-color: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease; /* 모든 변화(ex.100px 에서 300px로 변신)등을 자연스럽게 애니메이션 처리해줌*/
+            transform-origin: center; /*요소 자체를 변형시킴(ex. transform: rotate(45deg); 45도 회전함)*/
+        }
+
+
+        #menu-icon.active .bar:nth-child(1){
+            transform: rotate(-90deg) translate(5px, 5px);
+            /*menu-icon에 active가 붙으면
+
+            첫 번째 bar (햄버거 메뉴의 1번째 줄)을
+
+            45도 회전시키고
+
+            x축 +5px / y축 +5px로 이동
+        
+            그래서 첫 번째 줄이 대각선 방향으로 기울면서 움직임.*/
+            opacity: 0;
+         }
+
+         #menu-icon.active .bar:nth-child(2){
+            opacity: 0;
+            /*완전히 투명하게 변경*/
+         }
+
+         #menu-icon.active .bar:nth-child(3){
+            transform: rotate(90deg) translate(5px, -5px);
+            opacity: 0;
+         }
+
+         #inputBtn{
+            opacity: 1;
+            transition: all 0.3s ease;
+         }
+
+         
+
+         #inputText{
+            transition: all 0.3s ease;
+        }
+
+         .hidden{
+            transform: translateX(-100%); /* 왼쪽으로 숨기기 */
+            transition: transform 0.6s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+         }
+
+         .show {
+            transform: translateX(0); /* 다시 제자리로 나오게 */
+            transition: transform 0.6s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 3px 5px 5px rgb(168, 166, 166);
+        }
+
+        #bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            min-width: 400px;
+            height: 70px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #ccc;
+        }
+
+
+        .bottom-button {
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .bottom-button img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .bottom-button span {
+            font-size: 12px;
+        }
+
+        
+
+
+        .shadow {
+            box-shadow: 5px 5px 5px rgb(168, 166, 166); /*그림자 효과*/
+        }
+
+        .line-shadow {
+            box-shadow: 1px 1px 1px rgb(168, 166, 166); /*그림자 효과*/
+        }
+
+        .overlay{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0; /* 숨김 상태에서 불투명도 0 */
+            
+            visibility: hidden; /* 숨김 상태에서 보이지 않음 */
+            transition: opacity 0.6s ease;
+        }
+        
+
+        .overlay.show {
+            opacity: 1; /* 보일 때 불투명도 1 */
+            visibility: visible; /* 보일 때 보이도록 설정 */
+        }
+
+        .overlay.hidden {
+            opacity: 0; /* 숨길 때 불투명도 0 */
+            transition: opacity 0.6s ease; /* opacity 애니메이션만 적용 */
+        }
+
+        .fade-out{
+            opacity: 0; /* 숨길 때 불투명도 0 */
+            transition: opacity 0.3s ease; /* opacity 애니메이션만 적용 */
+            visibility: hidden;
+        }
+
+        .fade-in{
+            opacity: 0; /* 숨길 때 불투명도 0 */
+            transition: opacity 0.3s ease; /* opacity 애니메이션만 적용 */
+            visibility: hidden;
+        }
+        
+        .text-button{
+            all: unset;
+            width: 100%;
+            display: block;
+        }
+
+        .position{
+            position: fixed;
+
+        }
+
+        .search-content {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        #search-path.expand .search-content {
+            display: flex; /* expand 상태일 때만 표시 */
+        }
+
+        
+
+
+
+    </style>  
+</head>
+
+
+
+<body>
+
+
+
+
+
+<div id="map" ></div>
+
+<span class="position">
+    <button class="text-button" style="margin-top: 150px; margin-left: 30px;
+                font-weight: bold; font-size: 20px; ">
+        최근검색
+    </button>  
+</span>
+
+<hr class="position" style="width: 100%; margin-top: 190px;">
+
+
+<div id="search-path" class="shadow">
+    
+    <div id="menu-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>    
+    </div>
+
+    <div id="inputBtn">
+        <button class="text-button">
+            <span id="inputText">주소를 입력하세요</span>
+        </button>
+    </div>
+
+
+    <div class="search-content" style="width: 65%; height: 40px; background-color: rgba(163, 150, 150, 0.315);
+                position: fixed; top: 30px; left: 50px; border-radius: 10px;">
+
+            <input type="text" id="search-input" class="text-button" placeholder="경로를 입력하세요..."
+                    style="font-size: 16px; position: fixed; margin-left: 20px;"  />
+            <hr  style="width: 100%; height: 1px; border: none; background-color: #ccccccb6;
+                        top: 60px; left: 0px">
+           
+    </div>
+</div>
+
+
+
+
+<div id="sidebarMember" class="hidden">
+    <button class='text-button' style="margin-top: 70px; margin-left: 40px;" onclick="location.href='login.html'">
+        <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; ">
+            안녕하세요
+        </span>    
+    </button>
+
+    <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            안심길찾기
+        </span>    
+    </button>
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            자주가는 장소
+        </span>    
+    </button>
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='list.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            함께하는 사람들
+        </span>    
+    </button>
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            알리미
+        </span>    
+    </button>
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            신고함
+        </span>    
+    </button>
+
+
+</div>
+
+<div id="sidebarGuest" class="hidden">
+    <button class='text-button' style="margin-top: 70px; margin-left: 40px;" onclick="location.href='login.html'">
+        <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; ">
+            로그인하세요
+        </span>    
+    </button>
+
+    <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            안심길찾기
+        </span>    
+    </button>
+
+
+    <button class='text-button' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+            신고함
+        </span>    
+    </button>
+
+
+</div>
+
+
+
+
+
+<div id="bottom-bar">
+    <button class="bottom-button" onclick="location.href='index.html'">
+        <img src="images/하단바/내비게이션.png" alt="내비">
+        <span>내비</span>
+    </button>
+    <button class="bottom-button" onclick="location.href='map.html'">
+        <img src="images/하단바/버스.png" alt="버스">
+        <span>버스</span>
+    </button>
+    <button class="bottom-button" onclick="location.href='mypage.html'">
+        <img src="images/하단바/로케이션.png" alt="주변">
+        <span>주변</span>
+    </button>
+    <button class="bottom-button" onclick="location.href='mypage.html'">
+        <img src="images/하단바/즐겨찾기.png" alt="즐겨찾기">
+        <span>즐겨찾기</span>
+    </button>
+    <button class="bottom-button" onclick="location.href='mypage.html'">
+        <img src="images/하단바/프로필.png" alt="마이">
+        <span>마이</span>
+    </button>
+</div>
+
+
+
+
+<div class="overlay" id="overlay"></div>
+
+
+
+
+
+
+
+<script>
+    var mapOptions = {
+        center: new naver.maps.LatLng(35.150469, 126.858843),
+        zoom: 16
+    };
+    var map = new naver.maps.Map('map', mapOptions);
+    
+</script>
+
+<script>
+
+    const menuIcon = document.getElementById('menu-icon');
+    const sidebarMember = document.getElementById('sidebarMember');
+    const sidebarGuest = document.getElementById('sidebarGuest');
+    const overlay = document.getElementById('overlay');
+    const searchPath = document.getElementById('search-path');
+    const inputBtn = document.getElementById('inputBtn');
+    const inputText = document.getElementById('inputText');
+ 
+
+
+    menuIcon.addEventListener('click', function(event) {
+        event.stopPropagation();
+        sidebarGuest.classList.toggle('show');
+        sidebarMember.classList.remove('hidden');
+        menuIcon.classList.toggle('active');
+        
+        overlay.classList.remove('hidden'); 
+        overlay.style.visibility = 'visible'; 
+        overlay.classList.add('show'); 
+});
+
+    inputBtn.addEventListener('click', function(event){
+        searchPath.classList.toggle("expand");
+        menuIcon.classList.toggle("fade-out");
+        inputBtn.classList.toggle("fade-out");
+        inputText.classList.toggle("fade-out");
+
+
+
+        setTimeout(() => {
+        // 애니메이션 끝난 후 화면 전환
+        location.href = 'searchPage.html'; // 페이지 전환
+        }, 600);
+
+    })
+
+
+
+    document.addEventListener('click', function(event) {
+    if (!sidebarMember.contains(event.target) && !menuIcon.contains(event.target)) {
+        sidebarMember.classList.remove('show');
+        sidebarMember.classList.add('hidden');
+        menuIcon.classList.remove('active'); // 닫힐 때 다시 원래대로
+        overlay.classList.add('hidden');
+
+        setTimeout(() => {
+            overlay.style.visibility = 'hidden'; // 0.6초(600ms) 뒤에 visibility를 hidden으로
+        }, 600);
+
+        
+    }
+
+    
+
+
+
+});
+
+</script>
+
+<script>
+    // 로그인 여부 설정 (예시: false면 비회원, true면 로그인된 사용자)
+    const isLoggedIn = false;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        // 버튼 텍스트 기준으로 접근
+        const buttons = document.querySelectorAll('.text-button span');
+
+        buttons.forEach(span => {
+            const text = span.textContent.trim();
+            const parentButton = span.closest('button');
+
+            // 비회원 접근 제한 목록
+            const restrictedForGuests = ['자주가는 장소', '함께하는 사람들', '알리미'];
+
+            if (!isLoggedIn && restrictedForGuests.includes(text)) {
+                parentButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    alert('로그인이 필요한 서비스입니다.');
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

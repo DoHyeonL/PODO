@@ -1,0 +1,230 @@
+<body>
+  <form action="#" method="post" class="signup-form">
+    <h2 class="form-title">회원가입</h2>
+
+    <div class="form-group">
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
+    </div>
+
+    <div class="form-group">
+      <label for="id">아이디</label>
+      <div class="input-with-button">
+        <input type="text" id="id" name="id" class="input-field" placeholder="아이디 입력">
+        <button type="button" class="check-btn">중복확인</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="pw">비밀번호</label>
+      <input type="password" id="pw" name="pw" class="input-field" placeholder="비밀번호 입력">
+    </div>
+
+    <div class="form-group">
+      <label for="pw_ok">비밀번호 확인</label>
+      <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
+    </div>
+
+    <div class="form-group">
+      <label for="ad">주소</label>
+      <input type="text" id="ad" name="ad" class="input-field" placeholder="주소 입력">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">휴대폰 번호</label>
+      <div class="phone-input">
+        <select name="phone1">
+          <option>010</option>
+          <option>011</option>
+          <option>016</option>
+          <option>017</option>
+          <option>018</option>
+          <option>019</option>
+        </select>
+        <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
+    </div>
+
+    <button type="button" class="btn" style="background-color:#555;" id="showGuardianFormBtn">
+      보호자 추가하기 +
+    </button>
+
+    <div class="checkbox-group" style="margin-top: 15px;">
+      <input type="checkbox" id="agree">
+      <label for="agree">전체 동의</label>
+    </div>
+
+    <div class="sub-checkbox-group">
+      <div>
+        <input type="checkbox" id="privacy" required>
+        <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
+      </div>
+      <div>
+        <input type="checkbox" id="age" required>
+        <label for="age">[필수] 만 14세 이상입니다.</label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">동의 후 가입하기</button>
+  </form>
+
+  <!-- 보호자 폼 -->
+  <div id="formContainer" style="display:none;">
+    <form action="#" method="post" class="guardian-form" id="guardianForm">
+      <h2 class="form-title">보호자 리스트</h2>
+
+      <div id="guardian-list"></div>
+
+      <button type="button" class="btn-add" id="btnAdd" onclick="addGuardian()">+ 보호자 추가</button>
+
+      <div class="button-group">
+        <button type="button" class="btn btn-cancel" onclick="location.href='join.html'">이전으로</button>
+        <button type="button" class="btn btn-save" onclick="saveGuardian()">저장하기</button>
+      </div>
+
+      <div class="summary-list" id="summaryList"></div>
+    </form>
+  </div>
+
+  <script>
+    let guardianData = [];  // 보호자 데이터 배열
+    const MAX_GUARDIANS = 3;  // 최대 보호자 수
+    let guardianCount = 0;  // 보호자 수 카운트
+
+    // 보호자 추가 함수
+    function addGuardian(data = {}) {
+      if (guardianCount >= MAX_GUARDIANS) {
+        return;
+      }
+
+      guardianCount++;
+
+      const id = Date.now();
+      const container = document.getElementById('guardian-list');
+
+      const div = document.createElement('div');
+      div.className = 'guardian-entry';
+      div.setAttribute('data-id', id);
+
+      div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" name="g_name" class="input-field" value="${data.g_name || ''}">
+        </div>
+        <div class="form-group">
+          <label>관계</label>
+          <input type="text" name="g_relation" class="input-field" value="${data.g_relation || ''}">
+        </div>
+        <div class="form-group">
+          <label>전화번호</label>
+          <input type="tel" name="g_phone" class="input-field" value="${data.g_phone || ''}">
+        </div>
+      `;
+
+      container.appendChild(div);
+    }
+
+    // 보호자 삭제 함수
+    function removeGuardian(btn) {
+      const entry = btn.closest('.guardian-entry');
+      entry.remove();
+      guardianCount--;
+    }
+
+    // 보호자 수에 따라 추가 버튼 활성화/비활성화 체크
+    function checkGuardianCount() {
+      if (guardianCount >= MAX_GUARDIANS) {
+        document.getElementById('btnAdd').disabled = true;
+      } else {
+        document.getElementById('btnAdd').disabled = false;
+      }
+    }
+
+    // 저장 함수
+    function saveGuardian() {
+      const entries = document.querySelectorAll('.guardian-entry');
+      if (entries.length === 0) {
+        alert('입력할 보호자가 없습니다.');
+        return;
+      }
+
+      const lastEntry = entries[entries.length - 1];
+      const name = lastEntry.querySelector('[name="g_name"]').value.trim();
+      const relation = lastEntry.querySelector('[name="g_relation"]').value.trim();
+      const phone = lastEntry.querySelector('[name="g_phone"]').value.trim();
+
+      if (!name || !relation || !phone) {
+        if (!name) {
+          alert('이름을 입력하세요.');
+        } else if (!relation) {
+          alert('관계를 입력하세요.');
+        } else if (!phone) {
+          alert('전화번호를 입력하세요.');
+        }
+        return;
+      }
+
+      // 저장
+      const id = lastEntry.getAttribute('data-id');
+      guardianData.push({ id, g_name: name, g_relation: relation, g_phone: phone });
+
+      // 폼 제거 애니메이션
+      lastEntry.classList.add('fade-out');
+      setTimeout(() => lastEntry.remove(), 500);
+      guardianCount--;
+
+      // 요약 리스트에 표시
+      const summaryDiv = document.createElement('div');
+      summaryDiv.className = 'summary-item';
+      summaryDiv.setAttribute('data-id', id);
+      summaryDiv.innerHTML = `
+        <span>${name}</span>
+        <div class="summary-buttons">
+          <button class="delete-btn" onclick="deleteGuardian('${id}')">삭제</button>
+        </div>
+      `;
+      document.getElementById('summaryList').appendChild(summaryDiv);
+    }
+
+    // 보호자 삭제 함수
+    function deleteGuardian(id, removeSummary = true) {
+      const index = guardianData.findIndex(g => g.id === id);
+      if (index !== -1) {
+        guardianData.splice(index, 1);
+        guardianCount--;
+      }
+
+      if (removeSummary) {
+        const item = document.querySelector(`.summary-item[data-id="${id}"]`);
+        if (item) item.remove();
+      }
+
+      // 보호자 수가 3명 미만일 경우 추가 버튼 활성화
+      checkGuardianCount();
+    }
+
+    // 초기 1개 보호자 폼 생성
+    window.onload = () => addGuardian();
+
+    // '보호자 추가하기 +' 버튼 클릭 시 폼 보이기
+    document.getElementById('showGuardianFormBtn').addEventListener('click', function() {
+      const formContainer = document.getElementById('formContainer');
+      formContainer.style.display = 'block'; // 폼 보이기
+      formContainer.style.position = 'fixed';
+      formContainer.style.top = '50%';
+      formContainer.style.left = '50%';
+      formContainer.style.transform = 'translate(-50%, -50%)';
+      formContainer.style.zIndex = '1000';
+      formContainer.style.backgroundColor = '#fff';
+      formContainer.style.padding = '20px';
+      formContainer.style.borderRadius = '8px';
+      formContainer.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
+    });
+  </script>
+</body>
