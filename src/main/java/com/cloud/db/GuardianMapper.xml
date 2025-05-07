@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.cloud.db.GuardianDAO">
+		
+		<!-- INSERT 보호자 -->
+  	<insert id="insertGuardian" parameterType="guardianvo">
+    INSERT INTO tb_guardian (user_id, g_name, g_phone, g_relationship, reg_date) 
+    VALUES (#{user_id},#{g_name},#{g_phone},#{g_relationship},NOW())
+    </insert>
+
+   		<!--  보호자 조회 -->
+  	<select id="selectByUserId" parameterType="String" resultType="guardianvo">
+    	SELECT * 
+    	FROM tb_guardian WHERE user_id = #{user_id}
+  	</select>
+
+	<update id="updateGuardian" parameterType = "guardianvo">
+		update tb_guardian
+		set g_name = #{g_name}, g_phone = #{g_phone}, g_relationship = #{g_relationship}, reg_date = NOW()
+		where user_id = #{user_id}
+	</update>
+
+     </mapper>

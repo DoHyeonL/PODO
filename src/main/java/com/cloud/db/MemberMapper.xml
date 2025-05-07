@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- SQL 구문 작성하는 공간 -->
+<!-- namespace : 해당하는 mapper 파일을 구분하는 이름
+	** 반드시 해당하는 sql구문을 호출하는 DAO 클래스 이름과 동일하게 작성하자!
+ -->
+<mapper namespace="com.cloud.db.MemberDAO">
+	<!-- 
+		내가 만들어야하는 SQL구문에 따라 태그 생성
+		insert, update, delete, select 전부 가능!
+		1) id 속성 > 해당하는 태그를 구분할 수 있는 이름(고유값) **필수**
+			: DAO 메소드명과 동일하게 id값을 부여함.
+		2) resultType 속성 > SQL구문을 실행하고 나서, 반환해야하는 결과자료형 기술
+			: insert, delete, update와 같은 테이블에 영향을 주는 구문의 경우 무조건
+			  영향을 받은 행의 개수가 되돌아옴! 생략가능
+			: select는 결과자료형 잘 생각해서 기술
+		3) parameterType > 매개변수로 받아올 자료형을 기술
+		   : 1개의 데이터만 받아올 수 있음.
+	 -->
+	
+	<!-- insert 회원 -->
+	<insert id="join" parameterType ="membervo">
+		insert into tb_user (user_id, password, name, email, phone, address)
+		values(#{user_id},#{password},#{name},#{email},#{phone},#{address})
+	</insert>
+	<!-- select 태그를 사용할때는 꼭!!! 결과 자료형을 설정해주자!!!
+		 resultType에서 생략가능한 자료형
+		 : JRE System 라이브러리에서 제공해주는 자료형들은 생략가능
+		 (ex. String, List, Map 등등)
+		 : 사용자 정의 자료형은 꼭!!!!!!작성
+		 (ex. MemberVO )
+	 -->
+	 <!-- 로그인 -->
+	<select id="login" parameterType="membervo" resultType="membervo">
+		select user_id, password, name, email, address, phone
+		from tb_user
+		where user_id = #{user_id}
+		and password = #{password}
+	</select>
+	
+	<!-- 회원정보 조회 -->
+	<select id="selectALL" resultType="membervo">
+		select user_id, password, name, phone , address
+		from tb_user
+		where user_id != 'admin'
+	</select>
+	
+	<!-- 회원정보 변경 -->
+	<update id="update" parameterType = "membervo">
+		update tb_user
+		set password = #{password}, name = #{name}, address = #{address}, phone = #{phone}, email = #{email}
+		where user_id = #{user_id}
+	</update>
+	
+	</mapper>
+		
+
+
+
+
+
+
+
+
+
+
+
+

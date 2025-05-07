@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  <!-- 1. DTD(Document Type Definition) : 사용할 태그 정의 -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<!-- 2. configuration 태그 : mybatis에 대한 모든 설정을 진행하는 공간 -->
+<configuration>
+
+	<typeAliases>
+		<!-- java 클래스 명칭을 mybatis에서 간략하게 별칭으로 지칭할 수 있는 방법 -->
+		<typeAlias type="com.cloud.model.MemberVO" alias="membervo" />
+		<typeAlias type="com.cloud.model.GuardianVO" alias="guardianvo" />	
+	</typeAliases>
+
+  
+  <!-- 3. environments 태그 : 데이터베이스'들'에 대한 정보를 기술하는 공간   -->
+  <environments default="development">
+     <!-- 4. environment 태그 : 데이버베이스 '1개'에 대한 정보를 기술하는 공간 -->
+    <environment id="development">
+    <!-- 5. transactionManager : JDBC >> commit, rollback mybatis에서 직접 관리 -->
+      <transactionManager type="JDBC"/>
+      <!-- 6. dataSource 태그 : Connection Pool 형태로 데이터베이스를 사용하겠다.
+      		Connection pool 이란?
+      		>> Connection을 미리 몇개 생성해놓고, CP 안에서 관리
+      		>> 필요할때마다, CP Connection을 빌려오고 전부 사용한 다음 CP 안으로 다시 반납
+       -->
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <!-- 프로젝트때는 url, username, password 수정! -->
+      <property name="url" value="***REMOVED***"/>
+        <property name="username" value="***REMOVED***"/>
+        <property name="password" value="***REMOVED***"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <!-- mappers태그 : mapper태그를 여러개 기술하는 공간 -->
+  <mappers>
+  	<!-- mapper 태그 : Mapper.xml(SQL구문을 가지고 있는 파일) 어느 경로에 있는지 알려준는 태그 -->
+    <mapper resource="com/cloud/db/MemberMapper.xml"/>
+    <mapper resource="com/cloud/db/GuardianMapper.xml"/>
+  </mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,253 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>보호자 리스트</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .guardian-form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    .guardian-entry {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .guardian-entry.collapsed .form-group {
+        opacity: 0;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        }
+
+    .guardian-entry.collapsed .remove-btn {
+        display: none;
+        }
+
+        .summary-name {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .input-field {
+      height: 40px;
+      padding: 0 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .checkbox-inline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-cancel {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .btn-save {
+      background-color: #6e67cf;
+      color: white;
+    }
+
+    .btn-save:hover {
+      background-color: #8cd875;
+    }
+
+    .btn-add {
+      background-color: #eee;
+      color: #333;
+      font-size: 14px;
+      margin-bottom: 16px;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .fade-out {
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+
+
+    .fade-in{
+        opacity: 0; /* 숨길 때 불투명도 0 */
+        transition: opacity 0.3s ease; /* opacity 애니메이션만 적용 */
+        visibility: hidden;
+    }
+
+
+  </style>
+</head>
+<body>
+
+<form action="Join.do" method="post" class="guardian-form">
+  <h2 class="form-title">보호자 리스트</h2>
+
+  <div id="guardian-list">
+    <div class="guardian-entry">
+      <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+
+      <div class="form-group">
+        <label>이름</label>
+        <input type="text" name="g_name" class="input-field" placeholder="이름을 입력하세요">
+      </div>
+
+      <div class="form-group">
+        <label>관계</label>
+        <input type="text" name="g_relation" class="input-field" placeholder="관계를 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>전화번호</label>
+        <input type="tel" name="g_phone" class="input-field" placeholder="010-1234-5678">
+      </div>
+ 
+    </div>
+  </div>
+
+  <button id="skrr" type="button" class="btn-add" onclick="addGuardian()">+ 보호자 추가</button>
+
+  <div class="button-group">
+    <button type="button" class="btn btn-cancel" onclick="location.href='join.jsp'">이전으로</button>
+    <button type="submit" class="btn btn-save" onclick="location.href='join.jsp'">저장하기</button>
+    
+  </div>
+
+</form>
+
+<!-- 요약된 이름 표시용 (JS에서 넣을 예정) -->
+<div class="summary-name" style="display:none;"></div>
+
+
+<script>
+  let guardianCount = 1;
+  const MAX_GUARDIANS = 3;
+
+  function addGuardian() {
+    if (guardianCount >= MAX_GUARDIANS) {
+      alert('보호자는 최대 3명까지 등록할 수 있습니다.');
+      return;
+    }
+    guardianCount++;
+    const container = document.getElementById('guardian-list');
+    const index = Date.now();
+    const template = `
+      <div class="guardian-entry">
+      <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+
+      <div class="form-group">
+        <label>이름</label>
+        <input type="text" name="g_name" class="input-field" placeholder="이름을 입력하세요">
+      </div>
+
+      <div class="form-group">
+        <label>관계</label>
+        <input type="text" name="g_relation" class="input-field" placeholder="관계를 입력하세요">
+      </div>
+      <div class="form-group">
+        <label>전화번호</label>
+        <input type="tel" name="g_phone" class="input-field" placeholder="010-1234-5678">
+    </div>`;
+    container.insertAdjacentHTML('beforeend', template);
+  }
+
+  function removeGuardian(button) {
+    const entry = button.closest('.guardian-entry');
+    entry.remove();
+    guardianCount--;
+  }
+
+
+</script>
+
+</body>
+</html>
