@@ -382,7 +382,6 @@
                     </div>
                 </div>
                 <input type="text" class="textBtn" style="font-size: 20px;">
-            </form>
         </div>
     </div>
 
@@ -395,8 +394,8 @@
     <button class='textBtn' style="margin-top: 70px; margin-left: 40px;" onclick="location.href='login.html'">
         <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; ">
             <c:if test="${loginvo!=null}">
-										<h3>${loginvo.name}님 안녕하세요</h3>
-							  </c:if>
+				<h3>${loginvo.name}님 안녕하세요</h3>
+			</c:if>
         </span>    
     </button>
 
@@ -420,7 +419,7 @@
         </span>    
     </button>
 
-    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
         <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
             알리미
         </span>    
@@ -431,7 +430,10 @@
             신고함
         </span>    
     </button>
-
+	 <button class='textBtn' style="margin-top: 30px; margin-left: 40px; color: red;" 
+    onclick="alert('로그아웃 되었습니다.'); location.href='Logout.do';">
+    <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">로그아웃</span>
+</button>
 
 </div>
 
@@ -872,6 +874,16 @@
         map.setCenter(coords);
     } 
     }); 
+</script>
+<script>
+function showLogoutAlert() {
+    const alertBox = document.getElementById('logout-alert');
+    alertBox.style.display = 'block';
+
+    setTimeout(() => {
+        location.href = 'Logout.do';
+    }, 1000); // 1초 후 이동
+}
 </script>
 
 </body>

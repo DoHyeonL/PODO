@@ -1,5 +1,7 @@
 package com.cloud.db;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -19,11 +21,11 @@ public class GuardianDAO {
     }
 
     // (선택) 보호자 조회 메서드도 추가 가능
-    public GuardianVO selectByUserId(String user_id) {
+    public List<GuardianVO> selectAllByUserId(String user_id) {
         SqlSession sqlSession = factory.openSession(true);
-        GuardianVO vo = sqlSession.selectOne("selectByUserId", user_id);
+        List<GuardianVO> list = sqlSession.selectList("selectAllByUserId", user_id);
         sqlSession.close();
-        return vo;
+        return list;
     }
     
     // 보호자 정보 수정

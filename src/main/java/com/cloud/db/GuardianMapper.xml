@@ -16,6 +16,12 @@
     	SELECT * 
     	FROM tb_guardian WHERE user_id = #{user_id}
   	</select>
+  		<!-- 보호자 여러명 조회 -->
+  	<select id="selectAllByUserId" parameterType="String" resultType="guardianvo">
+    SELECT * 
+    FROM tb_guardian WHERE user_id = #{user_id}
+	</select>
+  	
 
 	<update id="updateGuardian" parameterType = "guardianvo">
 		update tb_guardian

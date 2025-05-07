@@ -9,7 +9,7 @@ public class LogoutService implements Command {
 
 			HttpSession session = request.getSession();
 			session.invalidate();
-			return "redirect:/.jsp";
+			return "redirect:/main.jsp";
 		
 		}
 	

@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cloud.controller.AlarmService;
 import com.cloud.controller.Command;
 import com.cloud.controller.EmailCheckService;
 import com.cloud.controller.JoinService;
 import com.cloud.controller.LoginService;
 import com.cloud.controller.LogoutService;
 import com.cloud.controller.SelectAllService;
+import com.cloud.controller.SendAlarmService;
 import com.cloud.controller.UpdateService;
 import com.cloud.db.MemberDAO;
 import com.cloud.model.MemberVO;
@@ -45,7 +47,9 @@ public class FrontController extends HttpServlet {
 		map.put("Logout.do" , new LogoutService());
 		map.put("Update.do", new UpdateService());
 		map.put("EmailCheck.do" , new EmailCheckService());
-	
+		map.put("Alarm.do", new AlarmService());
+		map.put("SendAlarm.do", new SendAlarmService());
+
 	}
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
