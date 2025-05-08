@@ -267,6 +267,7 @@
             justify-content: center;
             font-size: 12px;
             color: #333;
+            cursor: pointer;
         }
 
         .bottom-button img {
@@ -471,7 +472,7 @@
 
 
 <div id="bottom-bar">
-    <button class="bottom-button" onclick="location.href='index.html'">
+    <button class="bottom-button" onclick="location.href='index.html'" >
         <img src="images/하단바/내비게이션.png" alt="내비">
         <span>내비</span>
     </button>
