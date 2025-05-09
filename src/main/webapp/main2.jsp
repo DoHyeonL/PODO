@@ -426,7 +426,7 @@
         </span>    
     </button>
 
-    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='report.html'">
         <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
             신고함
         </span>    

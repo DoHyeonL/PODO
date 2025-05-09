@@ -3,251 +3,210 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>보호자 리스트</title>
   <style>
     body {
-      background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
-      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to right, #d6e9e9, #c9d6ff);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Helvetica Neue', sans-serif;
-      margin: 0;
-      padding: 20px;
+      min-height: 100vh;
     }
 
-    .guardian-form {
+    .container {
       background: white;
+      border-radius: 16px;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     }
 
-    .form-title {
+    h2.title {
       text-align: center;
       font-size: 24px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 24px;
-    }
-
-    .guardian-entry {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-      position: relative;
-    }
-
-    .guardian-entry.collapsed .form-group {
-        opacity: 0;
-        height: 0;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        transition: all 0.5s ease;
-        }
-
-    .guardian-entry.collapsed .remove-btn {
-        display: none;
-        }
-
-        .summary-name {
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
-  transition: opacity 0.5s ease;
-  opacity: 0;
-}
-
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 12px;
-    }
-
-    .form-group label {
-      font-size: 14px;
-      margin-bottom: 6px;
+      margin-bottom: 30px;
       color: #333;
     }
 
-    .input-field {
-      height: 40px;
-      padding: 0 10px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    .checkbox-inline {
+    .guardian-card {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 13px;
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .guardian-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ccc;
+      background-size: cover;
+      background-position: center;
+      margin-right: 16px;
+    }
+
+    .guardian-info {
+      flex-grow: 1;
+    }
+
+    .guardian-name {
+      font-size: 16px;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 4px;
+    }
+
+    .guardian-location {
+      display: inline-block;
+      background-color: #d4f3e4;
+      color: #097e45;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .edit-btn, .remove-btn {
+      background-color: #777;
+      color: white;
+      border: none;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .edit-btn {
+      background-color: #2196F3;
+      
     }
 
     .remove-btn {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: #f44336;
-      color: white;
-      border: none;
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: 4px;
-      cursor: pointer;
+      background-color: #f44336;
     }
 
     .button-group {
       display: flex;
+      gap: 8px;
+      margin-left: 250px;
+    }
+    
+    .button {
+      display: flex;
       justify-content: space-between;
       gap: 10px;
-      margin-top: 24px;
+      
     }
 
-    .btn {
-      flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn-cancel {
-      background-color: #ccc;
-      color: #333;
-    }
-
-    .btn-save {
-      background-color: #6e67cf;
+    .btn-guardian {
+      background-color: #aeb1b0;
       color: white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      flex: 1; /* 버튼 그룹 안에서 동일한 너비 확보 */
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background 0.3s;
+      text-align: center;
     }
-
-    .btn-save:hover {
-      background-color: #8cd875;
-    }
-
-    .btn-add {
-      background-color: #eee;
-      color: #333;
-      font-size: 14px;
-      margin-bottom: 16px;
-      padding: 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .fade-out {
-      opacity: 0;
-      margin: 0;
-      padding: 0;
-      visibility: hidden;
-      transition: all 0.5s ease;
-    }
-
-
-    .fade-in{
-        opacity: 0; /* 숨길 때 불투명도 0 */
-        transition: opacity 0.3s ease; /* opacity 애니메이션만 적용 */
-        visibility: hidden;
-    }
-
-
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2 class="title">함께하는 사람들</h2>
+    <div id="guardian-list">
 
-<form action="Join.do" method="post" class="guardian-form">
-  <h2 class="form-title">보호자 리스트</h2>
-
-  <div id="guardian-list">
-    <div class="guardian-entry">
-      <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
-
-      <div class="form-group">
-        <label>이름</label>
-        <input type="text" name="g_name" class="input-field" placeholder="이름을 입력하세요">
+      <div class="guardian-card">
+        <div class="guardian-avatar" style="background-image: url('images/보호자 프로필/퉁사후르.jpg');"></div>
+        <div class="guardian-info">
+          <div class="guardian-name">이도현 보호자</div>
+          <span class="guardian-location">광주 남구</span>
+          <div class="button-group">
+            <button class="edit-btn" onclick="editGuardian(this)">수정</button>
+            <button class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>관계</label>
-        <input type="text" name="g_relation" class="input-field" placeholder="관계를 입력하세요">
+      <div class="guardian-card">
+        <div class="guardian-avatar" style="background-image: url('images/보호자 프로필/트랄라.jpg');"></div>
+        <div class="guardian-info">
+          <div class="guardian-name">박민혁 보호자</div>
+          <span class="guardian-location">경기 광명</span>
+          <div class="button-group">
+            <button class="edit-btn" onclick="editGuardian(this)">수정</button>
+            <button class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>전화번호</label>
-        <input type="tel" name="g_phone" class="input-field" placeholder="010-1234-5678">
+
+      <div class="guardian-card">
+        <div class="guardian-avatar" style="background-image: url('images/보호자 프로필/봄바.jpg');"></div>
+        <div class="guardian-info">
+          <div class="guardian-name">이정민 보호자</div>
+          <span class="guardian-location">전남 광양</span>
+          <div class="button-group">
+            <button class="edit-btn" onclick="editGuardian(this)">수정</button>
+            <button class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+         
+          </div>
+        </div>
       </div>
- 
+      <div class="button">
+        <a href="main1.html" class="btn btn-guardian">이전으로</a>
+      </div>
     </div>
   </div>
 
-  <button id="skrr" type="button" class="btn-add" onclick="addGuardian()">+ 보호자 추가</button>
-
-  <div class="button-group">
-    <button type="button" class="btn btn-cancel" onclick="location.href='join.jsp'">이전으로</button>
-    <button type="submit" class="btn btn-save" onclick="location.href='join.jsp'">저장하기</button>
-    
-  </div>
-
-</form>
-
-<!-- 요약된 이름 표시용 (JS에서 넣을 예정) -->
-<div class="summary-name" style="display:none;"></div>
-
-
-<script>
-  let guardianCount = 1;
-  const MAX_GUARDIANS = 3;
-
-  function addGuardian() {
-    if (guardianCount >= MAX_GUARDIANS) {
-      alert('보호자는 최대 3명까지 등록할 수 있습니다.');
-      return;
+  <script>
+    function removeGuardian(button) {
+      button.closest('.guardian-card').remove();
     }
-    guardianCount++;
-    const container = document.getElementById('guardian-list');
-    const index = Date.now();
-    const template = `
-      <div class="guardian-entry">
-      <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
 
-      <div class="form-group">
-        <label>이름</label>
-        <input type="text" name="g_name" class="input-field" placeholder="이름을 입력하세요">
-      </div>
+    function editGuardian(button) {
+  const card = button.closest('.guardian-card');
+  const nameDiv = card.querySelector('.guardian-name');
+  const locationSpan = card.querySelector('.guardian-location');
 
-      <div class="form-group">
-        <label>관계</label>
-        <input type="text" name="g_relation" class="input-field" placeholder="관계를 입력하세요">
-      </div>
-      <div class="form-group">
-        <label>전화번호</label>
-        <input type="tel" name="g_phone" class="input-field" placeholder="010-1234-5678">
-    </div>`;
-    container.insertAdjacentHTML('beforeend', template);
+  if (button.innerText === '수정') {
+    // 기존 텍스트 저장
+    const name = nameDiv.innerText;
+    const location = locationSpan.innerText;
+
+    // input으로 변환
+    nameDiv.innerHTML = `<input type="text" value="${name}" class="edit-name">`;
+    locationSpan.innerHTML = `<input type="text" value="${location}" class="edit-location">`;
+
+    // 버튼 텍스트만 저장으로 변경
+    button.innerText = '저장';
+
+  } else {
+    // 저장 클릭 시 input 값을 가져옴
+    const nameInput = card.querySelector('.edit-name');
+    const locationInput = card.querySelector('.edit-location');
+    const newName = nameInput.value;
+    const newLocation = locationInput.value;
+
+    // 다시 일반 텍스트로 표시
+    nameDiv.innerText = newName;
+    locationSpan.innerText = newLocation;
+
+    // 버튼 원래대로
+    button.innerText = '수정';
   }
+}
 
-  function removeGuardian(button) {
-    const entry = button.closest('.guardian-entry');
-    entry.remove();
-    guardianCount--;
-  }
-
-
-</script>
-
+  </script>
 </body>
 </html>

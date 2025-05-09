@@ -1,0 +1,186 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신고함</title>
+  <style>
+
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    body {
+      background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .login-form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .input-field {
+      height: 44px;
+      padding: 0 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      background: white;
+    }
+
+    .btn {
+      background-color: #6e67cf;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #8cd875;
+    }
+    
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      
+    }
+    
+    .btn-cancel {
+      background-color: #ccc;
+      color: #333;
+      
+    }
+
+    .btn-save:hover {
+      background-color: #8cd875;
+    }
+
+    .report-section {
+    margin-bottom: 24px;
+  }
+
+  .report-card {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .report-section h3 {
+    color: #444;
+    margin-bottom: 8px;
+  }
+
+  
+.btn-guardian {
+  background-color: #aeb1b0;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  flex: 1; /* 버튼 그룹 안에서 동일한 너비 확보 */
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background 0.3s;
+  text-align: center;
+}
+
+.btn-guardian:hover {
+  background-color: #73d16f;
+}
+
+.btn-save {
+  background-color: #6e67cf;
+  color: white;
+  flex: 1; /* 추가: 이전 버튼과 너비 동일하게 */
+}
+  
+  </style>
+</head>
+<body>
+
+<form action="#" method="post" class="login-form">
+
+  <h2 class="form-title">신고함 내역</h2>
+
+  <div class="report-section">
+
+    <h3>긴급신고 내역</h3>
+    <div class="report-card">
+      <p><strong>시간 :</strong> 2025-05-09 10:44</p>
+      <p><strong>위치 :</strong> 광주 남구 송암동 123</p>
+      <p><strong>내용 :</strong> 골목길에서 이상한 옷 차림의 스인개 이도현 목격</p>
+    </div>
+    <div class="report-section"><br>
+
+
+    <h3>의심신고 내역</h3>
+    <div class="report-card">
+        <p><strong>시간 :</strong> 2025-05-09 11:01</p>
+        <p><strong>위치 :</strong> 광주 서구 화정동 123-4</p>
+        <p><strong>내용 :</strong> 차량 없이 사람이 골목을 계속 서성임</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="report-section">
+    <h3>시설신고 내역</h3>
+    <div class="report-card">
+      <p><strong>시간 :</strong> 2025-05-08 22:12</p>
+      <p><strong>위치 :</strong> 상무지구 파출소 앞 가로등</p>
+      <p><strong>내용 :</strong> 가로등 꺼져 있음</p>
+    </div>
+  </div>
+
+
+  <div class="button-group">
+    <a href="main2.jsp" class="btn btn-guardian">이전으로</a>
+  </div>
+
+
+</form>
+
+</body>
+</html>
