@@ -345,7 +345,7 @@
             
             visibility: hidden; /* 숨김 상태에서 보이지 않음 */
             transition: opacity 0.6s ease;
-            z-index: 3;
+            z-index: 1;
         }
         
 
@@ -423,6 +423,7 @@
             
             padding: 5px;
             width: 70px;
+            height: 22px;
             display: flex;
             justify-content: center;
             align-items: center; 
@@ -437,6 +438,7 @@
             background-color: #ffffff;
             border-radius: 25px;
             width: 170px;
+
             display: flex;
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -495,7 +497,7 @@
 
             <div id="joinBox" class="loginHidden"></div>
 
-            <div class="overlay" id="overlay"></div>
+            
 
             <div id="facility-container">
                 <button class="facilityBtn">
@@ -546,7 +548,10 @@
                 </button>
             </div>
 
+            <div class="overlay" id="overlay"></div>
+
             <div id="emergency" class="loader"></div>
+
             
             <div id="map_div"  class="map-center" >
 
@@ -680,6 +685,8 @@
 
     declare.addEventListener('click', function(event){
         emergency.classList.add('show');
+        overlay.style.visibility = 'visible';     // 오버레이 표시
+        overlay.classList.add('show')
     });
 
 
