@@ -29,15 +29,19 @@
             pointer-events: none; /* 클릭 방지 - 지도 등 UI 방해 안 되게 */
         }
 
-        body {
-            background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
-            min-height: 100vh;
+
+
+
+
+        html,body {
+            margin-top: 0;
+            height: 100%;
+ 
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Helvetica Neue', sans-serif;
             margin: 0;
-            padding: 20px;
         }
 
     
@@ -56,7 +60,7 @@
         
         background-color: #ffffff;
         width: 550px;
-        height: 1000px;
+        height: 100%;
         position: absolute;
         margin-left: 250px;
         top: 50%;
@@ -156,46 +160,47 @@
 </head>
 <body>
 
-<div id="form-container">
+    <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
-	<form action="Login.do" method="post" class="login-form">
-	
-		  <h2 class="form-title">로그인</h2>
-		
-			  <div class="form-group">
-			    <label for="id">아이디</label>
-			    <input type="text" id="user_id" name="user_id" class="input-field" placeholder="아이디 입력">
-			  </div>
-			
-			  <div class="form-group">
-			    <label for="password">비밀번호</label>
-			    <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호 입력">
-			  </div>
-			
-			  <button type="submit" class="btn">로그인</button>
-			  <c:if test="${loginv!=errorMsg}">
-			  <div style="color: red; margin-bottom: 10px;">
-			    ${errorMsg}
-			  </div>
-			</c:if>
-			
-			  <div class="extra-links">
-			    <a href="#">아이디 찾기</a>
-			    <a href="#">비밀번호 찾기</a>
-			    <a href="join.jsp">회원가입</a>
-			  </div>
-	
-	</form>
-</div>
+    <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
+
+  <div id="form-container">
+
+    <form action="#" method="post" class="login-form">
+
+        <h2 class="form-title">로그인</h2>
+
+            <div class="form-group">
+                <label for="id">아이디</label>
+                <input type="text" id="id" name="id" class="input-field" placeholder="아이디 입력">
+            </div>
+
+            <div class="form-group">
+                <label for="pw">비밀번호</label>
+                <input type="password" id="pw" name="pw" class="input-field" placeholder="비밀번호 입력">
+            </div>
+
+            <button type="submit" class="btn">로그인</button>
+
+            <div class="extra-links">
+                <a href="#">아이디 찾기</a>
+                <a href="#">비밀번호 찾기</a>
+
+            <a href="join.jsp">회원가입</a>
+        </div>
+
+    </form>
+    
+  </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.login-form');
-    const user_idInput = document.getElementById('user_id');
-    const passwordInput = document.getElementById('password');
+    const idInput = document.getElementById('id');
+    const pwInput = document.getElementById('pw');
 
     form.addEventListener('submit', function (e) {
-      if (!user_idInput.value.trim() || !passwordInput.value.trim()) {
+      if (!idInput.value.trim() || !pwInput.value.trim()) {
         e.preventDefault(); // 폼 전송 막기
         alert('아이디와 비밀번호를 모두 입력해주세요.');
       }

@@ -22,6 +22,57 @@
     </script>
     <style>
 
+        /* HTML: <div class="loader"></div> */
+        .loader {
+            width: 320px;
+            aspect-ratio: 1;
+            border-radius: 60%;
+            background: #e42525;
+            box-shadow: 0 0 0 0 rgba(240, 34, 34, 0.267);
+            animation: l2 1.5s infinite linear;
+            position: relative;
+            left: 21%;
+            top:80%;
+            opacity: 0;
+            transition: transform 0.9s ease, opacity 0.8s ease;
+            z-index: 1;
+        }
+
+        .loader:before,
+        .loader:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: 0 0 0 0 rgba(255, 4, 4, 0.267);
+        animation: inherit;
+        animation-delay: -0.5s;
+        }
+
+        .loader:after {
+        animation-delay: -1s;
+        }
+
+        .loader.show{
+            opacity: 1;
+            
+        }
+
+        @keyframes l2 {
+            100% {box-shadow: 0 0 0 60px #0000}
+        }
+
+        html,body {
+            margin-top: 0;
+            height: 100%;
+ 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 0;
+        }
+
         .text-bg-frame {
             position: fixed;
             top: 0;
@@ -39,22 +90,24 @@
             width: 100vw;
             height: 100vh;
             z-index: 0;
-            pointer-events: none; /* 클릭 방지 - 지도 등 UI 방해 안 되게 */
+            pointer-events: none;
         }
 
 
-        #map-container {
+        #map-container {          
             position: relative;
+            left: 250px;
             width: 100%;
             min-width: 550px;
-            height: 100vh;
+            height: 100%;
             overflow: hidden; 
             margin: 0 auto;
+
+            
         }
 
         .map-center {
             position: absolute;
-            margin-left: 250px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -75,7 +128,7 @@
 
             pointer-events: none;
             transition: transform 0.5s ease, opacity 0.3s ease;
-            z-index: 5;
+            z-index: 10;
         }
 
         
@@ -230,11 +283,6 @@
         }
 
          
-
-         
-
-         
-
         #bottom-bar {
             position: fixed;  /* 화면에 고정 */
             bottom: 0px;         /* 화면 세로 중앙 */
@@ -242,12 +290,13 @@
             width: 550px;     /* 고정된 너비 */
             min-width: 400px; /* 최소 너비 */
             height: 70px;
+            margin-left: 250px;
             background-color: #fff;
             display: flex;
             justify-content: space-around;
             align-items: center;
             border-top: 1px solid #ccc;
-            z-index: 1;
+            z-index: 2;
 
             /* 중앙 정렬을 위한 transform */
             transform: translate(-50%); /* 요소의 크기의 절반만큼 이동시켜 정확히 중앙에 배치 */
@@ -318,13 +367,12 @@
         }
 
         .loginHidden{
-            position: fixed;
-            left: 12%;
-            margin-left: 580px;
-            width: 660px;
+            position: absolute;
+            left: 550px;
+            width: 550px;
             height: 100%;
             opacity: 1;
-            z-index: 3;
+            z-index: 11;
             background-color: #ffffff;
          }
 
@@ -336,13 +384,82 @@
             transition: transform 0.6s ease, opacity 0.3s ease;
         }
 
+        #facility-container{
+            position: absolute; /* 위치를 본인이 속한 부모 요소에 의존하게 함*/
+            padding-left: 58px;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+           
+            top:110px;
+
+            z-index: 1;
+
+            gap:30px;
+
+            overflow-x: auto;        /* 가로 스크롤 활성화 */
+            overflow-y: hidden;      /* 세로 스크롤 막기 */
+            white-space: nowrap;
+            scroll-behavior: smooth; 
+             
+            scrollbar-width: none; /* 스크롤 바 스타일 감추기 */
+
+            cursor: grab; /* 기본 커서 */
+            user-select: none; /* 텍스트 선택 방지 */
+
+            box-sizing: border-box; /* box-sizing을 적용해 padding을 포함 */
+            padding-right: 50px; /* 오른쪽 패딩을 추가하여 휠 영역 확장 */
+             
+
+        }
+
+        #facility-container:active {
+            cursor: grabbing;        /* 드래그할 때의 커서 */
+        }
+
+        .facility{
+            
+            padding: 5px;
+            width: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            white-space: nowrap;
+            text-align: center;
+            font-size: 16px;
+            
+            
+        }
+        .facilityBtn{
+            padding-left: 12px;
+            background-color: #ffffff;
+            border-radius: 25px;
+            width: 170px;
+            display: flex;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+        }
+
+        .facilityBtn img{
+            width: 29px;
+            height: 29px;
+        }
+
+        
+
 
 
     </style>  
 </head>
 
 
+
 <body>
+
+    
 
     <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
@@ -350,33 +467,90 @@
 
     <body onload="initTmap();">
         <div id="map-container">
+
+            <div id="sidebarGuest" >
+                <button id = "loginBtn" class='textBtn' style="margin-top: 100px; margin-left: 40px;">
+                    <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; ">
+                        로그인을 해주세요
+                    </span>    
+                </button>
+            
+                <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
+            
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                    <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+                        안심길찾기
+                    </span>    
+                </button>
+
+            
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                    <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
+                        신고함
+                    </span>    
+                </button>
+            
+            
+            </div>
+
+            <div id="joinBox" class="loginHidden"></div>
+
+            <div class="overlay" id="overlay"></div>
+
+            <div id="facility-container">
+                <button class="facilityBtn">
+                    <img src="images/시설물/경찰서.png" alt="cctv">
+                    <div class="facility">경찰서</div>
+                </button>
+                    
+                <button class="facilityBtn">
+                    <img src="images/시설물/소방서.png" alt="cctv">
+                <div class="facility">소방서</div>
+            </button>
+
+                <button class="facilityBtn">
+                    <img src="images/시설물/CCTV.png" alt="cctv">
+                    <div class="facility" >CCTV</div>
+                
+                
+                <button class="facilityBtn">
+                    <img src="images/시설물/편의점.png" alt="cctv">
+                    <div class="facility">편의점</div>
+                </button>
+
+            </div>
+
+            <div id="bottom-bar">
+                <button class="bottom-button" onclick="location.href='index.html'">
+                    <img src="images/하단바/내비게이션.png" alt="내비">
+                    <span>내비</span>
+                </button>
+                
+                <button class="bottom-button" style="margin-left: 12px;" onclick="location.href='mypage.html'">
+                    <img src="images/하단바/로케이션.png" alt="주변">
+                    <span>주변</span>
+                </button>
+
+                <button id="declare" class="bottom-button" style="margin-left: 12px;" >
+                    <img src="images/하단바/신고.png" alt="신고" style="width: 35px; height: 35px;">
+                    <span>신고</span>
+                </button>
+
+                <button class="bottom-button" onclick="location.href='mypage.html'">
+                    <img src="images/하단바/즐겨찾기.png" alt="즐겨찾기">
+                    <span>즐겨찾기</span>
+                </button>
+                <button class="bottom-button" onclick="location.href='로그인.html'">
+                    <img src="images/하단바/프로필.png" alt="마이">
+                    <span>마이</span>
+                </button>
+            </div>
+
+            <div id="emergency" class="loader"></div>
             
             <div id="map_div"  class="map-center" >
 
-                <div id="sidebarGuest" >
-                    <button id = "loginBtn" class='textBtn' style="margin-top: 100px; margin-left: 40px;">
-                        <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; " >
-                            로그인을 해주세요
-                        </span>    
-                    </button>
                 
-                    <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
-                
-                    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
-                        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
-                            안심길찾기
-                        </span>    
-                    </button>
-
-                
-                    <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
-                        <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
-                            신고함
-                        </span>    
-                    </button>
-                
-                
-                </div>
 
                 <div id="search-path" class="shadow">
     
@@ -411,34 +585,15 @@
                 
                 </div>
 
-
-                <div id="bottom-bar">
-                    <button class="bottom-button" onclick="location.href='index.html'">
-                        <img src="images/하단바/내비게이션.png" alt="내비">
-                        <span>내비</span>
-                    </button>
-                    <button class="bottom-button" onclick="location.href='map.html'">
-                        <img src="images/하단바/버스.png" alt="버스">
-                        <span>버스</span>
-                    </button>
-                    <button class="bottom-button" onclick="location.href='mypage.html'">
-                        <img src="images/하단바/로케이션.png" alt="주변">
-                        <span>주변</span>
-                    </button>
-                    <button class="bottom-button" onclick="location.href='mypage.html'">
-                        <img src="images/하단바/즐겨찾기.png" alt="즐겨찾기">
-                        <span>즐겨찾기</span>
-                    </button>
-                    <button class="bottom-button" onclick="location.href='login.jsp'">
-                        <img src="images/하단바/프로필.png" alt="마이">
-                        <span>마이</span>
-                    </button>
-                </div>
-
-
-                <div class="overlay" id="overlay"></div>
                 
-                <div id="joinBox" class="loginHidden">
+
+
+                
+
+
+                
+                
+                
 
             </div>
         </div>
@@ -487,13 +642,17 @@
     const loginBtn = document.getElementById('loginBtn');
     const joinBox = document.getElementById('joinBox');
     const inputPath = document.getElementById('inputPath');
+    const declare = document.getElementById('declare');
+    const emergency = document.getElementById('emergency');
+    
 
     menuIcon.addEventListener('click', function(event) {
         event.stopPropagation();
         sidebarGuest.classList.add('show');   // 사이드바가 보이도록 전환
         menuIcon.classList.toggle('active');      // 메뉴 아이콘 애니메이션
         overlay.style.visibility = 'visible';     // 오버레이 표시
-        overlay.classList.add('show');    
+        overlay.classList.add('show');
+        emergency.classList.remove('show');    
     });
 
     overlay.addEventListener('click', function () {
@@ -519,12 +678,53 @@
         }, 800);
     });
 
+    declare.addEventListener('click', function(event){
+        emergency.classList.add('show');
+    });
+
 
 
 
 
 
    
+</script>
+
+<script>
+    const container = document.getElementById("facility-container");
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // 마우스를 클릭했을 때
+    container.addEventListener("mousedown", (e) => {
+        isDown = true;
+        container.classList.add('active');
+        startX = e.pageX - container.offsetLeft;  // 클릭한 위치
+        scrollLeft = container.scrollLeft;        // 현재 스크롤 위치
+    });
+
+    // 마우스가 떠났을 때
+    container.addEventListener("mouseleave", () => {
+        isDown = false;
+        container.classList.remove('active');
+    });
+
+    // 마우스를 뗐을 때
+    container.addEventListener("mouseup", () => {
+        isDown = false;
+        container.classList.remove('active');
+    });
+
+    // 마우스를 움직일 때
+    container.addEventListener("mousemove", (e) => {
+        if (!isDown) return;  // 마우스를 누르고 있지 않으면 안 움직임
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft; // 현재 마우스 위치
+        const walk = (x - startX) * 1;  // 드래그 감도 (조절 가능)
+        container.scrollLeft = scrollLeft - walk;  // 스크롤을 움직임
+    });
 </script>
 
 </body>
