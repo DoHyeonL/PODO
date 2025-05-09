@@ -100,6 +100,26 @@
       margin-left: 250px;
     }
     
+    .button {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      
+    }
+
+    .btn-guardian {
+      background-color: #aeb1b0;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      flex: 1; /* 버튼 그룹 안에서 동일한 너비 확보 */
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background 0.3s;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -139,10 +159,13 @@
           <div class="button-group">
             <button class="edit-btn" onclick="editGuardian(this)">수정</button>
             <button class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+         
           </div>
         </div>
       </div>
-
+      <div class="button">
+        <a href="main1.html" class="btn btn-guardian">이전으로</a>
+      </div>
     </div>
   </div>
 
