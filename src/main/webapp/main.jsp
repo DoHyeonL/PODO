@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 화면</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"></script>
     
@@ -30,7 +32,7 @@
     function initTmap(latitude = 35.164710, longitude = 126.918015) {
         map = new Tmapv2.Map("map_div", {
         center: new Tmapv2.LatLng(latitude, longitude),
-        width: "100%",
+        width: "600px",
         height: "100%",
         zoom: 17
 	  });
@@ -127,11 +129,53 @@
     
     <style>
 
-        .declareBtn{
+        @font-face {
+            font-family: 'YOnepickTTF-Bold';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/YOnepickTTF-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Freesentation-9Black';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2');
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Freesentation-9Black', sans-serif !important;
+        }
+
+        #declareBtn1{
             position: absolute;
-            top: 50px;
+            top: 60px;
+            left:15px;
             font-weight: bold;
-            font-size: 24px;
+            font-size: 26px;
+            color: #ffffff;
+            z-index: 3;
+        }
+
+        #declareBtn2{
+            position: absolute;
+            top: 0px;
+            left:115px;
+            font-weight: bold;
+            font-size: 26px;
+            color: #ffffff;
+            z-index: 3;
+            display: none;
+        }
+
+        #declareBtn3{
+            position: absolute;
+            top: 60px;
+            left:215px;
+            font-weight: bold;
+            font-size: 26px;
+            color: #ffffff;
+            z-index: 3;
+            display: none;
         }
 
         .loader1 {
@@ -169,7 +213,7 @@
             box-shadow: 0 0 0 0 rgba(240, 34, 34, 0.267);
             animation: l2 1.5s infinite linear;
             position: absolute;
-            left: 21%;
+            left: 24%;
             bottom: -120px;
             opacity: 0;
             transition: transform 0.5s ease, opacity 0.6s ease;
@@ -237,7 +281,7 @@
             position: relative;
             left: 50px;
             width: 100%;
-            min-width: 550px;
+            min-width: 600px;
             height: 100%;
             overflow: hidden; 
             margin: 0 auto;
@@ -307,7 +351,7 @@
             position: absolute;
             left: 50%;           
             top: 50px;            
-            width: 450px;  
+            width: 490px;  
             min-width: 450px;        
             height: 45px;
             
@@ -434,16 +478,16 @@
         #bottom-bar {
             position: absolute;  /* 화면에 고정 */
             bottom: 0px; 
-            left: 25px;        /* 화면 세로 중앙 */       /* 화면 가로 중앙 */
-            width: 550px;     /* 고정된 너비 */
+            left: 50px;        /* 화면 세로 중앙 */       /* 화면 가로 중앙 */
+            width: 600px;     /* 고정된 너비 */
             min-width: 400px; /* 최소 너비 */
-            height: 70px;
+            height: 75px;
             margin-left: 250px;
-            background-color: #fff;
+            background-color: #ffffff;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid #ccccccc7;
             z-index: 3;
 
             /* 중앙 정렬을 위한 transform */
@@ -467,8 +511,8 @@
         }
 
         .bottom-button img {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
             margin-bottom: 4px;
         }
 
@@ -538,8 +582,8 @@
 
         .loginHidden{
             position: absolute;
-            left: 550px;
-            width: 550px;
+            left: 600px;
+            width: 600px;
             height: 100%;
             opacity: 1;
             z-index: 11;
@@ -661,7 +705,7 @@
 		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
 		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
 		            </button>
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='list.html'">
+		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
 		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">함께하는 사람들</span>
 		            </button>
 		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
@@ -738,27 +782,31 @@
            	   
 
             <div id="bottom-bar">
-                <button class="bottom-button" onclick="location.href='index.html'">
-                    <img src="images/하단바/내비게이션.png" alt="내비">
-                    <span>내비</span>
-                </button>
-                
-                <button class="bottom-button" style="margin-left: 12px;" onclick="location.href='mypage.html'">
-                    <img src="images/하단바/로케이션.png" alt="주변">
+
+                <button class="bottom-button"  onclick="location.href='mypage.html'">
+                    <img src="images/하단바/주변.png" alt="주변" style="width: 35px; height: 35px;">
                     <span>주변</span>
                 </button>
 
+
+                <button class="bottom-button" style="margin-left: 10px;" onclick="location.href='guardian.jsp'">
+                    <img src="images/하단바/알리미.png" alt="알리미" style="width: 35px; height: 35px;" >
+                    <span style="margin-bottom: 4px;">알리미</span>
+                </button>
+                
+                
+
                 <button id="declare" class="bottom-button" style="margin-left: 12px;" >
-                    <img src="images/하단바/신고.png" alt="신고" style="width: 35px; height: 35px;">
-                    <span>신고</span>
+                    <img src="images/하단바/신고.png" alt="신고" style="width: 38px; height: 38px;">
+                    <span style="margin-bottom: 4px;">신고</span>
                 </button>
 
                 <button class="bottom-button" onclick="location.href='mypage.html'">
-                    <img src="images/하단바/즐겨찾기.png" alt="즐겨찾기">
+                    <img src="images/하단바/자주가는경로.png" alt="즐겨찾기">
                     <span>즐겨찾기</span>
                 </button>
                 <button class="bottom-button" onclick="location.href='login.jsp'">
-                    <img src="images/하단바/프로필.png" alt="마이">
+                    <img src="images/하단바/마이.png" alt="마이">
                     <span>마이</span>
                 </button>
             </div>
@@ -779,9 +827,9 @@
 
             <div id="emergency" class="loader">
                 <div class="loader1"></div>
-                <button class="declareBtn">의심 신고</button>
-                <button class="declareBtn">시설 신고</button>
-                <button class="declareBtn">긴급 신고</button>
+                <button id="declareBtn1">의심 신고</button>
+                <button id="declareBtn2">시설 신고</button>
+                <button id="declareBtn3">긴급 신고</button>
                
             </div>
             
@@ -910,7 +958,42 @@
 	        setTimeout(() => {
 	        overlay.style.visibility = 'hidden';
 	        }, 400);
+	        
+	        declareBtn1.classList.add('animate__animated', 'animate__fadeOutBottomRight', 'animate__faster');
+	        setTimeout(() => {
+	            declareBtn2.classList.add('animate__animated', 'animate__fadeOutDown', 'animate__faster');
+	        }, 50);
+	        setTimeout(() => {          
+	            declareBtn3.classList.add('animate__animated', 'animate__fadeOutBottomLeft', 'animate__faster');
+	        }, 100);
+	        
 	    });
+	    
+	    function animateCSS(element, animationName) {
+	        return new Promise((resolve) => {
+	            element.classList.remove(
+	                'animate__fadeInBottomRight',
+	                'animate__fadeInBottomLeft',
+	                'animate__fadeInUp',
+	                'animate__fadeOutBottomRight',
+	                'animate__fadeOutDown',
+	                'animate__fadeOutBottomLeft',
+	                'animate__animated',
+	                'animate__faster'
+	            );
+
+	            element.style.display = 'block';
+	            element.classList.add('animate__animated', animationName, 'animate__faster');
+
+	            function handleAnimationEnd() {
+	                element.classList.remove('animate__animated', animationName, 'animate__faster');
+	                element.removeEventListener('animationend', handleAnimationEnd);
+	                resolve();
+	            }
+
+	            element.addEventListener('animationend', handleAnimationEnd);
+	        });
+	        }
 
 	    declare.addEventListener('click', function(event){
 	        emergency.classList.add('show');
@@ -918,8 +1001,17 @@
 	        overlay.style.visibility = 'visible';     // 오버레이 표시
 	        overlay.classList.add('show')
 	        bottomBar.classList.remove('lower');
-	        declareBtn.classList.add('animate__animated', 'animate__fadeInBottomRight', 'animate__faster');
+
+
+	        animateCSS(declareBtn1, 'animate__fadeInBottomRight');
+	        setTimeout(() => {
+	            animateCSS(declareBtn2, 'animate__fadeInUp');
+	        }, 100);
+	        setTimeout(() => {
+	            animateCSS(declareBtn3, 'animate__fadeInBottomLeft');
+	        }, 200);
 	    });
+	    
 
 	    loginBtn.addEventListener('click', function(event) {
 	        sidebarGuest.classList.remove('show');
@@ -1035,6 +1127,8 @@
 	        const walk = (x - startX) * 1;  // 드래그 감도 (조절 가능)
 	        container.scrollLeft = scrollLeft - walk;  // 스크롤을 움직임
 	    });
+	    
+	    
 	</script>
 
 	</body>

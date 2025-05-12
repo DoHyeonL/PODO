@@ -1,12 +1,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <title>로그인</title>
   <style>
+
+
+        @font-face {
+          font-family: 'yg-jalnan';
+          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
 
 
         .text-bg-frame {
@@ -45,21 +54,21 @@
         }
 
     
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
-        to {
-            opacity: 1;
-        }
-    }
 
  
 
     #form-container {
         
         background-color: #ffffff;
-        width: 550px;
+        width: 600px;
         height: 100%;
         position: absolute;
         margin-left: 250px;
@@ -70,6 +79,7 @@
         overflow: hidden;
 
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }
@@ -77,10 +87,11 @@
 
     .form-title {
       text-align: center;
-      font-size: 24px;
+      font-size: 33px;
       font-weight: bold;
       color: #333;
-      margin-bottom: 50px;
+      margin-bottom: -30px;
+      font-family: 'yg-jalnan';
     }
 
  
@@ -130,6 +141,7 @@
 
     .btn {
       background-color: #6e67cf;
+      margin-top: 8px;
       color: white;
       border: none;
       padding: 12px;
@@ -160,14 +172,19 @@
 </head>
 <body>
 
-
-	<iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
+    <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
     <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
-<div id="form-container">
+    
+
+  <div id="form-container">
+
+    <h2 class="form-title">로그인</h2>
+
+    <iframe src="dog.html" width="250" height="270" style="border: none; background: transparent;" allowtransparency="true"></iframe>
 	<form action="Login.do" method="post" class="login-form">
 
-	  <h2 class="form-title">로그인</h2>
+
 	
 		  <div class="form-group">
 		    <label for="id">아이디</label>
