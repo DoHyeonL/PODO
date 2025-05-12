@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.cloud.controller.AlarmService;
 import com.cloud.controller.Command;
 import com.cloud.controller.EmailCheckService;
+import com.cloud.controller.FacilityService;
 import com.cloud.controller.JoinService;
 import com.cloud.controller.LoginService;
 import com.cloud.controller.LogoutService;
@@ -49,7 +50,7 @@ public class FrontController extends HttpServlet {
 		map.put("EmailCheck.do" , new EmailCheckService());
 		map.put("Alarm.do", new AlarmService());
 		map.put("SendAlarm.do", new SendAlarmService());
-
+		map.put("FacilityMap.do", new FacilityService());
 	}
 	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -69,7 +70,7 @@ public class FrontController extends HttpServlet {
 		// 4. 최종 경로값에 따라 가능 수행 
 		com = map.get(finalPath);
 		if(com != null) {
-		moveUrl = com.execute(request);
+		moveUrl = com.execute(request, response);
 		}
 		// 중복되는 코드(2)
 		// 페이지 이동

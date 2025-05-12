@@ -1,10 +1,11 @@
 package com.cloud.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class EmailCheckService implements Command {
 
-	public String execute(HttpServletRequest request) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		
 		// 요청데이터 꺼내오기
 		String email = request.getParameter("receive_email");

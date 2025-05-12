@@ -29,38 +29,15 @@
       padding: 20px;
     }
 
-
-    #form-container {
-        
-        background-color: #ffffff;
-        width: 550px;
-        height: 1000px;
-        position: absolute;
-        margin-left: 250px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        
-        overflow: hidden;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .signup-form {
       background: white;
       padding: 30px;
       border-radius: 12px;
-      /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);*/
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       width: 100%;
-      max-width: 380px;
+      max-width: 400px;
       display: flex;
       flex-direction: column;
-      position: absolute;   
-      overflow: hidden;
-
-
     }
 
     .form-group {
@@ -164,7 +141,7 @@
           display: flex;
           align-items: center;
           top : 170px;
-          height: 500px;
+          height: 400px;
       }
 
       .guardian-form {
@@ -177,8 +154,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-
-   
 
       }
 
@@ -295,18 +270,20 @@
       gap: 10px;
     }
 
-    .saved-item {
-      width: 270px;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background-color: #acaba65d;
-      font-size: 16px;
-      line-height: 1.5;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
+  .saved-item {
+  width: 270px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f3ea9e9d;
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 추가 */
+}
+
+
 
     .formRemove-btn {
       margin-right: 0px;
@@ -321,90 +298,98 @@
   .formRemove-btn:hover {
     background-color: #e60000;
   }
+	.guardian-name {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  flex-grow: 1; /* 추가 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
   </style>
 </head>
 <body>
-<div id="form-container">
-	<form action="Join.do" method="post" class="signup-form">
-	
-	  <h2 class="form-title">회원가입</h2>
-	
-	  <div class="form-group">
-	   <label for="id">이름</label>
-	   <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
-	  </div>
-	
-	  <div class="form-group">
-	    <label for="id">아이디</label>
-	    <div class="input-with-button">
-	      <input type="text" id="id" name="user_id" class="input-field" placeholder="아이디 입력">
-	      <button type="button" class="check-btn">중복확인</button>
-	    </div>
-	  </div>
-	  
-	
-	  <div class="form-group">
-	    <label for="pw">비밀번호</label>
-	    <input type="password" id="pw" name="password" class="input-field" placeholder="비밀번호 입력">
-	  </div>
-	
-	  <div class="form-group">
-	    <label for="pw_ok">비밀번호 확인</label>
-	    <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
-	  </div>
-	
-	  <div class="form-group">
-	    <label for="ad">주소</label>
-	    <input type="text" id="ad" name="address" class="input-field" placeholder="주소 입력">
-	  </div>
-	
-	
-	  <div class="form-group">
-	    <label for="phone">휴대폰 번호</label>
-	    <div class="phone-input">
-	      <select name="phone1">
-	        <option>010</option>
-	        <option>011</option>
-	        <option>016</option>
-	        <option>017</option>
-	        <option>018</option>
-	        <option>019</option>
-	      </select>
-	      <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
-	  </div>
-		</div>
-	
-	  <div class="form-group" style="margin-top: 10px;">
-	    <label for="email">이메일</label>
-	    <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
-	  </div>
-	
-	  <button type="button" class="btn" id="plusGuardian"
-	  style="background-color:#555;">
-	    보호자 추가하기 +
-	  </button>
-	
-	  <div class="checkbox-group" style="margin-top: 15px;">
-	    <input type="checkbox" id="agree">
-	    <label for="agree">전체 동의</label>
-	  </div>
-	  
-	  <div class="sub-checkbox-group">
-	    <div>
-	      <input type="checkbox" id="privacy" required>
-	      <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
-	    </div>
-	    <div>
-	      <input type="checkbox" id="age" required>
-	      <label for="age">[필수] 만 14세 이상입니다.</label>
-	    </div>
-	  </div>
-	  <div id="guardian-hidden-inputs"></div>
-	  <button type="submit" class="btn">동의 후 가입하기</button>
-	
-	</form>
-</div>
+
+<form action="Join.do" method="post" class="signup-form">
+
+  <h2 class="form-title">회원가입</h2>
+
+  <div class="form-group">
+   <label for="id">이름</label>
+   <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
+  </div>
+
+  <div class="form-group">
+    <label for="id">아이디</label>
+    <div class="input-with-button">
+      <input type="text" id="id" name="user_id" class="input-field" placeholder="아이디 입력">
+      <button type="button" class="check-btn">중복확인</button>
+    </div>
+  </div>
+  
+
+  <div class="form-group">
+    <label for="pw">비밀번호</label>
+    <input type="password" id="pw" name="password" class="input-field" placeholder="비밀번호 입력">
+  </div>
+
+  <div class="form-group">
+    <label for="pw_ok">비밀번호 확인</label>
+    <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
+  </div>
+
+  <div class="form-group">
+    <label for="ad">주소</label>
+    <input type="text" id="ad" name="address" class="input-field" placeholder="주소 입력">
+  </div>
+
+
+  <div class="form-group">
+    <label for="phone">휴대폰 번호</label>
+    <div class="phone-input">
+      <select name="phone1">
+        <option>010</option>
+        <option>011</option>
+        <option>016</option>
+        <option>017</option>
+        <option>018</option>
+        <option>019</option>
+      </select>
+      <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
+  </div>
+	</div>
+
+  <div class="form-group" style="margin-top: 10px;">
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
+  </div>
+
+  <button type="button" class="btn" id="plusGuardian"
+  style="background-color:#555;">
+    보호자 추가하기 +
+  </button>
+
+  <div class="checkbox-group" style="margin-top: 15px;">
+    <input type="checkbox" id="agree">
+    <label for="agree">전체 동의</label>
+  </div>
+  
+  <div class="sub-checkbox-group">
+    <div>
+      <input type="checkbox" id="privacy" required>
+      <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
+    </div>
+    <div>
+      <input type="checkbox" id="age" required>
+      <label for="age">[필수] 만 14세 이상입니다.</label>
+    </div>
+  </div>
+  <div id="guardian-hidden-inputs"></div>
+  <button type="submit" class="btn">동의 후 가입하기</button>
+
+</form>
 
 <div id="myModal" class="guardian-form" style="display: none;">
     <h2 class="guardian-title">보호자 리스트</h2>
@@ -459,10 +444,12 @@
       document.getElementById('myModal').style.display = 'flex';
     });
 
-    document.getElementById('closeModal').addEventListener('click', function() {
-      document.getElementById('myModal').style.display = 'none';
-    });
-
+    const closeModalBtn = document.getElementById('closeModal');
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', function () {
+        document.getElementById('myModal').style.display = 'none';
+      });
+    }
     
     
 
@@ -485,7 +472,7 @@ function removeGuardian(button) {
         return;
       }
 
-      if (passwInput.value !== pwOkInput.value) {
+      if (passwordInput.value !== pwOkInput.value) {
         e.preventDefault();
         alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
         return;
@@ -533,7 +520,6 @@ function removeGuardian(button) {
  <script>
   let guardianDataList = [];
   const MAX_GUARDIANS = 3;
-  let guardianCount = 0;
 
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.signup-form');
@@ -545,107 +531,108 @@ function removeGuardian(button) {
     });
 
     addBtn.addEventListener('click', function () {
-      if (guardianCount >= MAX_GUARDIANS) {
+      const currentForms = document.querySelectorAll('.guardian-entry').length;
+      const total = guardianDataList.length + currentForms;
+
+      if (total >= MAX_GUARDIANS) {
         alert("보호자는 최대 3명까지 등록 가능합니다.");
         return;
       }
 
-      guardianCount++;
       const guardianList = document.getElementById('guardian-list');
 
       const div = document.createElement('div');
       div.classList.add('guardian-entry');
       div.innerHTML = `
-        <div id="formContainer">
-          <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
-          <div class="form-group">
-            <label>이름</label>
-            <input type="text" class="input-field g_name" value="">
-          </div>
-          <div class="form-group">
-            <label>관계</label>
-            <input type="text" class="input-field g_relation" value="">
-          </div>
-          <div class="form-group">
-            <label>전화번호</label>
-            <input type="tel" class="input-field g_phone" value="">
-          </div>
-          <button type="button" class="formBtn formBtn-save2" onclick="saveGuardian(this)">등록</button>
+        <button type="button" class="remove-btn" onclick="removeGuardian(this)">삭제</button>
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" class="input-field g_name">
         </div>
+        <div class="form-group">
+          <label>관계</label>
+          <input type="text" class="input-field g_relation">
+        </div>
+        <div class="form-group">
+          <label>전화번호</label>
+          <input type="tel" class="input-field g_phone">
+        </div>
+        <button type="button" class="formBtn formBtn-save2" onclick="saveGuardian(this)">등록</button>
       `;
       guardianList.appendChild(div);
     });
 
     form.addEventListener('submit', function (e) {
       const hiddenContainer = document.getElementById('guardian-hidden-inputs');
-      hiddenContainer.innerHTML = ''; // 초기화
+      hiddenContainer.innerHTML = '';
 
-      guardianDataList.forEach((g, idx) => {
-        const nameInput = document.createElement('input');
-        nameInput.type = 'hidden';
-        nameInput.name = 'g_name[]';
-        nameInput.value = g.name;
-
-        const phoneInput = document.createElement('input');
-        phoneInput.type = 'hidden';
-        phoneInput.name = 'g_phone[]';
-        phoneInput.value = g.phone;
-
-        const relationInput = document.createElement('input');
-        relationInput.type = 'hidden';
-        relationInput.name = 'g_relation[]';
-        relationInput.value = g.relation;
-
-        hiddenContainer.appendChild(nameInput);
-        hiddenContainer.appendChild(phoneInput);
-        hiddenContainer.appendChild(relationInput);
+      guardianDataList.forEach(g => {
+        ['name', 'relation', 'phone'].forEach(field => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = `g_${field}[]`;
+          input.value = g[field];
+          hiddenContainer.appendChild(input);
+        });
       });
     });
   });
 
   function saveGuardian(button) {
-    const entry = button.closest('.guardian-entry');
-    const name = entry.querySelector('.g_name').value.trim();
-    const relation = entry.querySelector('.g_relation').value.trim();
-    const phone = entry.querySelector('.g_phone').value.trim();
+	  const entry = button.closest('.guardian-entry');
+	  if (!entry) return;
 
-    if (!name || !relation || !phone) {
-      alert("모든 항목을 입력해주세요.");
-      return;
-    }
+	  const nameInput = entry.querySelector('.g_name');
+	  const relationInput = entry.querySelector('.g_relation');
+	  const phoneInput = entry.querySelector('.g_phone');
 
-    guardianDataList.push({ name, relation, phone });
+	  console.log('입력값 확인:', nameInput, nameInput?.value);	
+	  
+	  const name = nameInput?.value.trim();
+	  const relation = relationInput?.value.trim();
+	  const phone = phoneInput?.value.trim();
 
-    const savedList = document.getElementById('saved-list');
-    const listItem = document.createElement('div');
-    listItem.classList.add('saved-item');
-    listItem.innerHTML = `
-      ${name} (${relation}, ${phone})
-      <button type="button" class="formRemove-btn" onclick="removeGuardianItem(this, ${guardianDataList.length - 1})">삭제</button>
-    `;
-    savedList.appendChild(listItem);
-    entry.remove();
-    guardianCount--;
-  }
+	  console.log("입력된 값:", { name, relation, phone }); // 👈 디버깅용
+
+	  if (!name || !relation || !phone) {
+	    alert("모든 항목을 입력해주세요.");
+	    return;
+	  }
+
+	  const guardian = { name, relation, phone };
+	  guardianDataList.push(guardian);
+
+	  const savedList = document.getElementById('saved-list');
+
+	  const listItem = document.createElement('div');
+	  listItem.className = 'saved-item';
+	  listItem.innerHTML = `
+		  <div class="guardian-name">👤 ${guardian.name}</div>
+		  <button type="button" class="formRemove-btn">삭제</button>
+		`;
+
+	  listItem.querySelector('.formRemove-btn').addEventListener('click', function () {
+	    const index = guardianDataList.findIndex(g => g.name === name && g.phone === phone);
+	    if (index !== -1) guardianDataList.splice(index, 1);
+	    listItem.remove();
+	  });
+
+	  savedList.appendChild(listItem);
+	  entry.remove();
+	}
+
 
   function removeGuardian(button) {
     const entry = button.closest('.guardian-entry');
     if (entry) {
       entry.remove();
-      guardianCount--;
     }
-  }
-
-  function removeGuardianItem(button, index) {
-    button.parentElement.remove();
-    guardianDataList.splice(index, 1);
   }
 
   function clearDataAndGoBack() {
     guardianDataList = [];
     document.getElementById('saved-list').innerHTML = '';
     document.getElementById('guardian-list').innerHTML = '';
-    guardianCount = 0;
     closeGuardianForm();
   }
 

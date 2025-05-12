@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="facility">
+  
+	  <select id="selectByCategory" parameterType="int" resultType="FacilityVO">
+	  SELECT fac_idx, fac_name, fac_category, fac_address, lat, lon, reg_date, icon_path, is_visible
+	  FROM tb_ficility_result
+	  WHERE is_visible = 'Y' AND fac_category = #{category} 
+	  </select>
+  </mapper>

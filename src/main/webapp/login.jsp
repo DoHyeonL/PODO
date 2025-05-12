@@ -1,113 +1,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>로그인</title>
   <style>
-
-
-        .text-bg-frame {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none; /* 클릭 방지 */
-        }
-
-        .background-frame {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none; /* 클릭 방지 - 지도 등 UI 방해 안 되게 */
-        }
-
-
-
-
-
-        html,body {
-            margin-top: 0;
-            height: 100%;
- 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Helvetica Neue', sans-serif;
-            margin: 0;
-        }
-
-    
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
-
- 
-
-    #form-container {
-        
-        background-color: #ffffff;
-        width: 550px;
-        height: 100%;
-        position: absolute;
-        margin-left: 250px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        
-        overflow: hidden;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
 
     .form-title {
       text-align: center;
       font-size: 24px;
       font-weight: bold;
       color: #333;
-      margin-bottom: 50px;
+      margin-bottom: 24px;
     }
 
- 
+    body {
+      background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
 
     .login-form {
       background: white;
       padding: 30px;
       border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       width: 100%;
-      height: 400px;
       max-width: 400px;
       display: flex;
       flex-direction: column;
-
-
-      opacity: 0; /* 초기 상태 */
-      animation: fadeIn 1s ease forwards;
-      animation-delay: 0.3s;
-      
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
       margin-bottom: 16px;
-
-      
     }
 
     .form-group label {
@@ -147,7 +81,7 @@
       display: flex;
       justify-content: space-between;
       font-size: 14px;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .extra-links a {
@@ -160,47 +94,43 @@
 </head>
 <body>
 
-    <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
+<form action="Login.do" method="post" class="login-form">
 
-    <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
+  <h2 class="form-title">로그인</h2>
 
-  <div id="form-container">
-
-    <form action="#" method="post" class="login-form">
-
-        <h2 class="form-title">로그인</h2>
-
-            <div class="form-group">
-                <label for="id">아이디</label>
-                <input type="text" id="id" name="id" class="input-field" placeholder="아이디 입력">
-            </div>
-
-            <div class="form-group">
-                <label for="pw">비밀번호</label>
-                <input type="password" id="pw" name="pw" class="input-field" placeholder="비밀번호 입력">
-            </div>
-
-            <button type="submit" class="btn">로그인</button>
-
-            <div class="extra-links">
-                <a href="#">아이디 찾기</a>
-                <a href="#">비밀번호 찾기</a>
-
-            <a href="join.jsp">회원가입</a>
-        </div>
-
-    </form>
-    
+  <div class="form-group">
+    <label for="id">아이디</label>
+    <input type="text" id="user_id" name="user_id" class="input-field" placeholder="아이디 입력">
   </div>
+
+  <div class="form-group">
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" class="input-field" placeholder="비밀번호 입력">
+  </div>
+
+  <button type="submit" class="btn">로그인</button>
+  <c:if test="${loginv!=errorMsg}">
+  <div style="color: red; margin-bottom: 10px;">
+    ${errorMsg}
+  </div>
+</c:if>
+
+  <div class="extra-links">
+    <a href="#">아이디 찾기</a>
+    <a href="#">비밀번호 찾기</a>
+    <a href="join.jsp">회원가입</a>
+  </div>
+
+</form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.login-form');
-    const idInput = document.getElementById('id');
-    const pwInput = document.getElementById('pw');
+    const user_idInput = document.getElementById('user_id');
+    const passwordInput = document.getElementById('password');
 
     form.addEventListener('submit', function (e) {
-      if (!idInput.value.trim() || !pwInput.value.trim()) {
+      if (!user_idInput.value.trim() || !passwordInput.value.trim()) {
         e.preventDefault(); // 폼 전송 막기
         alert('아이디와 비밀번호를 모두 입력해주세요.');
       }

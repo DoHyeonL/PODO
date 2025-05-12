@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+@font-face {
+    font-family: 'CrownMychew';
+    font-weight: normal;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/crown/CrownMychew.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/crown/CrownMychew.eot?#iefix') format('embedded-opentype'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/crown/CrownMychew.woff2') format('woff2'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/crown/CrownMychew.woff') format('woff'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/crown/CrownMychew.ttf') format("truetype");
+    font-display: swap;
+}
+body {
+    background-color: #ffd51950;
+}
+svg {
+    font-family: 'CrownMychew';
+    font-size: 140px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-transform: uppercase;
+    animation: stroke 5s infinite alternate;
+    fill: rgba(72,138,204,1);
+}
+@keyframes stroke {
+    0% {
+    stroke-dashoffset: 25%;
+    stroke-dasharray: 0 50%;
+    fill: rgba(72,138,204,0);
+    stroke: rgba(54,95,160,1);
+    stroke-width: 2;
+    }
+    70% {
+    fill: rgba(72,138,204,0);
+    stroke: rgba(54,95,160,1);
+    }
+    80% {
+    fill: rgba(72,138,204,0);
+    stroke: rgba(54,95,160,1);
+    }
+    100% {
+    stroke-dashoffset: -25%;
+    stroke-dasharray: 50% 0;
+    fill: rgba(72,138,204,1);
+    stroke: rgba(54,95,160,0);
+    stroke: 0;
+    }
+}
+    </style>
+
+    
+</head>
+<body>
+
+    <svg viewBox="0 0 1320 300">
+        <text x="20%" y="110%" dy="40px" text-anchor="middle">
+            PODO
+        </text>
+    </svg>
+</body>
+</html>

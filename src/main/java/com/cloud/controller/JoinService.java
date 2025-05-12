@@ -1,6 +1,7 @@
 package com.cloud.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.cloud.db.GuardianDAO;
 import com.cloud.db.MemberDAO;
@@ -9,7 +10,7 @@ import com.cloud.model.MemberVO;
 
 public class JoinService implements Command {
 
-			public String execute(HttpServletRequest request) {
+			public String execute(HttpServletRequest request, HttpServletResponse response ) {
 
 			      String user_id = request.getParameter("user_id");
 			      String password = request.getParameter("password");
