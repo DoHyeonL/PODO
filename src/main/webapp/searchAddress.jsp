@@ -346,8 +346,7 @@
 	  // 메인 페이지에서 받은 lat, lon 값 전달
 	  var endLat = parseFloat(urlParams.get("lat"));
 	  var endLon = parseFloat(urlParams.get("lon"));
-	  
-	  console.log("Received endLat:", endLat, "endLon:", endLon);  // endLat, endLon 확인
+
 	
 	  // 현재 위치의 위도와 경도를 가져옵니다.
 	  if (navigator.geolocation) {
@@ -355,10 +354,7 @@
 	      const startLat = position.coords.latitude;
 	      const startLon = position.coords.longitude;
 	
-	      console.log("startLat:", startLat, "startLon:", startLon);
-	      console.log("endLat:", endLat, "endLon:", endLon);
-	      console.log(`startLat: ${startLat}, startLon: ${startLon}, endLat: ${endLat}, endLon: ${endLon}`);
-	
+	    
 	
 	      // 경로안내 페이지로 현재 위치(startLat, startLon)와 도착지(endLat, endLon) 전달
 	      if (startLat && startLon && endLat && endLon) {

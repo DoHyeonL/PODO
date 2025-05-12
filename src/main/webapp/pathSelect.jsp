@@ -186,7 +186,7 @@
         </div>
         <hr>
         <div class="endAd">
-        도착지: <%= endAddress %>
+        도착지 : <%= endAddress %>
         </div>
     </div>
         <div class="path-card-container">
