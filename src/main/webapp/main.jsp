@@ -6,47 +6,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 화면</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"></script>
     <script type="text/javascript">
         var map;
     
-        function initTmap() {
+        function initTmap(latitude = 35.164710, longitude = 126.918015) {
             map = new Tmapv2.Map("map_div", {
-                center: new Tmapv2.LatLng(37.56520450, 126.98702028),
-                width: "550px",
-                height: "100%",
-                zoom: 17
-            });
+            center: new Tmapv2.LatLng(latitude, longitude),
+            width: "100%",
+            height: "100%",
+            zoom: 17
+      });
+    }
+/*35.164710, 126.918015*/
+
+
+
+// 위치 확인 함수
+        function geoFindMe() {
+            const status = document.querySelector("#status");
+            const location = document.querySelector("#location");
+
+ 
+            function success(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+
+                initTmap(latitude, longitude);
+            }
+
+            function error() {
+                // 실패 시 기본 좌표로 지도 생성
+                initTmap();
+            }
+
+            if (!navigator.geolocation) {
+              
+                initTmap();
+            } else {
+                navigator.geolocation.getCurrentPosition(success, error);
+            }
         }
+
+            window.onload = geoFindMe;
     </script>
     <style>
+
+        .loader1 {
+            position: absolute;
+            
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 0.9s ease, opacity 0.8s ease;
+            animation: rotation_51512 1.2s infinite cubic-bezier(0.785, 0.135, 0.15, 0.86);
+            z-index: 1;
+        }
+
+        @keyframes rotation_51512 {
+        70% {
+            box-shadow: 0px 0px 10px 50px rgba(253, 32, 32, 0.658);
+        }
+
+        90% {
+            box-shadow: 0px 0px 10px 50px rgba(241, 57, 57, 0.04);
+        }
+
+        100% {
+            opacity: 0.5;
+            transform: rotate(360deg);
+        }
+        }
 
         /* HTML: <div class="loader"></div> */
         .loader {
             width: 320px;
             aspect-ratio: 1;
             border-radius: 60%;
-            background: #e42525;
+            background: #e42525f3;
             box-shadow: 0 0 0 0 rgba(240, 34, 34, 0.267);
             animation: l2 1.5s infinite linear;
-            position: relative;
+            position: absolute;
             left: 21%;
-            top:80%;
+            bottom: -120px;
             opacity: 0;
-            transition: transform 0.9s ease, opacity 0.8s ease;
-            z-index: 1;
+            transition: transform 0.5s ease, opacity 0.6s ease;
+            z-index: 2;
+            visibility: hidden;
         }
 
         .loader:before,
         .loader:after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        box-shadow: 0 0 0 0 rgba(255, 4, 4, 0.267);
-        animation: inherit;
-        animation-delay: -0.5s;
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 0 0 rgba(255, 4, 4, 0.267);
+            animation: inherit;
+            animation-delay: -0.5s;
         }
 
         .loader:after {
@@ -165,7 +225,7 @@
      
 
         #search-path {
-            position: fixed;
+            position: absolute;
             left: 50%;           
             top: 50px;            
             width: 450px;  
@@ -186,14 +246,14 @@
 
        
         .expand {
-            position: fixed !important;
-            top: 50px !important;
-            left: 500 !important;
-            width: 85vw !important;
-            height: 100px !important;
-            background-color: #999595 !important;
+            position: absolute;
+            top: 280px !important;
+            left: 50%;
+            width: 450px;
+            height: 45px; 
+            background-color: #fffbfb;
             max-width: none;
-            z-index: 1 !important;
+            z-index: 1;
             transition:
                 top 0.6s ease,
                 left 0.6s ease,
@@ -202,9 +262,6 @@
                 background-color 0.6s ease ;
         }
 
-        /*.expand.shadow {
-            box-shadow: none;
-        }*/
 
 
         #inputhBtn{
@@ -213,50 +270,62 @@
 
         
 
-        #menu-icon {
+                /* <reset-style> ============================ */
+        button {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
             cursor: pointer;
+            font-family: inherit;
+        }
+        
+
+        /* <style for menu__icon> ======== */
+        .menu__icon {
+            width: 32px;
+            height: 32px;
+            padding: 4px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            align-items: center; /* 아이콘을 수직 중앙에 배치 */
-            top: 25px; /* 아이콘 메뉴를 화면 위(top) 기준으로 25px 아래에 생성*/
-            width: 30px; /*메뉴 아이콘이라는 컨테이너틀의 너비를 30px로 설정*/
-            height: 20px; /*메뉴 아이콘이라는 컨테이너틀의 높이를 25px로 설정*/
+            align-items: end;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 1;
         }
 
-        #menu-icon .bar{
-            height: 2px;
+        .menu__icon span {
             width: 100%;
-            background-color: #333;
-            border-radius: 2px;
-            transition: all 0.3s ease; /* 모든 변화(ex.100px 에서 300px로 변신)등을 자연스럽게 애니메이션 처리해줌*/
-            transform-origin: center; /*요소 자체를 변형시킴(ex. transform: rotate(45deg); 45도 회전함)*/
+            height: 0.25rem;
+            border-radius: 0.125rem;
+            background-color: rgba(15, 15, 15, 0.822);
+            box-shadow: 0 .5px 2px 0 hsla(0, 0%, 0%, .2);
+            transition: width .4s, transform .4s, background-color .4s;
+        }
+
+        .menu__icon :nth-child(2) {
+            width: 75%;
+        }
+
+        .menu__icon :nth-child(3) {
+            width: 50%;
+        }
+
+        .menu__icon:hover {
+            transform: rotate(-90deg);
+        }
+
+        .menu__icon:hover span {
+        width: .25rem;
+        transform: translateX(-10px);
+        background-color: rgb(255, 59, 48);
         }
 
 
-        #menu-icon.active .bar:nth-child(1){
-            transform: rotate(-90deg) translate(5px, 5px);
-            /*menu-icon에 active가 붙으면
-
-            첫 번째 bar (햄버거 메뉴의 1번째 줄)을
-
-            45도 회전시키고
-
-            x축 +5px / y축 +5px로 이동
         
-            그래서 첫 번째 줄이 대각선 방향으로 기울면서 움직임.*/
-            opacity: 0;
-         }
 
-         #menu-icon.active .bar:nth-child(2){
-            opacity: 0;
-            /*완전히 투명하게 변경*/
-         }
+     
 
-         #menu-icon.active .bar:nth-child(3){
-            transform: rotate(90deg) translate(5px, -5px);
-            opacity: 0;
-         }
 
          #inputBtn{
             opacity: 1;
@@ -296,10 +365,14 @@
             justify-content: space-around;
             align-items: center;
             border-top: 1px solid #ccc;
-            z-index: 2;
+            z-index: 3;
 
             /* 중앙 정렬을 위한 transform */
             transform: translate(-50%); /* 요소의 크기의 절반만큼 이동시켜 정확히 중앙에 배치 */
+        }
+        
+        #bottom-bar.lower {
+            z-index: 1;  /* 낮은 z-index */
         }
 
 
@@ -345,7 +418,7 @@
             
             visibility: hidden; /* 숨김 상태에서 보이지 않음 */
             transition: opacity 0.6s ease;
-            z-index: 1;
+            z-index: 2;
         }
         
 
@@ -364,7 +437,25 @@
             all: unset;
             width: 100%;
             z-index: 2 !important;
+            display: flex;
+            align-items: center;
+            height: 45px;
         }
+
+        .inputAddres{
+            position: absolute;
+            top: 10px;
+            border: none;          /* 테두리 제거 */
+            background: none;
+            outline: none;         /* 포커스 시 생기는 파란 테두리 제거 */
+            box-shadow: none; 
+            width: 80%;
+            display: flex;
+            align-items: center;
+            height: 25px;
+            font-size: 1rem;
+        }
+
 
         .loginHidden{
             position: absolute;
@@ -463,11 +554,12 @@
 
     
 
+    
+
     <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
     <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
 
-    <body onload="initTmap();">
         <div id="map-container">
 
             <div id="sidebarGuest" >
@@ -479,7 +571,7 @@
             
                 <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
             
-                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
                     <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
                         안심길찾기
                     </span>    
@@ -496,7 +588,7 @@
             </div>
 
             <div id="joinBox" class="loginHidden"></div>
-
+            
             
 
             <div id="facility-container">
@@ -542,7 +634,7 @@
                     <img src="images/하단바/즐겨찾기.png" alt="즐겨찾기">
                     <span>즐겨찾기</span>
                 </button>
-                <button class="bottom-button" onclick="location.href='로그인.html'">
+                <button class="bottom-button" onclick="location.href='login.jsp'">
                     <img src="images/하단바/프로필.png" alt="마이">
                     <span>마이</span>
                 </button>
@@ -550,57 +642,42 @@
 
             <div class="overlay" id="overlay"></div>
 
-            <div id="emergency" class="loader"></div>
+            
+
+            <button id="declareBtn" style="position: absolute; top: 1120px; left: 90px; z-index: 10;
+            font-size: 30px;">
+                의심신고
+            </button>
+
+
+            <div id="emergency" class="loader">
+                <div class="loader1"></div>
+            </div>
 
             
-            <div id="map_div"  class="map-center" >
+            
 
-                
+            <div id="map_div"  class="map-center" ></div>
 
-                <div id="search-path" class="shadow">
-    
-                    <div id="menu-icon">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>    
-                    </div>
+            <div id="search-path" class="shadow">
+
+                        <button id="menu" class="menu__icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
                 
                     <div id="inputBtn">
                         <button class="textBtn" onclick="toggleInputPath()">
                             <span id="inputText">주소를 입력하세요</span>
                         </button>
-                        <div id="inputPath" style="display: none">
-                                <form onsubmit="searchPlaces(); return false;" >
-                                    <input type="text" class="textBtn" placeholder="출발지 주소를 입력하세요." id="keyword" size="15" style="margin-right: 10px;"> 
-                                    <button type="submit" class="textBtn" style="display: flex;"></button>
-                                    <hr style="width: 82vw; background-color: #fff;">
-                                    <input type="text" class="textBtn" value="출발지" id="keyword" size="15" style="margin-right: 10px;"> 
-                
-                                </form>
-                                <div class="map_wrap">
-                                    <div id="menu_wrap" >
-                                        <ul id="placesList" ></ul>
-                                        <div id="pagination"></div>
-                                    </div>
-                                </div>
-                                <input type="text" class="textBtn" style="font-size: 20px;">
-                            </form>
-                        </div>
+                        
+                    </div>
+                    <div id="inputPath"  style="display: none;">
+                            <input type="text" class="inputAddres" id="keyword"> 
                     </div>
                 
                 </div>
-
-                
-
-
-                
-
-
-                
-                
-                
-
-            </div>
         </div>
         </div>
 
@@ -637,7 +714,7 @@
 
 <!-- 2. 사이드바 및 검색창 토글 기능 처리 -->
 <script>
-    const menuIcon = document.getElementById('menu-icon');
+    const menuIcon = document.getElementById('menu');
     const sidebarMember = document.getElementById('sidebarMember');
     const sidebarGuest = document.getElementById('sidebarGuest');
     const overlay = document.getElementById('overlay');
@@ -649,25 +726,59 @@
     const inputPath = document.getElementById('inputPath');
     const declare = document.getElementById('declare');
     const emergency = document.getElementById('emergency');
+    const bottomBar = document.getElementById('bottom-bar');
+    const declareBtn = document.getElementById('declareBtn');
     
 
     menuIcon.addEventListener('click', function(event) {
         event.stopPropagation();
-        sidebarGuest.classList.add('show');   // 사이드바가 보이도록 전환
-        menuIcon.classList.toggle('active');      // 메뉴 아이콘 애니메이션
+        sidebarGuest.classList.add('show');   // 사이드바가 보이도록 전환    
         overlay.style.visibility = 'visible';     // 오버레이 표시
         overlay.classList.add('show');
         emergency.classList.remove('show');    
+        bottomBar.classList.add('lower');
+        
     });
 
     overlay.addEventListener('click', function () {
+        searchPath.style.zIndex = '1';
         sidebarGuest.classList.remove('show');
         overlay.classList.remove('show');
-        menuIcon.classList.remove('active');
+        
+        emergency.classList.remove('show');  
+        searchPath.classList.remove('expand');
+        inputText.style.display = 'block';  // 인풋 텍스트 보이기
+        inputPath.style.display = 'none';
+
+        setTimeout(() => {
+        emergency.style.visibility = 'hidden';
+        }, 400);
+
+
+        menuIcon.style.display = 'flex';
+        void menuIcon.offsetWidth;  // 강제 리렌더링
+
+        // 👇 아이콘 내부 span들 초기화
+        const bars = menuIcon.querySelectorAll('span');
+        bars.forEach((bar, index) => {
+            bar.style.width = index === 0 ? '100%' : index === 1 ? '75%' : '50%';
+            bar.style.transform = 'none';
+            bar.style.backgroundColor = 'rgba(15, 15, 15, 0.822)';
+        });
+        
 
         setTimeout(() => {
         overlay.style.visibility = 'hidden';
         }, 400);
+    });
+
+    declare.addEventListener('click', function(event){
+        emergency.classList.add('show');
+        emergency.style.visibility = 'visible';
+        overlay.style.visibility = 'visible';     // 오버레이 표시
+        overlay.classList.add('show')
+        bottomBar.classList.remove('lower');
+        declareBtn.classList.add('animate__animated', 'animate__fadeInBottomRight', 'animate__faster');
     });
 
     loginBtn.addEventListener('click', function(event) {
@@ -683,15 +794,66 @@
         }, 800);
     });
 
-    declare.addEventListener('click', function(event){
-        emergency.classList.add('show');
+    
+
+    inputText.addEventListener('click', function(event){
+        searchPath.style.zIndex = '3';
+        searchPath.classList.add('expand');
+        inputPath.style.display = 'block';
+        menuIcon.style.display = 'none';
+        inputText.style.display = 'none';
         overlay.style.visibility = 'visible';     // 오버레이 표시
-        overlay.classList.add('show')
+        overlay.classList.add('show');
+        bottomBar.classList.add('lower');
+    });
+
+    
+
+    document.getElementById("keyword").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // 폼 제출 방지 (있을 경우)
+            goToNextPage();
+        }
     });
 
 
 
+    function goToNextPage() {
+       var address = document.getElementById("keyword").value;
+       if (address) {
+        // 주소로 위도, 경도 얻기
+        $.ajax({
+            method: "GET",
+            url: "https://apis.openapi.sk.com/tmap/pois",
+            data: {
+                version: 1,
+                format: "json",
+                searchKeyword: address,
+                resCoordType: "WGS84GEO",
+                reqCoordType: "WGS84GEO",
+                count: 1,
+                appKey: "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
+            },
+            success: function (response) {
+                if (response.searchPoiInfo.pois.poi.length > 0) {
+                    var poi = response.searchPoiInfo.pois.poi[0];
+                    var lat = poi.frontLat;
+                    var lon = poi.frontLon;
 
+                    // 위도, 경도를 포함하여 페이지 전환
+                    window.location.href = "searchAddress.jsp?address=" + encodeURIComponent(address) + "&lat=" + lat + "&lon=" + lon;
+                } else {
+                    alert("검색 결과가 없습니다.");
+                }
+            },
+            error: function (request, status, error) {
+                console.error("요청 실패:", request.responseText);
+            }
+        });
+    } else {
+        alert("주소를 입력해주세요.");
+    }
+    }
 
 
    
@@ -736,3 +898,4 @@
 
 </body>
 </html>
+

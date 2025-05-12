@@ -20,7 +20,7 @@ public class LoginService implements Command {
 			if(resultVo != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginvo", resultVo);
-				return "redirect:/main2.jsp";
+				return "redirect:/main.jsp";
 			} else {
 				request.setAttribute("errorMsg", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			    return "/login.jsp";  
