@@ -92,7 +92,7 @@
 
     <!--  버튼을 리스트 바로 아래 중앙 정렬 -->
     <div style="margin-top: 30px;">
-      <button class="send-btn" type="button" style="background-color: #28a745;" onclick="location.href='main2.jsp'">
+      <button class="send-btn" type="button" style="background-color: #28a745;" onclick="location.href='main.jsp'">
         ⬅ 이전으로
       </button>
     </div>

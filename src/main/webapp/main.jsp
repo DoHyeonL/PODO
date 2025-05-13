@@ -274,6 +274,32 @@
                 z-index: 3;
                 text-align: center;
             }
+
+            #successMessage2 {
+                position: absolute;
+                top: 40%;
+                left: 28%;
+                background-color: white;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                display: none;
+                z-index: 3;
+                text-align: center;
+            }
+
+            #successMessage3 {
+                position: absolute;
+                top: 40%;
+                left: 21%;
+                background-color: rgba(255, 64, 64, 0.904);
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                display: none;
+                z-index: 3;
+                text-align: center;
+            }
             
         .loader1 {
             position: absolute;
@@ -418,6 +444,37 @@
             visibility: visible;
             pointer-events: auto;
         }
+        
+        
+
+        #sidebarMember.expand {
+            transform: translateX(-30%);
+            width: 100%;
+            height: 100%;
+        }
+
+        #sidebarMember .textBtn {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #sidebarMember.expand .textBtn {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #sidebarMember hr {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #sidebarMember.expand hr {
+            opacity: 0;
+            transform: translateY(-20px); /* 위로 사라지게 */
+            pointer-events: none;
+        }
 
         #sidebarGuest {
             position: absolute;
@@ -465,7 +522,7 @@
         }
 
        
-        .expand {
+        /*.expand {
             position: absolute;
             top: 280px !important;
             left: 50%;
@@ -480,7 +537,7 @@
                 width 0.7s ease,
                 height 0.7s ease,
                 background-color 0.6s ease ;
-        }
+        }*/
 
 
 
@@ -802,7 +859,7 @@
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
                   </button>
-                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
+                  <button id="Gu" class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">함께하는 사람들</span>
                   </button>
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
@@ -979,7 +1036,17 @@
             </div>
             <div id="successMessage" style="display: none;" class="animate__animated">
                 <p>접수가 완료되었습니다!</p>
-                <img src="images/체크.png" style="width: 35px; height: 35px;">
+                 <img src="images/체크.png" style="width: 35px; height: 35px;">
+            </div>
+
+            <div id="successMessage2" style="display: none;" class="animate__animated">
+                <p>의심 신고가 완료되었습니다.<br>보호자에게 상황을 공유했어요.</p>
+                 <img src="images/의심신고.png" style="width: 75px; height: 75px;">
+            </div>
+
+            <div id="successMessage3" style="display: none; color: rgb(255, 255, 255);" class="animate__animated">
+                <p>긴급 신고가 접수되었습니다.<br> 즉시 대응 중입니다. 안전을 확보해주세요.</p>
+                 <img src="images/긴급신고.png" style="width: 75px; height: 75px;">
             </div>
 
         </div>
@@ -1024,6 +1091,13 @@
        const declareBtn1 = document.getElementById('declareBtn1');
        const declareBtn3 = document.getElementById('declareBtn3');
        const declareModal = document.getElementById('declareModal');
+       const successMessage = document.getElementById('successMessage');
+       const successMessage2 = document.getElementById('successMessage2');
+       const successMessage3 = document.getElementById('successMessage3');
+       const Gu = document.getElementById('Gu');
+       
+
+   
        
        function animateCSS(element, animationName) {
            return new Promise((resolve) => {
@@ -1051,9 +1125,13 @@
            });
            }
        
+    
 
        menuIcon.addEventListener('click', function(event) {
            event.stopPropagation();
+
+        
+           
            if (isLoggedIn) {
                   sidebarMember.classList.add('show');
               } else {
@@ -1064,6 +1142,52 @@
            emergency.classList.remove('show');    
            bottomBar.classList.add('lower');
            
+       });
+       
+       declareBtn1.addEventListener('click', function(event){
+           successMessage2.classList.remove('animate__fadeOut');
+
+           successMessage2.style.display = 'block';
+           successMessage2.classList.remove('animate__fadeOutDown');
+           successMessage2.classList.add('animate__fadeInUp');
+
+               // 메시지가 1초 후 자동으로 사라지도록 설정
+           setTimeout(function() {
+           successMessage2.classList.remove('animate__fadeInUp');
+           successMessage2.classList.add('animate__fadeOut');
+           emergency.classList.remove('show');
+               
+               // 1초 후에 완전히 숨기기
+           setTimeout(function() {
+               successMessage2.style.display = 'none';
+               overlay.style.zIndex = '1';
+               overlay.classList.remove('show');
+                    
+               }, 100);  // 1초 후 완전히 숨기기
+           }, 1000);  // 1초 후 사라지게 설정
+       });
+
+       declareBtn3.addEventListener('click', function(event){
+           successMessage3.classList.remove('animate__fadeOut');
+
+           successMessage3.style.display = 'block';
+           successMessage3.classList.remove('animate__fadeOutDown');
+           successMessage3.classList.add('animate__fadeInUp');
+
+               // 메시지가 1초 후 자동으로 사라지도록 설정
+           setTimeout(function() {
+           successMessage3.classList.remove('animate__fadeInUp');
+           successMessage3.classList.add('animate__fadeOut');
+           emergency.classList.remove('show');
+               
+               // 1초 후에 완전히 숨기기
+           setTimeout(function() {
+               successMessage3.style.display = 'none';
+               overlay.style.zIndex = '1';
+               overlay.classList.remove('show');
+                    
+               }, 100);  // 1초 후 완전히 숨기기
+           }, 1000);  // 1초 후 사라지게 설정
        });
        
        declareBtn2.addEventListener('click', function(event) {
@@ -1135,19 +1259,10 @@
                }
              });
             
-          document.getElementById("declareBtn3").addEventListener("click", function () {
-            alert("긴급 신고가 접수되었습니다.");
-          
-          });
 
-          document.getElementById("declareBtn1").addEventListener("click", function () {
-             if (isLoggedIn) {
-                alert("보호자에게 메시지를 전송하였습니다.");
-                } else {
-                alert("로그인이 필요한 서비스입니다.");
-                
-             }
-          }); //이거 추가용
+
+
+        
 
        overlay.addEventListener('click', function () {
            searchPath.style.zIndex = '1';

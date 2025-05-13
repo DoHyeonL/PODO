@@ -9,14 +9,14 @@
   <title>회원가입</title>
   <style>
   
-  		@font-face {
+        @font-face {
           font-family: 'yg-jalnan';
           src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
           font-weight: normal;
           font-style: normal;
-      	}
+         }
   
-  	.text-bg-frame {
+     .text-bg-frame {
             position: fixed;
             top: 0;
             left: 0;
@@ -337,7 +337,7 @@
       justify-content: space-between;
       margin-top: 15px;
     }
-
+    
     .formRemove-btn {
       margin-right: 0px;
       background-color: #ff4d4d;
@@ -351,100 +351,102 @@
   .formRemove-btn:hover {
     background-color: #e60000;
   }
+  
 
   </style>
 </head>
 <body>
 
-	<iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
+   <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
     <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
 
-	<div id="form-container"> 
-		<form action="Join.do" method="post" class="signup-form">
-		
-		  <h2 class="form-title">회원가입</h2>
-		
-		  <div class="form-group">
-		   <label for="id">이름</label>
-		   <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
-		  </div>
-		
-		  <div class="form-group">
-		    <label for="id">아이디</label>
-		    <div class="input-with-button">
-		      <input type="text" id="id" name="user_id" class="input-field" placeholder="아이디 입력">
-		      <button type="button" class="check-btn">중복확인</button>
-		    </div>
-		  </div>
-		  
-		
-		  <div class="form-group">
-		    <label for="pw">비밀번호</label>
-		    <input type="password" id="pw" name="password" class="input-field" placeholder="비밀번호 입력">
-		  </div>
-		
-		  <div class="form-group">
-		    <label for="pw_ok">비밀번호 확인</label>
-		    <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
-		  </div>
-		
-		  <div class="form-group">
-		    <label for="ad">주소</label>
-		    <input type="text" id="ad" name="address" class="input-field" placeholder="주소 입력">
-		  </div>
-		
-		
-		  <div class="form-group">
-		    <label for="phone">휴대폰 번호</label>
-		    <div class="phone-input">
-		      <select name="phone1">
-		        <option>010</option>
-		        <option>011</option>
-		        <option>016</option>
-		        <option>017</option>
-		        <option>018</option>
-		        <option>019</option>
-		      </select>
-		      <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
-		  </div>
-			</div>
-		
-		  <div class="form-group" style="margin-top: 10px;">
-		    <label for="email">이메일</label>
-		    <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
-		  </div>
-		
-		  <button type="button" class="btn" id="plusGuardian"
-		  style="background-color:#555;">
-		    보호자 추가하기 +
-		  </button>
-		
-		  <div class="checkbox-group" style="margin-top: 15px;">
-		    <input type="checkbox" id="agree">
-		    <label for="agree">전체 동의</label>
-		  </div>
-		  
-		  <div class="sub-checkbox-group">
-		    <div>
-		      <input type="checkbox" id="privacy" required>
-		      <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
-		    </div>
-		    <div>
-		      <input type="checkbox" id="age" required>
-		      <label for="age">[필수] 만 14세 이상입니다.</label>
-		    </div>
-		  </div>
-		  <div id="guardian-hidden-inputs"></div>
-		  <button type="submit" class="btn">동의 후 가입하기</button>
-		
-		</form>
+   <div id="form-container"> 
+      <form action="Join.do" method="post" class="signup-form">
+      
+        <h2 class="form-title">회원가입</h2>
+      
+        <div class="form-group">
+         <label for="id">이름</label>
+         <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
+        </div>
+      
+        <div class="form-group">
+          <label for="id">아이디</label>
+          <div class="input-with-button">
+            <input type="text" id="id" name="user_id" class="input-field" placeholder="아이디 입력">
+            <button type="button" class="check-btn">중복확인</button>
+          </div>
+        </div>
+        
+      
+        <div class="form-group">
+          <label for="pw">비밀번호</label>
+          <input type="password" id="pw" name="password" class="input-field" placeholder="비밀번호 입력">
+        </div>
+      
+        <div class="form-group">
+          <label for="pw_ok">비밀번호 확인</label>
+          <input type="password" id="pw_ok" name="pw_ok" class="input-field" placeholder="비밀번호 재입력">
+        </div>
+      
+        <div class="form-group">
+          <label for="ad">주소</label>
+          <input type="text" id="ad" name="address" class="input-field" placeholder="주소 입력">
+        </div>
+      
+      
+        <div class="form-group">
+          <label for="phone">휴대폰 번호</label>
+          <div class="phone-input">
+            <select name="phone1">
+              <option>010</option>
+              <option>011</option>
+              <option>016</option>
+              <option>017</option>
+              <option>018</option>
+              <option>019</option>
+            </select>
+            <input type="tel" name="phone2" placeholder="12345678" maxlength="8">
+        </div>
+         </div>
+      
+        <div class="form-group" style="margin-top: 10px;">
+          <label for="email">이메일</label>
+          <input type="email" id="email" name="email" class="input-field" placeholder="이메일 입력">
+        </div>
+      
+        <button type="button" class="btn" id="plusGuardian"
+        style="background-color:#555;">
+          보호자 추가하기 +
+        </button>
+      
+        <div class="checkbox-group" style="margin-top: 15px;">
+          <input type="checkbox" id="agree">
+          <label for="agree">전체 동의</label>
+        </div>
+        
+        <div class="sub-checkbox-group">
+          <div>
+            <input type="checkbox" id="privacy" required>
+            <label for="privacy">[필수] 개인정보 보호를 위한 이용자 동의</label>
+          </div>
+          <div>
+            <input type="checkbox" id="age" required>
+            <label for="age">[필수] 만 14세 이상입니다.</label>
+          </div>
+        </div>
+        <div id="guardian-hidden-inputs"></div>
+        <button type="submit" class="btn">동의 후 가입하기</button>
+      
+      </form>
 </div>
 <div id="myModal" class="guardian-form" style="display: none;">
     <h2 class="guardian-title">보호자 리스트</h2>
 
     <div id="saved-list">
       <!-- 여기에 저장된 보호자 리스트가 표시됨 -->
+      
     </div>
 
     <div id="guardian-list">
@@ -575,10 +577,12 @@ function removeGuardian(button) {
     const addBtn = document.getElementById('addBtn');
     const plusGuardian = document.getElementById('plusGuardian');
 
+    // 보호자 추가 버튼 클릭 시 모달 열기
     plusGuardian.addEventListener('click', function () {
       document.getElementById('myModal').style.display = 'flex';
     });
 
+    // 보호자 폼 추가
     addBtn.addEventListener('click', function () {
       const currentForms = document.querySelectorAll('.guardian-entry').length;
       const total = guardianDataList.length + currentForms;
@@ -611,66 +615,86 @@ function removeGuardian(button) {
       guardianList.appendChild(div);
     });
 
+    // 폼 제출 시 hidden input 생성
     form.addEventListener('submit', function (e) {
       const hiddenContainer = document.getElementById('guardian-hidden-inputs');
       hiddenContainer.innerHTML = '';
 
       guardianDataList.forEach(g => {
-        ['name', 'relation', 'phone'].forEach(field => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = `g_${field}[]`;
-          input.value = g[field];
-          hiddenContainer.appendChild(input);
-        });
+        const inputName = document.createElement('input');
+        inputName.type = 'hidden';
+        inputName.name = 'g_name[]';
+        inputName.value = g.name;
+        hiddenContainer.appendChild(inputName);
+
+        const inputRelation = document.createElement('input');
+        inputRelation.type = 'hidden';
+        inputRelation.name = 'g_relation[]';
+        inputRelation.value = g.relation;
+        hiddenContainer.appendChild(inputRelation);
+
+        const inputPhone = document.createElement('input');
+        inputPhone.type = 'hidden';
+        inputPhone.name = 'g_phone[]';
+        inputPhone.value = g.phone;
+        hiddenContainer.appendChild(inputPhone);
       });
     });
   });
 
   function saveGuardian(button) {
-	  const entry = button.closest('.guardian-entry');
-	  if (!entry) return;
+     const entry = button.closest('.guardian-entry');
+     if (!entry) return;
 
-	  const nameInput = entry.querySelector('.g_name');
-	  const relationInput = entry.querySelector('.g_relation');
-	  const phoneInput = entry.querySelector('.g_phone');
+     const nameInput = entry.querySelector('.g_name');
+     const relationInput = entry.querySelector('.g_relation');
+     const phoneInput = entry.querySelector('.g_phone');
 
-	  console.log('입력값 확인:', nameInput, nameInput?.value);	
-	  
-	  const name = nameInput?.value.trim();
-	  const relation = relationInput?.value.trim();
-	  const phone = phoneInput?.value.trim();
+     const g_name = nameInput?.value?.trim();
+     const g_relation = relationInput?.value?.trim();
+     const g_phone = phoneInput?.value?.trim();
 
-	  console.log("입력된 값:", { name, relation, phone }); // 👈 디버깅용
+     console.log("🟨 g_name 값:", g_name);
 
-	  if (!name || !relation || !phone) {
-	    alert("모든 항목을 입력해주세요.");
-	    return;
-	  }
+     if (!g_name || !g_relation || !g_phone) {
+       alert("모든 항목을 입력해주세요.");
+       return;
+     }
 
-	  const guardian = { name, relation, phone };
-	  guardianDataList.push(guardian);
+     const guardian = { name: g_name, relation: g_relation, phone: g_phone };
+     guardianDataList.push(guardian);
 
-	  const savedList = document.getElementById('saved-list');
+     const savedList = document.getElementById('saved-list');
+     const listItem = document.createElement('div');
+     listItem.className = 'saved-item';
 
-	  const listItem = document.createElement('div');
-	  listItem.className = 'saved-item';
-	  listItem.innerHTML = `
-		  <div class="guardian-name">👤 ${guardian.name}</div>
-		  <button type="button" class="formRemove-btn">삭제</button>
-		`;
+     const nameDiv = document.createElement('div');
+     nameDiv.className = 'guardian-name';
+     nameDiv.style.color = 'black';
+     nameDiv.textContent = '👤 ' + g_name+'(보호자)'; // 👉 템플릿 리터럴 대신 단순 연결로 변경
 
-	  listItem.querySelector('.formRemove-btn').addEventListener('click', function () {
-	    const index = guardianDataList.findIndex(g => g.name === name && g.phone === phone);
-	    if (index !== -1) guardianDataList.splice(index, 1);
-	    listItem.remove();
-	  });
+     console.log("✅ guardian-name div (textContent):", nameDiv.textContent); // 실제 들어간 값 확인
 
-	  savedList.appendChild(listItem);
-	  entry.remove();
-	}
+     const removeBtn = document.createElement('button');
+     removeBtn.type = 'button';
+     removeBtn.className = 'formRemove-btn';
+     removeBtn.textContent = '삭제';
+     removeBtn.addEventListener('click', function () {
+       const index = guardianDataList.findIndex(
+         g => g.name === g_name && g.phone === g_phone
+       );
+       if (index !== -1) guardianDataList.splice(index, 1);
+       listItem.remove();
+     });
 
+     listItem.appendChild(nameDiv);
+     listItem.appendChild(removeBtn);
+     savedList.appendChild(listItem);
 
+     entry.remove();
+   }
+
+  // 보호자 입력폼 삭제
   function removeGuardian(button) {
     const entry = button.closest('.guardian-entry');
     if (entry) {
@@ -693,6 +717,7 @@ function removeGuardian(button) {
     document.getElementById('myModal').style.display = 'none';
   }
 </script>
+
 
     
 </body>

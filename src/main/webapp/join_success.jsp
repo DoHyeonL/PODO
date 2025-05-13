@@ -6,6 +6,17 @@
   <meta charset="UTF-8">
   <title>회원가입 완료</title>
   <style>
+  
+  .text-bg-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none; /* 클릭 방지 */
+        }
+        
     body {
       background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
       min-height: 100vh;
@@ -15,6 +26,7 @@
       font-family: 'Helvetica Neue', sans-serif;
       margin: 0;
       padding: 20px;
+      
     }
 
     .success-box {

@@ -17,6 +17,25 @@
           font-weight: normal;
           font-style: normal;
       }
+      
+      @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+      
+      .text-bg-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none; /* 클릭 방지 */
+        }
 
     body {
       margin: 0;
@@ -50,6 +69,10 @@
         flex-direction: column;  /* 세로 방향으로 내용 배치 */
         align-items: center;     /* 중앙 정렬 */
         justify-content: flex-start;  /* 내용이 위에서부터 쌓이도록 */
+        
+        opacity: 0; /* 초기 상태 */
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.3s;
     }
 
     h2.title {
@@ -201,6 +224,10 @@
   </style>
 </head>
 <body>
+
+<iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
+
+
   <div class="container">
     <h2 class="title">함께하는 사람들</h2>
 
