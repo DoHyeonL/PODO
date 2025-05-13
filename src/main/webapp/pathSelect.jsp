@@ -12,90 +12,212 @@
     <title>경로 선택</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
+        html,body {
+            margin-top: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: 'Helvetica Neue', sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
         }
-        .container {
-            padding: 20px;
+
+        #map-container {          
+            position: relative;
+            left: 250px;
+            width: 100%;
+            min-width: 550px;
+            height: 100%;
+            overflow: hidden; 
+            margin: 0 auto;
+
+            
+        }
+
+        .map-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            overflow: hidden;
         }
         .path-header {
+            position: absolute;
+
+            align-items: center;
+            top: 14%;
+            left: 85px;
             text-align: center;
-            margin-bottom: 20px;
+            width: 400px;
+            height: 120px;
+            border-radius: 50px;
+            background-color: #fffffffd;
+            display: flex; /* flexbox 활성화 */
+            flex-direction: column; /* 세로 방향으로 정렬 */
+            justify-content: space-between;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+        .startAd{
+            position: absolute;
+            top:20px;
+        }
+
+        .endAd{
+            position: absolute;
+            top:75px;
+        }
+        
+
+        .path-header hr {
+            position: absolute;
+            top: 60px;
+            width: 80%; /* hr의 너비 조정 */
+            margin: 0 10px; /* hr 주변 여백 조정 */
+            background-color: rgba(0, 86, 179, 0.5); /* 50% 투명도 적용 */
+        }
+
+
         .path-card-container {
             display: flex;
-            overflow-x: auto;
-            gap: 16px;
-            scroll-snap-type: x mandatory;
-            padding: 0 10px;
+            overflow-x: hidden; /* 가로 스크롤바 숨기기 */
+            gap: 18px;
+            padding: 20px 10px;
+            position: absolute;
+            bottom: 20px;  /* 지도 아래에 경로 카드 배치 */
+            left: 10px;
+            width: 100%;
+            justify-content: space-between;
+            cursor: grab; /* 마우스 커서를 '잡기'로 변경 */
+            box-sizing: border-box; /* padding 포함해서 크기 계산 */
+            padding-right: 30px; /* 오른쪽 휠 영역 확장 */
+            
         }
+
         .path-card {
-            background: #fff;
+            position: relative;
+            background: #ffffffef;
             border-radius: 10px;
             padding: 20px;
             min-width: 280px;
+            height: 100px;
             flex: 0 0 auto;
-            scroll-snap-align: start;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            
         }
-        .path-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .path-detail {
-            margin-top: 10px;
-            color: #666;
-        }
-        .select-btn {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .select-btn:hover {
+
+    .path-title {
+        position: absolute;
+        top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .path-detail {
+        position: absolute;
+        margin-top: 25px;
+        color: #666;
+    }
+
+    .select-btn {
+        position: absolute;
+        bottom: 20px;
+        right: 5px;
+
+        padding: 10px 20px;
+        background-color: #007bff59;
+        color: rgba(255, 255, 255, 0.658);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .select-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* 경로 카드가 너무 길지 않도록 텍스트 overflow 처리 */
+    .path-card-container::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .path-card-container::-webkit-scrollbar-thumb {
+        background-color: #007bff;
+        border-radius: 5px;
+    }
+
+    .path-card-container::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+    .select-btn {
+        bottom:10px;
+        padding: 10px 20px;
+        width: 70px;
+        height: 40px;
+        right: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .select-btn:hover {
             background-color: #0056b3;
-        }
-        #map {
-            width: 100%;
-            height: 300px;
-            margin-top: 20px;
-        }
+    }
+
+
+    #map {
+        width: 100%;
+        height: 300px;
+        margin-top: 20px;
+    }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="path-header">
-        <h2>출발지: <%= startAddress %> → 도착지: <%= endAddress %></h2>
-    </div>
-
+<div id="map-container">
     <div id="map"></div>
+    <div class="path-header">
+         <div class="startAd">
+        출발지 : <%= startAddress %>
+        </div>
+        <hr>
+        <div class="endAd">
+        도착지 : <%= endAddress %>
+        </div>
+    </div>
 
     <div class="path-card-container">
         <div class="path-card" onclick="showRoute('safe')">
             <div class="path-title">안전 경로</div>
-            <div class="path-detail"><span id="safe-score1">분석 중</span></div></div>
-            <div class="path-detail">안전 점수: <span id="safe-score2">분석 중</span></div>
-            <button class="select-btn" onclick="selectRoute(event, 'safe')">이 경로로 안내받기</button>
+            <div class="path-detail">
+                <span id="safe-score1">분석 중</span>
+                
+            </div>
+            <br>
+            <div id="safe-score2" class="path-detail">안전 점수 : 분석 중</div>
+            <button class="select-btn" onclick="selectRoute(event, 'safe')">안내</button>
         </div>
+       
 
         <div class="path-card" onclick="showRoute('mainroad')">
             <div class="path-title">큰길 위주 경로</div>
             <div class="path-detail">33분 | 1.9km | 3,319 걸음</div>
-            <button class="select-btn" onclick="selectRoute(event, 'mainroad')">이 경로로 안내받기</button>
+            <button class="select-btn" onclick="selectRoute(event, 'mainroad')">안내</button>
         </div>
 
         <div class="path-card" onclick="showRoute('shortest')">
             <div class="path-title">최단 경로</div>
             <div class="path-detail">19분 | 1.3km | 1,953걸음</div>
-            <button class="select-btn" onclick="selectRoute(event, 'shortest')">이 경로로 안내받기</button>
+            <button class="select-btn" onclick="selectRoute(event, 'shortest')">안내</button>
+        </div>
         </div>
     </div>
+
+    
 </div>
 
 <!-- Scripts -->
@@ -106,12 +228,42 @@
     const map = new Tmapv2.Map("map", {
         center: new Tmapv2.LatLng(35.150523, 126.858611),
         width: "100%",
-        height: "300px",
+        height: "100%",
         zoom: 15
     });
 
     const startX = "126.858611", startY = "35.150523";
     const endX = "126.859754", endY = "35.161202";
+    const container = document.querySelector('.path-card-container');
+
+    let isMouseDown = false;
+    let startDragX;
+    let scrollLeft;
+
+    container.addEventListener('mousedown', (e) => {
+    isMouseDown = true;
+    startDragX = e.pageX - container.offsetLeft; // 마우스 클릭 위치 저장
+    scrollLeft = container.scrollLeft; // 현재 스크롤 위치 저장
+    container.style.cursor = 'grabbing'; // 마우스 커서를 '잡고 있는' 상태로 변경
+    });
+
+    container.addEventListener('mouseleave', () => {
+        isMouseDown = false;
+        container.style.cursor = 'grab'; // 마우스가 벗어나면 원래 상태로 돌아감
+    });
+
+    container.addEventListener('mouseup', () => {
+        isMouseDown = false;
+        container.style.cursor = 'grab'; // 마우스 버튼을 떼면 원래 커서로 복원
+    });
+
+    container.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return; // 마우스를 누르고 있을 때만 동작
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startDragX) * 1; // 이동 속도 조정 (2배 빠르게 이동)
+        container.scrollLeft = scrollLeft - walk; // 스크롤 이동
+    });
 
     function clearMap() {
         // 기존 경로를 모두 제거
@@ -253,6 +405,8 @@
         showRoute("shortest");
         fetchSafetyScore();
     };
+
+    
 </script>
 </body>
 </html>
