@@ -258,7 +258,7 @@
             #successMessage {
                 position: fixed; /* 화면 고정 기준 */
                 top: 40%;
-                margin-left: 13%;
+                margin-left: 15%;
                 background-color: white;
                 padding: 20px 30px;
                 border-radius: 10px;
@@ -979,7 +979,7 @@
             </div>
             <div id="successMessage" style="display: none;" class="animate__animated">
                 <p>접수가 완료되었습니다!</p>
-                <button onclick="closeSuccess()">확인</button>
+                <img src="images/체크.png" style="width: 35px; height: 35px;">
             </div>
 
 

@@ -65,7 +65,7 @@
         width: 600px;
         height: 100%;
         position: absolute;
-        margin-left: 250px;
+        margin-left: 50px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
