@@ -14,7 +14,7 @@
     <style>
         html,body {
             margin-top: 0;
-            height: 100%;
+            height: 103%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,7 +24,8 @@
 
         #map-container {          
             position: relative;
-            left: 250px;
+            top:-50px;
+            left: 50px;
             width: 100%;
             min-width: 550px;
             height: 100%;

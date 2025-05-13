@@ -13,6 +13,7 @@
 		<typeAlias type="com.cloud.model.MemberVO" alias="membervo" />
 		<typeAlias type="com.cloud.model.GuardianVO" alias="guardianvo" />	
 		<typeAlias type="com.cloud.model.FacilityVO" alias="facilityvo" />	
+		<typeAlias type="com.cloud.model.ReportVO" alias="reportvo" />	
 	</typeAliases>
 
   
@@ -42,6 +43,7 @@
     <mapper resource="com/cloud/db/MemberMapper.xml"/>
     <mapper resource="com/cloud/db/GuardianMapper.xml"/>
     <mapper resource="com/cloud/db/FacilityMapper.xml"/>
+    <mapper resource="com/cloud/db/ReportMapper.xml"/>
   </mappers>
 </configuration>
 

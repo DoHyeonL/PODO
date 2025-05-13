@@ -35,8 +35,8 @@
         width: "600px",
         height: "100%",
         zoom: 17
-	  });
-	}
+     });
+   }
     
     function geoFindMe() {
         const status = document.querySelector("#status");
@@ -125,7 +125,7 @@
             });
     }
 
-	</script>
+   </script>
     
     <style>
 
@@ -256,9 +256,9 @@
             }
 
             #successMessage {
-                position: fixed; /* 화면 고정 기준 */
+                position: absolute;
                 top: 40%;
-                margin-left: 15%;
+                left: 33%;
                 background-color: white;
                 padding: 20px 30px;
                 border-radius: 10px;
@@ -267,7 +267,7 @@
                 z-index: 3;
                 text-align: center;
             }
-
+            
         .loader1 {
             position: absolute;
             
@@ -765,53 +765,53 @@
 
 <body>
 
-	<c:choose>
-	    <c:when test="${not empty loginvo}">
-	        <c:set var="isLoggedIn" value="true"/>
-	    </c:when>
-	    <c:otherwise>
-	        <c:set var="isLoggedIn" value="false"/>
-	    </c:otherwise>
-	</c:choose>
+   <c:choose>
+       <c:when test="${not empty loginvo}">
+           <c:set var="isLoggedIn" value="true"/>
+       </c:when>
+       <c:otherwise>
+           <c:set var="isLoggedIn" value="false"/>
+       </c:otherwise>
+   </c:choose>
 
 
     <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
     <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
     
-	<div id="map-container">
+   <div id="map-container">
 
-		<c:choose>
-		    <c:when test="${isLoggedIn eq 'true'}">
-		        <div id="sidebarMember">
-		            <button class='textBtn' style="margin-top: 70px; margin-left: 40px;">
-		                <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold;">
-		                    ${loginvo.name}님 안녕하세요
-		                </span>
-		            </button>
-		            <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">안심길찾기</span>
-		            </button>
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
-		            </button>
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">함께하는 사람들</span>
-		            </button>
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">알리미</span>
-		            </button>
-		            <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">신고함</span>
-		            </button>
-		            <button class='textBtn' style="margin-top: 30px; margin-left: 40px;" 
-		            		onclick="alert('로그아웃 되었습니다.'); location.href='Logout.do';">
-		                <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; color: red;">로그아웃</span>
-		            </button>
-		        </div>
-		    </c:when>
-		    <c:otherwise>
-		        <div id="sidebarGuest" >
+      <c:choose>
+          <c:when test="${isLoggedIn eq 'true'}">
+              <div id="sidebarMember">
+                  <button class='textBtn' style="margin-top: 70px; margin-left: 40px;">
+                      <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold;">
+                          ${loginvo.name}님 안녕하세요
+                      </span>
+                  </button>
+                  <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">안심길찾기</span>
+                  </button>
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
+                  </button>
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">함께하는 사람들</span>
+                  </button>
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">알리미</span>
+                  </button>
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">신고함</span>
+                  </button>
+                  <button class='textBtn' style="margin-top: 30px; margin-left: 40px;" 
+                        onclick="alert('로그아웃 되었습니다.'); location.href='Logout.do';">
+                      <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; color: red;">로그아웃</span>
+                  </button>
+              </div>
+          </c:when>
+          <c:otherwise>
+              <div id="sidebarGuest" >
                 <button id = "loginBtn" class='textBtn' style="margin-top: 100px; margin-left: 40px;">
                     <span style="font-size: clamp(22px, 5vw, 28px); font-weight: bold; ">
                         로그인을 해주세요
@@ -820,7 +820,7 @@
             
                 <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
             
-                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
                     <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
                         안심길찾기
                     </span>    
@@ -835,41 +835,41 @@
            
             
             </div>
-		    </c:otherwise>
-		</c:choose>
+          </c:otherwise>
+      </c:choose>
 
 
 
         <div id="joinBox" class="loginHidden"></div>
 
             
-	
-	             <div id="facility-container">
-		                <button class="facilityBtn" onclick="toggleMarkersByCategory(1)">
-				    <img src="images/시설물/경찰서.png" alt="경찰서">
-				    <div class="facility">경찰서</div>
-				</button>
-				
-				<button class="facilityBtn" onclick="toggleMarkersByCategory(2)">
-				    <img src="images/시설물/소방서.png" alt="소방서">
-				    <div class="facility">소방서</div>
-				</button>
-				
-				<button class="facilityBtn" onclick="toggleMarkersByCategory(3)">
-				    <img src="images/시설물/CCTV.png" alt="CCTV">
-				    <div class="facility">CCTV</div>
-				</button>
-				
-				<button class="facilityBtn" onclick="toggleMarkersByCategory(4)">
-				    <img src="images/시설물/안심시설.png" alt="안심시설">
-				    <div class="facility">안심시설</div>
-				</button>
+   
+                <div id="facility-container">
+                      <button class="facilityBtn" onclick="toggleMarkersByCategory(1)">
+                <img src="images/시설물/경찰서.png" alt="경찰서">
+                <div class="facility">경찰서</div>
+            </button>
+            
+            <button class="facilityBtn" onclick="toggleMarkersByCategory(2)">
+                <img src="images/시설물/소방서.png" alt="소방서">
+                <div class="facility">소방서</div>
+            </button>
+            
+            <button class="facilityBtn" onclick="toggleMarkersByCategory(3)">
+                <img src="images/시설물/CCTV.png" alt="CCTV">
+                <div class="facility">CCTV</div>
+            </button>
+            
+            <button class="facilityBtn" onclick="toggleMarkersByCategory(4)">
+                <img src="images/시설물/안심시설.png" alt="안심시설">
+                <div class="facility">안심시설</div>
+            </button>
 
-           	   </div>
-           	   
-           	   
-           	   
-           	   
+                 </div>
+                 
+                 
+                 
+                 
 
             <div id="bottom-bar">
 
@@ -919,16 +919,9 @@
                 <div class="loader1"></div>
                 <button id="declareBtn1">의심 신고</button>
                 <button id="declareBtn2">시설 신고</button>
-                <button id="declareBtn3">긴급 신고</button>
+                <button id="declareBtn3">긴급신고</button>
                
             </div>
-            
-            
-            
-            
-            
-            
-            
             
 
             
@@ -974,7 +967,7 @@
 
                         <div class="button-group">
                             <!--  <button type="button" class="formBtn formBtn-cancel" onclick="clearDataAndGoBack()">이전으로</button>-->
-                            <button type="button" class="formBtn formBtn-save" onclick="saveAndGoBack()">접수하기</button>
+                            <button type="button" id="btn" class="formBtn formBtn-save" onclick="saveAndGoBack()">접수하기</button>
                         </div>
             </div>
             <div id="successMessage" style="display: none;" class="animate__animated">
@@ -982,331 +975,360 @@
                 <img src="images/체크.png" style="width: 35px; height: 35px;">
             </div>
 
-
-             
-        </div>
-        </div>
         </div>
     
 
-	<script>
-	
-		const isLoggedIn = ${jsLoginCheck};
-		
-		window.addEventListener('DOMContentLoaded', () => {
-		    const buttons = document.querySelectorAll('.text-button span');
-		
-		    buttons.forEach(span => {
-		        const text = span.textContent.trim();
-		        const parentButton = span.closest('button');
-		        const restrictedForGuests = ['자주가는 장소', '함께하는 사람들', '알리미'];
-		
-		        if (!isLoggedIn && restrictedForGuests.includes(text)) {
-		            parentButton.addEventListener('click', (event) => {
-		                event.preventDefault();
-		                alert('로그인이 필요한 서비스입니다.');
-		            });
-		        }
-		    });
-		});
-	
-		
-		<!-- 2. 사이드바 및 검색창 토글 기능 처리 -->
-		const menuIcon = document.getElementById('menu');
-	    const sidebarMember = document.getElementById('sidebarMember');
-	    const sidebarGuest = document.getElementById('sidebarGuest');
-	    const overlay = document.getElementById('overlay');
-	    const searchPath = document.getElementById('search-path');
-	    const inputBtn = document.getElementById('inputBtn');
-	    const inputText = document.getElementById('inputText');
-	    const loginBtn = document.getElementById('loginBtn');
-	    const joinBox = document.getElementById('joinBox');
-	    const inputPath = document.getElementById('inputPath');
-	    const declare = document.getElementById('declare');
-	    const emergency = document.getElementById('emergency');
-	    const bottomBar = document.getElementById('bottom-bar');
-	    const declareBtn = document.getElementById('declareBtn');
-	    
-	    function animateCSS(element, animationName) {
-	        return new Promise((resolve) => {
-	            element.classList.remove(
-	                'animate__fadeInBottomRight',
-	                'animate__fadeInBottomLeft',
-	                'animate__fadeInUp',
-	                'animate__fadeOutBottomRight',
-	                'animate__fadeOutDown',
-	                'animate__fadeOutBottomLeft',
-	                'animate__animated',
-	                'animate__faster'
-	            );
+   <script>
+   
+      const isLoggedIn = ${jsLoginCheck};
+      
+      window.addEventListener('DOMContentLoaded', () => {
+          const buttons = document.querySelectorAll('.text-button span');
+      
+          buttons.forEach(span => {
+              const text = span.textContent.trim();
+              const parentButton = span.closest('button');
+              const restrictedForGuests = ['자주가는 장소', '함께하는 사람들', '알리미'];
+      
+              if (!isLoggedIn && restrictedForGuests.includes(text)) {
+                  parentButton.addEventListener('click', (event) => {
+                      event.preventDefault();
+                      alert('로그인이 필요한 서비스입니다.');
+                  });
+              }
+          });
+      });
+   
+      
+      <!-- 2. 사이드바 및 검색창 토글 기능 처리 -->
+      const menuIcon = document.getElementById('menu');
+       const sidebarMember = document.getElementById('sidebarMember');
+       const sidebarGuest = document.getElementById('sidebarGuest');
+       const overlay = document.getElementById('overlay');
+       const searchPath = document.getElementById('search-path');
+       const inputBtn = document.getElementById('inputBtn');
+       const inputText = document.getElementById('inputText');
+       const loginBtn = document.getElementById('loginBtn');
+       const joinBox = document.getElementById('joinBox');
+       const inputPath = document.getElementById('inputPath');
+       const declare = document.getElementById('declare');
+       const emergency = document.getElementById('emergency');
+       const bottomBar = document.getElementById('bottom-bar');
+       const declareBtn1 = document.getElementById('declareBtn1');
+       const declareBtn3 = document.getElementById('declareBtn3');
+       const declareModal = document.getElementById('declareModal');
+       
+       function animateCSS(element, animationName) {
+           return new Promise((resolve) => {
+               element.classList.remove(
+                   'animate__fadeInBottomRight',
+                   'animate__fadeInBottomLeft',
+                   'animate__fadeInUp',
+                   'animate__fadeOutBottomRight',
+                   'animate__fadeOutDown',
+                   'animate__fadeOutBottomLeft',
+                   'animate__animated',
+                   'animate__faster'
+               );
 
-	            element.style.display = 'block';
-	            element.classList.add('animate__animated', animationName, 'animate__faster');
+               element.style.display = 'block';
+               element.classList.add('animate__animated', animationName, 'animate__faster');
 
-	            function handleAnimationEnd() {
-	                element.classList.remove('animate__animated', animationName, 'animate__faster');
-	                element.removeEventListener('animationend', handleAnimationEnd);
-	                resolve();
-	            }
+               function handleAnimationEnd() {
+                   element.classList.remove('animate__animated', animationName, 'animate__faster');
+                   element.removeEventListener('animationend', handleAnimationEnd);
+                   resolve();
+               }
 
-	            element.addEventListener('animationend', handleAnimationEnd);
-	        });
-	        }
-	    
+               element.addEventListener('animationend', handleAnimationEnd);
+           });
+           }
+       
 
-	    menuIcon.addEventListener('click', function(event) {
-	        event.stopPropagation();
-	        if (isLoggedIn) {
-	               sidebarMember.classList.add('show');
-	           } else {
-	               sidebarGuest.classList.add('show');
-	           }   // 사이드바가 보이도록 전환    
-	        overlay.style.visibility = 'visible';     // 오버레이 표시
-	        overlay.classList.add('show');
-	        emergency.classList.remove('show');    
-	        bottomBar.classList.add('lower');
-	        
-	    });
-	    
-	    declareBtn2.addEventListener('click', function(event) {
-	        // 이전 애니메이션 클래스 제거
-	        declareModal.classList.remove('animate__fadeOutDown');
-	        declareModal.classList.remove('animate__fadeInUp');
-	        void declareModal.offsetWidth; // 강제 리플로우로 초기화
+       menuIcon.addEventListener('click', function(event) {
+           event.stopPropagation();
+           if (isLoggedIn) {
+                  sidebarMember.classList.add('show');
+              } else {
+                  sidebarGuest.classList.add('show');
+              }   // 사이드바가 보이도록 전환    
+           overlay.style.visibility = 'visible';     // 오버레이 표시
+           overlay.classList.add('show');
+           emergency.classList.remove('show');    
+           bottomBar.classList.add('lower');
+           
+       });
+       
+       declareBtn2.addEventListener('click', function(event) {
+           // 이전 애니메이션 클래스 제거
+           declareModal.classList.remove('animate__fadeOutDown');
+           declareModal.classList.remove('animate__fadeInUp');
+           void declareModal.offsetWidth; // 강제 리플로우로 초기화
 
-	        // 다시 보여주기
-	        declareModal.style.display = 'flex';
-	        declareModal.classList.add('animate__animated', 'animate__fadeInUp');
+           // 다시 보여주기
+           declareModal.style.display = 'flex';
+           declareModal.classList.add('animate__animated', 'animate__fadeInUp');
 
-	        overlay.style.zIndex = '3';
-	    });
+           overlay.style.zIndex = '3';
+       });
 
-	        function saveAndGoBack(){
-	            const successMessage = document.getElementById('successMessage');
+           function saveAndGoBack(){
+               const successMessage = document.getElementById('successMessage');
 
-	            
+               
 
-	        // 기존 등장 애니메이션 제거 후 강제 리플로우
-	            successMessage.classList.remove('animate__fadeOut');
-	            declareModal.classList.remove('animate__fadeInUp');
-	            declareModal.classList.remove('animate__fadeOutDown');
-	            void declareModal.offsetWidth;
+           // 기존 등장 애니메이션 제거 후 강제 리플로우
+               successMessage.classList.remove('animate__fadeOut');
+               declareModal.classList.remove('animate__fadeInUp');
+               declareModal.classList.remove('animate__fadeOutDown');
+               void declareModal.offsetWidth;
 
-	            // 사라지는 애니메이션 적용
-	            declareModal.classList.add('animate__fadeOutDown');
+               // 사라지는 애니메이션 적용
+               declareModal.classList.add('animate__fadeOutDown');
 
-	            // 애니메이션 끝나면 실행
-	            declareModal.addEventListener('animationend', function handler() {
-	                declareModal.style.display = 'none';
-	                successMessage.style.display = 'block';
-	                successMessage.classList.remove('animate__fadeOutDown');
-	                successMessage.classList.add('animate__fadeInUp');
+               // 애니메이션 끝나면 실행
+               declareModal.addEventListener('animationend', function handler() {
+                   declareModal.style.display = 'none';
+                   successMessage.style.display = 'block';
+                   successMessage.classList.remove('animate__fadeOutDown');
+                   successMessage.classList.add('animate__fadeInUp');
 
-	                // 메시지가 1초 후 자동으로 사라지도록 설정
-	                setTimeout(function() {
-	                successMessage.classList.remove('animate__fadeInUp');
-	                successMessage.classList.add('animate__fadeOut');
-	                emergency.classList.remove('show');
-	                
-	                // 1초 후에 완전히 숨기기
-	                setTimeout(function() {
-	                    successMessage.style.display = 'none';
-	                    overlay.style.zIndex = '1';
-	                    overlay.classList.remove('show');
-	                     
-	                }, 100);  // 1초 후 완전히 숨기기
-	            }, 1000);  // 1초 후 사라지게 설정
+                   // 메시지가 1초 후 자동으로 사라지도록 설정
+                   setTimeout(function() {
+                   successMessage.classList.remove('animate__fadeInUp');
+                   successMessage.classList.add('animate__fadeOut');
+                   emergency.classList.remove('show');
+                   
+                   // 1초 후에 완전히 숨기기
+                   setTimeout(function() {
+                       successMessage.style.display = 'none';
+                       overlay.style.zIndex = '1';
+                       overlay.classList.remove('show');
+                        
+                   }, 100);  // 1초 후 완전히 숨기기
+               }, 1000);  // 1초 후 사라지게 설정
 
-	            // 이벤트 리스너 중복 방지
-	            declareModal.removeEventListener('animationend', handler);
-	            });
-	        }
+               // 이벤트 리스너 중복 방지
+               declareModal.removeEventListener('animationend', handler);
+               });
+           }
+           
+           window.addEventListener("DOMContentLoaded", () => {
+               const declareBtn2 = document.getElementById("declareBtn2");
+               if (declareBtn2) {
+                 declareBtn2.addEventListener("click", () => {
+                   fetch(contextPath + "/FacilityReport.do", { method: "POST" })
+                     .then(res => {
+                     })
+                     .catch(err => {
+                       console.error("신고 실패:", err);
+                       alert("신고 중 오류가 발생했습니다.");
+                     });
+                 });
+               }
+             });
+            
+          document.getElementById("declareBtn3").addEventListener("click", function () {
+            alert("긴급 신고가 접수되었습니다.");
+          
+          });
 
-	    overlay.addEventListener('click', function () {
-	        searchPath.style.zIndex = '1';
-	        if (isLoggedIn) {
-	               sidebarMember.classList.remove('show');
-	           } else {
-	               sidebarGuest.classList.remove('show');
-	           }
-	        overlay.classList.remove('show');
-	        
-	        emergency.classList.remove('show');  
-	        searchPath.classList.remove('expand');
-	        inputText.style.display = 'block';  // 인풋 텍스트 보이기
-	        inputPath.style.display = 'none';
+          document.getElementById("declareBtn1").addEventListener("click", function () {
+             if (isLoggedIn) {
+                alert("보호자에게 메시지를 전송하였습니다.");
+                } else {
+                alert("로그인이 필요한 서비스입니다.");
+                
+             }
+          }); //이거 추가용
 
-	        setTimeout(() => {
-	        emergency.style.visibility = 'hidden';
-	        }, 400);
+       overlay.addEventListener('click', function () {
+           searchPath.style.zIndex = '1';
+           if (isLoggedIn) {
+                  sidebarMember.classList.remove('show');
+              } else {
+                  sidebarGuest.classList.remove('show');
+              }
+           overlay.classList.remove('show');
+           
+           emergency.classList.remove('show');  
+           searchPath.classList.remove('expand');
+           inputText.style.display = 'block';  // 인풋 텍스트 보이기
+           inputPath.style.display = 'none';
 
-
-	        menuIcon.style.display = 'flex';
-	        void menuIcon.offsetWidth;  // 강제 리렌더링
-
-	        // 👇 아이콘 내부 span들 초기화
-	        const bars = menuIcon.querySelectorAll('span');
-	        bars.forEach((bar, index) => {
-	            bar.style.width = index === 0 ? '100%' : index === 1 ? '75%' : '50%';
-	            bar.style.transform = 'none';
-	            bar.style.backgroundColor = 'rgba(15, 15, 15, 0.822)';
-	        });
-	        
-
-	        setTimeout(() => {
-	        overlay.style.visibility = 'hidden';
-	        }, 400);
-	        
-	        declareBtn1.classList.add('animate__animated', 'animate__fadeOutBottomRight', 'animate__faster');
-	        setTimeout(() => {
-	            declareBtn2.classList.add('animate__animated', 'animate__fadeOutDown', 'animate__faster');
-	        }, 50);
-	        setTimeout(() => {          
-	            declareBtn3.classList.add('animate__animated', 'animate__fadeOutBottomLeft', 'animate__faster');
-	        }, 100);
-	        
-	    });
-	    
-	    
-
-	    declare.addEventListener('click', function(event){
-	        emergency.classList.add('show');
-	        emergency.style.visibility = 'visible';
-	        overlay.style.visibility = 'visible';     // 오버레이 표시
-	        overlay.classList.add('show')
-	        bottomBar.classList.remove('lower');
+           setTimeout(() => {
+           emergency.style.visibility = 'hidden';
+           }, 400);
 
 
-	        animateCSS(declareBtn1, 'animate__fadeInBottomRight');
-	        setTimeout(() => {
-	            animateCSS(declareBtn2, 'animate__fadeInUp');
-	        }, 100);
-	        setTimeout(() => {
-	            animateCSS(declareBtn3, 'animate__fadeInBottomLeft');
-	        }, 200);
-	    });
-	    
+           menuIcon.style.display = 'flex';
+           void menuIcon.offsetWidth;  // 강제 리렌더링
 
-	    loginBtn.addEventListener('click', function(event) {
-	        sidebarGuest.classList.remove('show');
-	        overlay.classList.remove('show');
-	        menuIcon.classList.remove('active');
+           // 👇 아이콘 내부 span들 초기화
+           const bars = menuIcon.querySelectorAll('span');
+           bars.forEach((bar, index) => {
+               bar.style.width = index === 0 ? '100%' : index === 1 ? '75%' : '50%';
+               bar.style.transform = 'none';
+               bar.style.backgroundColor = 'rgba(15, 15, 15, 0.822)';
+           });
+           
 
-	        joinBox.classList.add('show');
+           setTimeout(() => {
+           overlay.style.visibility = 'hidden';
+           }, 400);
+           
+           declareBtn1.classList.add('animate__animated', 'animate__fadeOutBottomRight', 'animate__faster');
+           setTimeout(() => {
+               declareBtn2.classList.add('animate__animated', 'animate__fadeOutDown', 'animate__faster');
+           }, 50);
+           setTimeout(() => {          
+               declareBtn3.classList.add('animate__animated', 'animate__fadeOutBottomLeft', 'animate__faster');
+           }, 100);
+           
+       });
+       
+       
 
-
-	        setTimeout(() => {
-	            location.href = "login.jsp";
-	        }, 800);
-	    });
-
-	    
-
-	    inputText.addEventListener('click', function(event){
-	    	event.stopPropagation();
-	        searchPath.style.zIndex = '3';
-	        searchPath.classList.add('expand');
-	        inputPath.style.display = 'block';
-	        menuIcon.style.display = 'none';
-	        inputText.style.display = 'none';
-	        overlay.style.visibility = 'visible';     // 오버레이 표시
-	        overlay.classList.add('show');
-	        bottomBar.classList.add('lower');
-	    });
-
-	    
-
-	    document.getElementById("keyword").addEventListener("keydown", function(event) {
-	        if (event.key === "Enter") {
-	            event.preventDefault(); // 폼 제출 방지 (있을 경우)
-	            goToNextPage();
-	        }
-	    });
+       declare.addEventListener('click', function(event){
+           emergency.classList.add('show');
+           emergency.style.visibility = 'visible';
+           overlay.style.visibility = 'visible';     // 오버레이 표시
+           overlay.classList.add('show')
+           bottomBar.classList.remove('lower');
 
 
+           animateCSS(declareBtn1, 'animate__fadeInBottomRight');
+           setTimeout(() => {
+               animateCSS(declareBtn2, 'animate__fadeInUp');
+           }, 100);
+           setTimeout(() => {
+               animateCSS(declareBtn3, 'animate__fadeInBottomLeft');
+           }, 200);
+       });
+       
+       
+       
 
-	    function goToNextPage() {
-	       var address = document.getElementById("keyword").value;
-	       if (address) {
-	        // 주소로 위도, 경도 얻기
-	        $.ajax({
-	            method: "GET",
-	            url: "https://apis.openapi.sk.com/tmap/pois",
-	            data: {
-	                version: 1,
-	                format: "json",
-	                searchKeyword: address,
-	                resCoordType: "WGS84GEO",
-	                reqCoordType: "WGS84GEO",
-	                count: 1,
-	                appKey: "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
-	            },
-	            success: function (response) {
-	                if (response.searchPoiInfo.pois.poi.length > 0) {
-	                    var poi = response.searchPoiInfo.pois.poi[0];
-	                    var lat = poi.frontLat;
-	                    var lon = poi.frontLon;
+       loginBtn.addEventListener('click', function(event) {
+           sidebarGuest.classList.remove('show');
+           overlay.classList.remove('show');
+           menuIcon.classList.remove('active');
 
-	                    // 위도, 경도를 포함하여 페이지 전환
-	                    window.location.href = "searchAddress.jsp?address=" + encodeURIComponent(address) + "&lat=" + lat + "&lon=" + lon;
-	                } else {
-	                    alert("검색 결과가 없습니다.");
-	                }
-	            },
-	            error: function (request, status, error) {
-	                console.error("요청 실패:", request.responseText);
-	            }
-	        });
-	    } else {
-	        alert("주소를 입력해주세요.");
-	    }
-	    }
+           joinBox.classList.add('show');
 
 
-	   
-	</script>
+           setTimeout(() => {
+               location.href = "login.jsp";
+           }, 800);
+       });
 
-	<script>
-	    const container = document.getElementById("facility-container");
+       
 
-	    let isDown = false;
-	    let startX;
-	    let scrollLeft;
+       inputText.addEventListener('click', function(event){
+          event.stopPropagation();
+           searchPath.style.zIndex = '3';
+           searchPath.classList.add('expand');
+           inputPath.style.display = 'block';
+           menuIcon.style.display = 'none';
+           inputText.style.display = 'none';
+           overlay.style.visibility = 'visible';     // 오버레이 표시
+           overlay.classList.add('show');
+           bottomBar.classList.add('lower');
+       });
 
-	    // 마우스를 클릭했을 때
-	    container.addEventListener("mousedown", (e) => {
-	        isDown = true;
-	        container.classList.add('active');
-	        startX = e.pageX - container.offsetLeft;  // 클릭한 위치
-	        scrollLeft = container.scrollLeft;        // 현재 스크롤 위치
-	    });
+       
 
-	    // 마우스가 떠났을 때
-	    container.addEventListener("mouseleave", () => {
-	        isDown = false;
-	        container.classList.remove('active');
-	    });
+       document.getElementById("keyword").addEventListener("keydown", function(event) {
+           if (event.key === "Enter") {
+               event.preventDefault(); // 폼 제출 방지 (있을 경우)
+               goToNextPage();
+           }
+       });
 
-	    // 마우스를 뗐을 때
-	    container.addEventListener("mouseup", () => {
-	        isDown = false;
-	        container.classList.remove('active');
-	    });
 
-	    // 마우스를 움직일 때
-	    container.addEventListener("mousemove", (e) => {
-	        if (!isDown) return;  // 마우스를 누르고 있지 않으면 안 움직임
-	        e.preventDefault();
-	        const x = e.pageX - container.offsetLeft; // 현재 마우스 위치
-	        const walk = (x - startX) * 1;  // 드래그 감도 (조절 가능)
-	        container.scrollLeft = scrollLeft - walk;  // 스크롤을 움직임
-	    });
-	    
-	    
-	    const urlParams = new URLSearchParams(window.location.search);
-	    const routeType = urlParams.get('route');
-	      
-	    function showRoute(routeType) {
+
+       function goToNextPage() {
+          var address = document.getElementById("keyword").value;
+          if (address) {
+           // 주소로 위도, 경도 얻기
+           $.ajax({
+               method: "GET",
+               url: "https://apis.openapi.sk.com/tmap/pois",
+               data: {
+                   version: 1,
+                   format: "json",
+                   searchKeyword: address,
+                   resCoordType: "WGS84GEO",
+                   reqCoordType: "WGS84GEO",
+                   count: 1,
+                   appKey: "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
+               },
+               success: function (response) {
+                   if (response.searchPoiInfo.pois.poi.length > 0) {
+                       var poi = response.searchPoiInfo.pois.poi[0];
+                       var lat = poi.frontLat;
+                       var lon = poi.frontLon;
+
+                       // 위도, 경도를 포함하여 페이지 전환
+                       window.location.href = "searchAddress.jsp?address=" + encodeURIComponent(address) + "&lat=" + lat + "&lon=" + lon;
+                   } else {
+                       alert("검색 결과가 없습니다.");
+                   }
+               },
+               error: function (request, status, error) {
+                   console.error("요청 실패:", request.responseText);
+               }
+           });
+       } else {
+           alert("주소를 입력해주세요.");
+       }
+       }
+
+
+      
+   </script>
+
+   <script>
+       const container = document.getElementById("facility-container");
+
+       let isDown = false;
+       let startX;
+       let scrollLeft;
+
+       // 마우스를 클릭했을 때
+       container.addEventListener("mousedown", (e) => {
+           isDown = true;
+           container.classList.add('active');
+           startX = e.pageX - container.offsetLeft;  // 클릭한 위치
+           scrollLeft = container.scrollLeft;        // 현재 스크롤 위치
+       });
+
+       // 마우스가 떠났을 때
+       container.addEventListener("mouseleave", () => {
+           isDown = false;
+           container.classList.remove('active');
+       });
+
+       // 마우스를 뗐을 때
+       container.addEventListener("mouseup", () => {
+           isDown = false;
+           container.classList.remove('active');
+       });
+
+       // 마우스를 움직일 때
+       container.addEventListener("mousemove", (e) => {
+           if (!isDown) return;  // 마우스를 누르고 있지 않으면 안 움직임
+           e.preventDefault();
+           const x = e.pageX - container.offsetLeft; // 현재 마우스 위치
+           const walk = (x - startX) * 1;  // 드래그 감도 (조절 가능)
+           container.scrollLeft = scrollLeft - walk;  // 스크롤을 움직임
+       });
+       
+       
+       const urlParams = new URLSearchParams(window.location.search);
+       const routeType = urlParams.get('route');
+         
+       function showRoute(routeType) {
             initTmap(); // 기존 경로와 마커 제거
             
                         
@@ -1349,7 +1371,7 @@
 
         function mainroadRoute() {
             drawPolyline([
-            	[126.858611, 35.150523],
+               [126.858611, 35.150523],
                 [126.856079, 35.150154],
                 [126.855123, 35.151668],
                 [126.855112, 35.155585],
@@ -1422,8 +1444,8 @@
         window.onload = function () {
             showRoute(routeType);
         };
-	    
-	</script>
+       
+   </script>
 
 </body>
 </html>

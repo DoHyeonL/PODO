@@ -192,7 +192,6 @@
     <iframe src="dog.html" width="250" height="270" style="border: none; background: transparent;" allowtransparency="true"></iframe>
     
     </div>
-    
 	<form action="Login.do" method="post" class="login-form">
 
 

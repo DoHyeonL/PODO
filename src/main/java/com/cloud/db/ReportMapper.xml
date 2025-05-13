@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cloud.db.ReportDAO">
+
+    <!-- 시설 신고 등록 -->
+    <insert id="insertReport" parameterType="reportvo">
+        INSERT INTO tb_report (user_id, report_type, report_content, report_status)
+        VALUES (#{user_id}, #{report_type}, #{report_content}, #{report_status})
+    </insert>
+
+</mapper>

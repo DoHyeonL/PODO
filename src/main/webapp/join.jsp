@@ -5,16 +5,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
   <title>회원가입</title>
   <style>
   
-  	 @font-face {
+  		@font-face {
           font-family: 'yg-jalnan';
           src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
           font-weight: normal;
           font-style: normal;
-      }
+      	}
   
   	.text-bg-frame {
             position: fixed;
@@ -37,12 +37,12 @@
         }
 
     .form-title {
+      font-family: 'yg-jalnan', sans-serif;
       text-align: center;
       font-size: 24px;
       font-weight: bold;
       color: #333;
       margin-bottom: 24px;
-      font-family: 'yg-jalnan';
     }
 
 
@@ -188,8 +188,9 @@
         }
 
         #myModal {
-          position: fixed;
+          position: absolute;
           background-color: rgba(255, 255, 255, 0.788);
+          margin-left:95px;
           display: flex;
           align-items: center;
           top : 170px;

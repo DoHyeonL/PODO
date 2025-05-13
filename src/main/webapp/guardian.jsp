@@ -31,7 +31,6 @@
 
     html, body {
     margin-top: 0;
-    
     height: 100%;
     display: flex;
     justify-content: center;
@@ -42,9 +41,10 @@
 
     .container {
         background: white;
-        margin-left:100px;
+        border-radius: 16px;
+        padding: 30px;
         height: 100%;
-        width: 600px;
+        width: 550px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         display: flex;
         flex-direction: column;  /* 세로 방향으로 내용 배치 */
@@ -176,7 +176,6 @@
     }
     
     .button {
-      font-family: 'yg-jalnan';
       display: flex;
       margin-top: 30px;
       width: 75%;
@@ -249,7 +248,7 @@
         
       </div>
       <div class="button">
-            <a href="main.jsp" class="btn btn-guardian">이전으로</a>
+            <a href="main1.html" class="btn btn-guardian">이전으로</a>
           </div>
   </div>
 
