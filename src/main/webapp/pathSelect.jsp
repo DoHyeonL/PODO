@@ -266,23 +266,26 @@
         container.scrollLeft = scrollLeft - walk; // 스크롤 이동
     });
 
+    let resultInfoArr = [];
+    let markers = []; // 마커들을 저장할 배열
+    
     function clearMap() {
         // 기존 경로를 모두 제거
-        if (window.resultInfoArr) {
-            window.resultInfoArr.forEach(polyline => polyline.setMap(null));  // 경로 초기화
-            window.resultInfoArr = [];  // 배열 초기화
+        if (resultInfoArr) {
+            resultInfoArr.forEach(polyline => polyline.setMap(null));
+            resultInfoArr.length = 0; // 배열의 length 속성을 0으로 설정하여 비움
         }
 
         // 기존 마커를 모두 제거
-        if (window.resultMarkerArr) {
-            window.resultMarkerArr.forEach(marker => marker.setMap(null));  // 마커 초기화
-            window.resultMarkerArr = [];  // 배열 초기화
-        }
+        markers.forEach(marker => marker.setMap(null));
+        markers.length = 0; // 마커 배열도 비움
     }
 
-
     function showRoute(type) {
-        clearMap();  // 기존 경로를 모두 제거
+    	console.log("showRoute 호출 전 resultInfoArr.length:", resultInfoArr.length);
+        clearMap();
+        console.log("clearMap 호출 후 resultInfoArr.length:", resultInfoArr.length);
+        
         if (type === "safe") safe();
         else if (type === "mainroad") mainroad();
         else if (type === "shortest") shortest();
@@ -291,7 +294,7 @@
 
     function selectRoute(event, type) {
         event.stopPropagation();
-        window.location.href = `main.jsp?route=${type}`;
+        window.location.href = "main.jsp?type=" + encodeURIComponent(type);
     }
 
     function fetchSafetyScore() {
@@ -326,14 +329,19 @@
         	document.getElementById("safe-score2").innerText = data.average_score + "점";
             
         })
+        .then(data => console.log(data))
         .catch(err => {
             console.error("안전 점수 요청 실패:", err);
             document.getElementById("safe-score").innerText = "분석 실패";
         });
     }
 
-    // ▶▶▶ 경로 함수들
+ // ▶▶▶ 경로 함수들
 	function safe() {
+		
+		console.log("safe 함수 호출됨");
+    	clearMap();
+		
 	    drawPolyline([
 	        [126.858611, 35.150523],
 	        [126.855978, 35.150195],
@@ -348,6 +356,10 @@
 	}
 	
 	function mainroad() {
+		
+		console.log("mainroad 함수 호출됨");
+		clearMap();
+		
 	    drawPolyline([
 	        [126.858611, 35.150523],
 	        [126.856078, 35.150105],
@@ -362,7 +374,11 @@
 	}
 	
 	function shortest() {
-	    drawPolyline([
+		
+		console.log("shortest 함수 호출됨");
+		clearMap();
+	    
+		drawPolyline([
 	        [126.858611, 35.150523],
 	        [126.858441, 35.151739],
 	        [126.858355, 35.152844],
@@ -374,23 +390,13 @@
 	    ]);
 	}
 
-    // 공통 경로 그리기 함수
-    let resultMarkerArr = [], resultInfoArr = [];
-
+   
     function drawPolyline(coords) {
+    	// 경로를 새로 그리기 전에 기존 경로와 마커를 삭제
+    	console.log("drawPolyline 함수 호출됨", coords);
         clearMap();
-        coords.forEach((coord, idx) => {
-            const marker = new Tmapv2.Marker({
-                position: new Tmapv2.LatLng(coord[1], coord[0]),
-                icon: idx === 0 ? "/upload/tmap/marker/pin_r_m_s.png" :
-                      idx === coords.length - 1 ? "/upload/tmap/marker/pin_r_m_e.png" :
-                      "null",
-                iconSize: new Tmapv2.Size(24, 48),
-                map: map
-            });
-            resultMarkerArr.push(marker);
-        });
 
+        // 새로운 경로 그리기
         const latlngs = coords.map(c => new Tmapv2.LatLng(c[1], c[0]));
         const polyline = new Tmapv2.Polyline({
             path: latlngs,
@@ -399,6 +405,30 @@
             map: map
         });
         resultInfoArr.push(polyline);
+        
+        if (coords.length > 0) {
+        	const startMarker = new Tmapv2.Marker({
+                position: new Tmapv2.LatLng(coords[0][1], coords[0][0]), // 출발지
+                icon : "images/Marker/pin1.png",
+                iconSize: new Tmapv2.Size(24, 38),
+                map: map
+            });
+            startMarker.setMap(map);
+            markers.push(startMarker); // 생성된 마커를 배열에 추가
+
+            
+            if (coords.length > 1) {
+            	const endMarker = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(coords[coords.length - 1][1], coords[coords.length - 1][0]), // 도착지
+                    icon : "images/Marker/pin2.png",
+                    iconSize: new Tmapv2.Size(24, 38),
+                    map: map
+                });
+                endMarker.setMap(map);
+                markers.push(endMarker); // 생성된 마커를 배열에 추가
+            }
+        }
+        
     }
 
     // 최초 로딩 시 안전 경로 + 안전 점수 실행

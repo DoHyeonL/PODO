@@ -1,5 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+    request.setCharacterEncoding("UTF-8");
+    String routeType = request.getParameter("type");
+    
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -917,8 +924,8 @@
 
             <div id="emergency" class="loader">
                 <div class="loader1"></div>
-                <button id="declareBtn1">의심 신고</button>
-                <button id="declareBtn2">시설 신고</button>
+                <button id="declareBtn1">의심신고</button>
+                <button id="declareBtn2">시설신고</button>
                 <button id="declareBtn3">긴급신고</button>
                
             </div>
@@ -1209,18 +1216,19 @@
        
        
 
-       loginBtn.addEventListener('click', function(event) {
-           sidebarGuest.classList.remove('show');
-           overlay.classList.remove('show');
-           menuIcon.classList.remove('active');
+       if (loginBtn) {
+    	    loginBtn.addEventListener('click', function(event) {
+    	        sidebarGuest.classList.remove('show');
+    	        overlay.classList.remove('show');
+    	        menuIcon.classList.remove('active');
 
-           joinBox.classList.add('show');
+    	        joinBox.classList.add('show');
 
-
-           setTimeout(() => {
-               location.href = "login.jsp";
-           }, 800);
-       });
+    	        setTimeout(() => {
+    	            location.href = "login.jsp";
+    	        }, 800);
+    	    });
+    	}
 
        
 
@@ -1283,12 +1291,7 @@
            alert("주소를 입력해주세요.");
        }
        }
-
-
-      
-   </script>
-
-   <script>
+   
        const container = document.getElementById("facility-container");
 
        let isDown = false;
@@ -1326,7 +1329,7 @@
        
        
        const urlParams = new URLSearchParams(window.location.search);
-       const routeType = urlParams.get('route');
+       const routeType = urlParams.get('type');
          
        function showRoute(routeType) {
             initTmap(); // 기존 경로와 마커 제거

@@ -248,7 +248,7 @@
         
       </div>
       <div class="button">
-            <a href="main1.html" class="btn btn-guardian">이전으로</a>
+            <a href="main.jsp" class="btn btn-guardian">이전으로</a>
           </div>
   </div>
 
