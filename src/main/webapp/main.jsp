@@ -31,7 +31,7 @@
 
     function initTmap(latitude = 35.164710, longitude = 126.918015) {
         map = new Tmapv2.Map("map_div", {
-        center: new Tmapv2.LatLng(latitude, longitude),
+        center: new Tmapv2.LatLng(35.160370, 126.851392),
         width: "600px",
         height: "100%",
         zoom: 17
