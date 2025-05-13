@@ -159,7 +159,7 @@
             top: 60px;
             left:15px;
             font-weight: bold;
-            font-size: 26px;
+            font-size: 25px;
             color: #ffffff;
             z-index: 3;
         }
@@ -167,9 +167,9 @@
         #declareBtn2{
             position: absolute;
             top: 0px;
-            left:115px;
+            left:110px;
             font-weight: bold;
-            font-size: 26px;
+            font-size: 25px;
             color: #ffffff;
             z-index: 3;
             display: none;
@@ -178,13 +178,95 @@
         #declareBtn3{
             position: absolute;
             top: 60px;
-            left:215px;
+            left:200px;
             font-weight: bold;
-            font-size: 26px;
+            font-size: 25px;
             color: #ffffff;
             z-index: 3;
             display: none;
         }
+        
+        #declareModal {
+            border-radius: 20px;
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;   /* 위에서 아래로 정렬 */
+            align-items: center;      /* 가로 중앙 정렬 */
+            padding: 30px 20px;
+            height: auto;
+            width: 450px;
+            z-index: 10;
+            box-shadow: 0 .5px 2px 0 hsla(0, 0%, 0%, 0.2);
+            display: none;
+            }
+
+            .declare-title {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-align: center;
+                
+            }
+
+            .report-form {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+                margin-bottom: 20px;
+                font-family: 'Helvetica Neue', sans-serif;
+                font-weight: bold;
+            }
+
+            .form-input {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .button-group {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .formBtn {
+                padding: 10px 15px;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 120px;
+            }
+
+            .formBtn-cancel {
+                background-color: #ddd;
+            }
+
+            .formBtn-save {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            #successMessage {
+                position: fixed; /* 화면 고정 기준 */
+                top: 40%;
+                margin-left: 13%;
+                background-color: white;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                display: none;
+                z-index: 3;
+                text-align: center;
+            }
 
         .loader1 {
             position: absolute;
@@ -871,6 +953,34 @@
                     </div>
                 
             </div>
+            
+            
+            <div id="declareModal" >
+                        <h2 class="declare-title">신고 접수</h2>
+
+                        <form class="report-form">
+                            <label for="report-title">제목</label>
+                            <input type="text" id="report-title" class="form-input" placeholder="제목을 입력하세요">
+
+                            <label for="reporter">접수자</label>
+                            <input type="text" id="reporter" class="form-input" placeholder="접수자 이름">
+
+                            <label for="location">위치</label>
+                            <input type="text" id="location" class="form-input" placeholder="위치를 입력하세요">
+
+                            <label for="content">내용</label>
+                            <textarea id="content" class="form-input" rows="8" placeholder="신고 내용을 입력하세요"></textarea>
+                        </form>
+
+                        <div class="button-group">
+                            <!--  <button type="button" class="formBtn formBtn-cancel" onclick="clearDataAndGoBack()">이전으로</button>-->
+                            <button type="button" class="formBtn formBtn-save" onclick="saveAndGoBack()">접수하기</button>
+                        </div>
+            </div>
+            <div id="successMessage" style="display: none;" class="animate__animated">
+                <p>접수가 완료되었습니다!</p>
+                <button onclick="closeSuccess()">확인</button>
+            </div>
 
 
              
@@ -917,6 +1027,32 @@
 	    const bottomBar = document.getElementById('bottom-bar');
 	    const declareBtn = document.getElementById('declareBtn');
 	    
+	    function animateCSS(element, animationName) {
+	        return new Promise((resolve) => {
+	            element.classList.remove(
+	                'animate__fadeInBottomRight',
+	                'animate__fadeInBottomLeft',
+	                'animate__fadeInUp',
+	                'animate__fadeOutBottomRight',
+	                'animate__fadeOutDown',
+	                'animate__fadeOutBottomLeft',
+	                'animate__animated',
+	                'animate__faster'
+	            );
+
+	            element.style.display = 'block';
+	            element.classList.add('animate__animated', animationName, 'animate__faster');
+
+	            function handleAnimationEnd() {
+	                element.classList.remove('animate__animated', animationName, 'animate__faster');
+	                element.removeEventListener('animationend', handleAnimationEnd);
+	                resolve();
+	            }
+
+	            element.addEventListener('animationend', handleAnimationEnd);
+	        });
+	        }
+	    
 
 	    menuIcon.addEventListener('click', function(event) {
 	        event.stopPropagation();
@@ -931,6 +1067,60 @@
 	        bottomBar.classList.add('lower');
 	        
 	    });
+	    
+	    declareBtn2.addEventListener('click', function(event) {
+	        // 이전 애니메이션 클래스 제거
+	        declareModal.classList.remove('animate__fadeOutDown');
+	        declareModal.classList.remove('animate__fadeInUp');
+	        void declareModal.offsetWidth; // 강제 리플로우로 초기화
+
+	        // 다시 보여주기
+	        declareModal.style.display = 'flex';
+	        declareModal.classList.add('animate__animated', 'animate__fadeInUp');
+
+	        overlay.style.zIndex = '3';
+	    });
+
+	        function saveAndGoBack(){
+	            const successMessage = document.getElementById('successMessage');
+
+	            
+
+	        // 기존 등장 애니메이션 제거 후 강제 리플로우
+	            successMessage.classList.remove('animate__fadeOut');
+	            declareModal.classList.remove('animate__fadeInUp');
+	            declareModal.classList.remove('animate__fadeOutDown');
+	            void declareModal.offsetWidth;
+
+	            // 사라지는 애니메이션 적용
+	            declareModal.classList.add('animate__fadeOutDown');
+
+	            // 애니메이션 끝나면 실행
+	            declareModal.addEventListener('animationend', function handler() {
+	                declareModal.style.display = 'none';
+	                successMessage.style.display = 'block';
+	                successMessage.classList.remove('animate__fadeOutDown');
+	                successMessage.classList.add('animate__fadeInUp');
+
+	                // 메시지가 1초 후 자동으로 사라지도록 설정
+	                setTimeout(function() {
+	                successMessage.classList.remove('animate__fadeInUp');
+	                successMessage.classList.add('animate__fadeOut');
+	                emergency.classList.remove('show');
+	                
+	                // 1초 후에 완전히 숨기기
+	                setTimeout(function() {
+	                    successMessage.style.display = 'none';
+	                    overlay.style.zIndex = '1';
+	                    overlay.classList.remove('show');
+	                     
+	                }, 100);  // 1초 후 완전히 숨기기
+	            }, 1000);  // 1초 후 사라지게 설정
+
+	            // 이벤트 리스너 중복 방지
+	            declareModal.removeEventListener('animationend', handler);
+	            });
+	        }
 
 	    overlay.addEventListener('click', function () {
 	        searchPath.style.zIndex = '1';
@@ -977,31 +1167,7 @@
 	        
 	    });
 	    
-	    function animateCSS(element, animationName) {
-	        return new Promise((resolve) => {
-	            element.classList.remove(
-	                'animate__fadeInBottomRight',
-	                'animate__fadeInBottomLeft',
-	                'animate__fadeInUp',
-	                'animate__fadeOutBottomRight',
-	                'animate__fadeOutDown',
-	                'animate__fadeOutBottomLeft',
-	                'animate__animated',
-	                'animate__faster'
-	            );
-
-	            element.style.display = 'block';
-	            element.classList.add('animate__animated', animationName, 'animate__faster');
-
-	            function handleAnimationEnd() {
-	                element.classList.remove('animate__animated', animationName, 'animate__faster');
-	                element.removeEventListener('animationend', handleAnimationEnd);
-	                resolve();
-	            }
-
-	            element.addEventListener('animationend', handleAnimationEnd);
-	        });
-	        }
+	    
 
 	    declare.addEventListener('click', function(event){
 	        emergency.classList.add('show');

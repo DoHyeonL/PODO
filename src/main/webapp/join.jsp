@@ -5,8 +5,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <title>회원가입</title>
   <style>
+  
+  	 @font-face {
+          font-family: 'yg-jalnan';
+          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
   
   	.text-bg-frame {
             position: fixed;
@@ -34,6 +42,7 @@
       font-weight: bold;
       color: #333;
       margin-bottom: 24px;
+      font-family: 'yg-jalnan';
     }
 
 
@@ -53,7 +62,7 @@
     #form-container {
         
         background-color: #ffffff;
-        width: 550px;
+        width: 600px;
         height: 100%;
         position: absolute;
         margin-left: 250px;

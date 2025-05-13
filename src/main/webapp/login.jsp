@@ -83,6 +83,12 @@
         justify-content: center;
         align-items: center;
     }
+    
+    #ani-container{
+      opacity: 0; /* 초기 상태 */
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 0.3s;
+    }
 
 
     .form-title {
@@ -178,10 +184,15 @@
     
 
   <div id="form-container">
+  
+  <div id = "ani-container">
 
     <h2 class="form-title">로그인</h2>
 
     <iframe src="dog.html" width="250" height="270" style="border: none; background: transparent;" allowtransparency="true"></iframe>
+    
+    </div>
+    
 	<form action="Login.do" method="post" class="login-form">
 
 
