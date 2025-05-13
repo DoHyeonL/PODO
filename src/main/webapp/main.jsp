@@ -141,9 +141,17 @@
             font-weight: 900;
             font-style: normal;
         }
+        
+        @font-face {
+          font-family: 'yg-jalnan';
+          src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+          font-weight: normal;
+          font-style: normal;
+      }
+        
 
         body {
-            font-family: 'Freesentation-9Black', sans-serif !important;
+            font-family: 'yg-jalnan', sans-serif !important;
         }
 
         #declareBtn1{
@@ -1129,7 +1137,127 @@
 	    });
 	    
 	    
+	    const urlParams = new URLSearchParams(window.location.search);
+	    const routeType = urlParams.get('route');
+	      
+	    function showRoute(routeType) {
+            initTmap(); // 기존 경로와 마커 제거
+            
+                        
+            switch(routeType) {
+                case 'safe':
+                    safeRoute(); // 안전 경로
+                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 운천역 중심
+                    map.setZoom(17);
+                    break;
+                case 'mainroad':
+                    mainroadRoute(); // 큰길 경로
+                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 시청 중심
+                    map.setZoom(17);
+                    break;
+                case 'shortest':
+                    shortestRoute(); // 최단 경로
+                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 시청 중심
+                    map.setZoom(17);
+                    break;
+            }
+        }
+
+        // 각 경로 함수 (안전 경로, 큰길 경로, 최단 경로)
+        function safeRoute() {
+            drawPolyline([
+                [126.858611, 35.150523],
+                [126.856079, 35.150154],
+                [126.855123, 35.151668],
+                [126.855112, 35.155585],
+                [126.855273, 35.156358],
+                [126.855930, 35.158026],
+                [126.855988, 35.158737],
+                [126.859261, 35.158764],
+                [126.859362, 35.160187],
+                [126.859581 ,35.160189],
+                [126.859636 ,35.161182],
+                [126.859754, 35.161202]
+            ]);
+        }
+
+        function mainroadRoute() {
+            drawPolyline([
+            	[126.858611, 35.150523],
+                [126.856079, 35.150154],
+                [126.855123, 35.151668],
+                [126.855112, 35.155585],
+                [126.855273, 35.156358],
+                [126.855930, 35.158026],
+                [126.855988, 35.158737],
+                [126.856007, 35.161697],
+                [126.856446, 35.161876],
+                [126.859402, 35.161725],
+                [126.859407, 35.161912],
+                [126.859709, 35.161906],
+                [126.859646, 35.161232],
+                [126.859754, 35.161202]
+            ]);
+        }
+
+        function shortestRoute() {
+            drawPolyline([
+                [126.858611, 35.150523],
+                [126.858722, 35.150680],
+                [126.858456, 35.151829],
+                [126.858397, 35.152876],
+                [126.858511, 35.153662],
+                [126.858737, 35.154284],
+                [126.859450, 35.155639],
+                [126.859446, 35.158785],
+                [126.859628, 35.161163],
+                [126.859754, 35.161202]
+            ]);
+        }
+
+        // 경로를 그리는 함수
+        function drawPolyline(coords) {
+            const resultMarkerArr = [], resultInfoArr = [];
+            coords.forEach((coord, idx) => {
+                const marker = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(coord[1], coord[0]),
+                    icon: idx === 0 ? "images/Marker/pin1.png" :
+                          idx === coords.length - 1 ? "images/Marker/pin2.png" :
+                          "null",
+                    iconSize: new Tmapv2.Size(24, 48),
+                    map: map
+                });
+                resultMarkerArr.push(marker);
+            });
+
+            const latlngs = coords.map(c => new Tmapv2.LatLng(c[1], c[0]));
+            const polyline = new Tmapv2.Polyline({
+                path: latlngs,
+                strokeColor: "#0000ff",
+                strokeWeight: 6,
+                map: map
+            });
+            resultInfoArr.push(polyline);
+        }
+
+        // 기존 경로 초기화
+        function clearMap() {
+            if (window.resultInfoArr) {
+                window.resultInfoArr.forEach(polyline => polyline.setMap(null));
+                window.resultInfoArr = [];
+            }
+            if (window.resultMarkerArr) {
+                window.resultMarkerArr.forEach(marker => marker.setMap(null));
+                window.resultMarkerArr = [];
+            }
+        }
+
+        // 페이지 로딩 시 경로 표시
+        window.onload = function () {
+            showRoute(routeType);
+        };
+	    
 	</script>
 
-	</body>
-	</html>
+</body>
+</html>
