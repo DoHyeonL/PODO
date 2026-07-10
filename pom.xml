@@ -10,6 +10,13 @@
   <!-- 라이브러리들을 기술하는 공간 
     : 코드 작성할 필요없이 mvn repository 사용해서 검색 후 가져오기! -->
   <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
   <!-- JSTL(Java Standard Tag Language) -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
