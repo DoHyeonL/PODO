@@ -28,10 +28,54 @@ Java, Spring MVC, JSP, MyBatis, MySQL, T-Map API, jQuery
 
 ## 실행 방법
 
+### 사전 준비물
+
+아래 4가지가 미리 설치되어 있어야 합니다.
+
+- JDK 17
+- Maven
+- Tomcat 9
+- MySQL
+
+### 순서
+
 1. 저장소를 clone 받습니다.
-2. MySQL에 데이터베이스를 생성하고, `schema.sql`을 실행해 테이블을 만듭니다. (원본 DDL 파일이 따로 없어서 Mapper 쿼리를 보고 역으로 구성한 스키마입니다.)
-3. `src/main/java/com/cloud/db/mybatis-config.xml`에서 DB 접속 정보(url, username, password)를 본인 환경에 맞게 수정합니다.
-4. Maven으로 빌드 후 Tomcat에 배포합니다. (JDK 17, Tomcat 9 기준)
+
+   ```
+   git clone https://github.com/DoHyeonL/PODO.git
+   ```
+
+2. MySQL에 데이터베이스를 생성하고, 저장소에 포함된 `schema.sql`을 실행해 테이블을 만듭니다.
+
+   ```
+   CREATE DATABASE podo;
+   ```
+
+   ```
+   mysql -u [계정명] -p podo < schema.sql
+   ```
+
+   (원본 DDL 파일이 팀 저장소에 남아있지 않아서, Mapper XML의 쿼리를 보고 역으로 구성한 스키마입니다. 실제 컬럼 구성과 다를 수 있습니다.)
+
+3. `src/main/java/com/cloud/db/mybatis-config.xml`을 열어서 DB 접속 정보(url, username, password)를 본인 환경에 맞게 수정합니다.
+
+4. 프로젝트 폴더에서 Maven으로 빌드합니다.
+
+   ```
+   mvn package
+   ```
+
+   `target` 폴더 안에 `deepsick-0.0.1-SNAPSHOT.war` 파일이 생성됩니다.
+
+5. 생성된 war 파일을 Tomcat의 `webapps` 폴더에 넣고 Tomcat을 실행합니다.
+
+6. 브라우저에서 아래 주소로 접속합니다.
+
+   ```
+   http://localhost:8080/deepsick-0.0.1-SNAPSHOT/login.jsp
+   ```
+
+   (war 파일 이름을 다른 이름으로 바꿔서 배포하면, 그 이름이 주소에 들어갑니다. 예: `deepsick.war`로 이름을 바꿨다면 `/deepsick/login.jsp`)
 
 ## 화면 구성
 
