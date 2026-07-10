@@ -29,9 +29,9 @@ Java, Spring MVC, JSP, MyBatis, MySQL, T-Map API, jQuery
 ## 실행 방법
 
 1. 저장소를 clone 받습니다.
-2. MySQL에 데이터베이스를 생성합니다.
+2. MySQL에 데이터베이스를 생성하고, `schema.sql`을 실행해 테이블을 만듭니다. (원본 DDL 파일이 따로 없어서 Mapper 쿼리를 보고 역으로 구성한 스키마입니다.)
 3. `src/main/java/com/cloud/db/mybatis-config.xml`에서 DB 접속 정보(url, username, password)를 본인 환경에 맞게 수정합니다.
-4. Maven으로 빌드 후 Tomcat에 배포합니다.
+4. Maven으로 빌드 후 Tomcat에 배포합니다. (JDK 17, Tomcat 9 기준)
 
 ## 화면 구성
 
