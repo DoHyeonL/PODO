@@ -30,10 +30,10 @@
        -->
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-        <!-- 프로젝트때는 url, username, password 수정! -->
-      <property name="url" value="***REMOVED***"/>
-        <property name="username" value="***REMOVED***"/>
-        <property name="password" value="***REMOVED***"/>
+        <!-- 실제 접속 정보는 별도 관리, 아래는 예시 값 -->
+      <property name="url" value="jdbc:mysql://localhost:3306/your_db_name?serverTimezone=UTC&amp;autoReconnect=true"/>
+        <property name="username" value="your_username"/>
+        <property name="password" value="your_password"/>
       </dataSource>
     </environment>
   </environments>

@@ -26,6 +26,13 @@ Java, Spring MVC, JSP, MyBatis, MySQL, T-Map API, jQuery
 
 팀 프로젝트를 진행하면서 느꼈던 건, 막힐 때 코드만 계속 들여다본다고 해서 답이 나오는 건 아니라는 점이었습니다. 변수명 문제는 팀원에게 짧게 질문해서 5분 만에 해결됐는데, 그 전까지는 혼자 몇 시간을 붙잡고 있었습니다. 그 경험 이후로 30분 이상 막히면 일단 질문부터 해보자는 나름의 기준이 생겼습니다.
 
+## 실행 방법
+
+1. 저장소를 clone 받습니다.
+2. MySQL에 데이터베이스를 생성합니다.
+3. `src/main/java/com/cloud/db/mybatis-config.xml`에서 DB 접속 정보(url, username, password)를 본인 환경에 맞게 수정합니다.
+4. Maven으로 빌드 후 Tomcat에 배포합니다.
+
 ## 화면 구성
 
 ### 로그인
