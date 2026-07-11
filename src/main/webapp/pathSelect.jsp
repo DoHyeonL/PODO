@@ -226,7 +226,7 @@
 <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"></script>
 
 <script>
-    // 검색 화면(pathSearch.jsp)에서 넘겨준 실제 좌표 받기
+    // 메인 화면 검색창에서 넘겨준 실제 좌표 받기
     const urlParams = new URLSearchParams(window.location.search);
     const startX = urlParams.get("startLon");
     const startY = urlParams.get("startLat");

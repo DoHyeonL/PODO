@@ -36,9 +36,9 @@
         4: []   // 편의점
     };
 
-    function initTmap(latitude = 35.164710, longitude = 126.918015) {
+    function initTmap(latitude = 35.160370, longitude = 126.851392) {
         map = new Tmapv2.Map("map_div", {
-        center: new Tmapv2.LatLng(35.160370, 126.851392),
+        center: new Tmapv2.LatLng(latitude, longitude),
         width: "600px",
         height: "100%",
         zoom: 17
@@ -545,6 +545,91 @@
             width: 100%;
         }
 
+        #search-result-list {
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            transform: translateX(-50%);
+            width: 490px;
+            max-width: 90%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 3;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .search-result-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .search-result-address {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        #roleSelectCard {
+            position: absolute;
+            left: 50%;
+            bottom: 100px;
+            transform: translateX(-50%);
+            width: 320px;
+            max-width: 90%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            z-index: 3;
+            display: none;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        #roleSelectText {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+
+        .roleBtnGroup {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .roleBtn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .roleBtn:hover {
+            background-color: #0056b3;
+        }
+
         
 
                 /* <reset-style> ============================ */
@@ -853,7 +938,7 @@
                       </span>
                   </button>
                   <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
-                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="goToSearch()">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">안심길찾기</span>
                   </button>
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
@@ -884,10 +969,10 @@
             
                 <hr style="margin-top: 20px; border: none; height: 1px; background-color: rgba(145, 136, 136, 0.2); width: 90%;">
             
-                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='pathSearch.jsp'">
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="goToSearch()">
                     <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
                         안심길찾기
-                    </span>    
+                    </span>
                 </button>
 
             
@@ -1000,18 +1085,27 @@
                         </button>
                 
                     <div id="inputBtn">
-                        <button class="textBtn" onclick="toggleInputPath()">
+                        <button class="textBtn">
                             <span id="inputText">주소를 입력하세요</span>
                         </button>
-                        
+
                     </div>
                     <div id="inputPath"  style="display: none;">
-                            <input type="text" class="inputAddres" id="keyword"> 
+                            <input type="text" class="inputAddres" id="keyword" placeholder="출발지를 입력하세요">
                     </div>
-                
+
             </div>
-            
-            
+
+            <div id="search-result-list"></div>
+
+            <div id="roleSelectCard" class="shadow">
+                <div id="roleSelectText"></div>
+                <div class="roleBtnGroup">
+                    <button class="roleBtn" id="setStartBtn">출발지로 설정</button>
+                    <button class="roleBtn" id="setEndBtn">도착지로 설정</button>
+                </div>
+            </div>
+
             <div id="declareModal" >
                         <h2 class="declare-title">신고 접수</h2>
 
@@ -1277,7 +1371,13 @@
            if (declareModal.style.display === 'flex') {
                declareModal.style.display = 'none';
            }
-           
+
+           // 출발지/도착지 검색 중이었으면 같이 초기화
+           roleSelectCard.style.display = 'none';
+           resultList.style.display = 'none';
+           firstPoint = null;
+           firstRole = null;
+
            emergency.classList.remove('show');  
            searchPath.classList.remove('expand');
            inputText.style.display = 'block';  // 인풋 텍스트 보이기
@@ -1354,6 +1454,10 @@
 
        inputText.addEventListener('click', function(event){
           event.stopPropagation();
+           firstPoint = null;
+           firstRole = null;
+           keywordInput.placeholder = "출발지를 입력하세요";
+           keywordInput.value = "";
            searchPath.style.zIndex = '3';
            searchPath.classList.add('expand');
            inputPath.style.display = 'block';
@@ -1362,56 +1466,188 @@
            overlay.style.visibility = 'visible';     // 오버레이 표시
            overlay.classList.add('show');
            bottomBar.classList.add('lower');
+           keywordInput.focus();
        });
 
-       
-
-       document.getElementById("keyword").addEventListener("keydown", function(event) {
-           if (event.key === "Enter") {
-               event.preventDefault(); // 폼 제출 방지 (있을 경우)
-               goToNextPage();
+       // 사이드바에서 안심길찾기 눌렀을 때도 같은 검색창을 여는 함수
+       function goToSearch() {
+           if (isLoggedIn) {
+               sidebarMember.classList.remove('show');
+           } else {
+               sidebarGuest.classList.remove('show');
            }
+
+           firstPoint = null;
+           firstRole = null;
+           keywordInput.placeholder = "출발지를 입력하세요";
+           keywordInput.value = "";
+
+           searchPath.style.zIndex = '3';
+           searchPath.classList.add('expand');
+           inputPath.style.display = 'block';
+           inputText.style.display = 'none';
+           menuIcon.style.display = 'none';
+           overlay.style.visibility = 'visible';
+           overlay.classList.add('show');
+           bottomBar.classList.add('lower');
+           keywordInput.focus();
+       }
+
+       // 출발지/도착지 검색 상태 관리
+       let searchDebounce;
+       let firstPoint = null;   // 먼저 고른 장소 { name, lat, lon }
+       let firstRole = null;    // 먼저 고른 장소가 출발지인지 도착지인지
+       let searchMarker = null;
+
+       const keywordInput = document.getElementById("keyword");
+       const resultList = document.getElementById("search-result-list");
+       const roleSelectCard = document.getElementById("roleSelectCard");
+       const roleSelectText = document.getElementById("roleSelectText");
+       const setStartBtn = document.getElementById("setStartBtn");
+       const setEndBtn = document.getElementById("setEndBtn");
+
+       keywordInput.addEventListener("input", function () {
+           clearTimeout(searchDebounce);
+           const keyword = keywordInput.value;
+           searchDebounce = setTimeout(function () {
+               searchAddressLive(keyword);
+           }, 300);
        });
 
+       // 입력할 때마다 실시간으로 검색 결과 리스트 보여주기
+       function searchAddressLive(keyword) {
+           if (keyword.trim().length < 2) {
+               resultList.style.display = "none";
+               resultList.innerHTML = "";
+               return;
+           }
 
-
-       function goToNextPage() {
-          var address = document.getElementById("keyword").value;
-          if (address) {
-           // 주소로 위도, 경도 얻기
            $.ajax({
                method: "GET",
                url: "https://apis.openapi.sk.com/tmap/pois",
                data: {
                    version: 1,
-                   format: "json",
-                   searchKeyword: address,
+                   searchKeyword: keyword,
                    resCoordType: "WGS84GEO",
                    reqCoordType: "WGS84GEO",
-                   count: 1,
+                   count: 10,
                    appKey: "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"
                },
                success: function (response) {
-                   if (response.searchPoiInfo.pois.poi.length > 0) {
-                       var poi = response.searchPoiInfo.pois.poi[0];
-                       var lat = poi.frontLat;
-                       var lon = poi.frontLon;
+                   const pois = response.searchPoiInfo && response.searchPoiInfo.pois ? response.searchPoiInfo.pois.poi : [];
+                   resultList.innerHTML = "";
 
-                       // 위도, 경도를 포함하여 페이지 전환
-                       window.location.href = "searchAddress.jsp?address=" + encodeURIComponent(address) + "&lat=" + lat + "&lon=" + lon;
-                   } else {
-                       alert("검색 결과가 없습니다.");
+                   if (!pois || pois.length === 0) {
+                       resultList.innerHTML = "<div class='search-result-item'>검색 결과가 없습니다.</div>";
+                       resultList.style.display = "block";
+                       return;
                    }
+
+                   pois.forEach(function (poi) {
+                       const name = (poi.name || "이름 없음").replace(/['"<>]/g, "");
+                       const addrParts = [poi.upperAddrName, poi.middleAddrName, poi.lowerAddrName].filter(Boolean);
+                       const address = addrParts.join(" ");
+
+                       const item = document.createElement("div");
+                       item.className = "search-result-item";
+                       item.innerHTML = "<div class='search-result-name'>" + name + "</div>"
+                           + "<div class='search-result-address'>" + address + "</div>";
+
+                       item.addEventListener("click", function () {
+                           selectSearchResult(name, poi.frontLat, poi.frontLon);
+                       });
+
+                       resultList.appendChild(item);
+                   });
+
+                   resultList.style.display = "block";
                },
-               error: function (request, status, error) {
-                   console.error("요청 실패:", request.responseText);
+               error: function () {
+                   resultList.innerHTML = "<div class='search-result-item'>검색에 실패했습니다.</div>";
+                   resultList.style.display = "block";
                }
            });
-       } else {
-           alert("주소를 입력해주세요.");
        }
+
+       // 검색 결과에서 장소를 골랐을 때
+       function selectSearchResult(name, lat, lon) {
+           resultList.style.display = "none";
+           resultList.innerHTML = "";
+
+           // 고른 장소로 지도 이동
+           map.setCenter(new Tmapv2.LatLng(lat, lon));
+           map.setZoom(17);
+
+           if (searchMarker) {
+               searchMarker.setMap(null);
+           }
+           searchMarker = new Tmapv2.Marker({
+               position: new Tmapv2.LatLng(lat, lon),
+               icon: "images/Marker/pin1.png",
+               iconSize: new Tmapv2.Size(24, 38),
+               map: map
+           });
+
+           if (!firstPoint) {
+               // 처음 고른 장소 → 출발지/도착지 중 뭐로 할지 물어보기
+               firstPoint = { name: name, lat: lat, lon: lon };
+
+               roleSelectText.innerText = name + " (을)를 어디로 설정할까요?";
+               roleSelectCard.style.display = "block";
+
+               inputPath.style.display = "none";
+               inputText.style.display = "block";
+           } else {
+               // 두 번째 장소까지 골랐으면 바로 경로탐색 화면으로 이동
+               goToRoute({ name: name, lat: lat, lon: lon });
+           }
        }
-   
+
+       setStartBtn.addEventListener("click", function () {
+           firstRole = "start";
+           askSecondPoint("도착지를 입력하세요");
+       });
+
+       setEndBtn.addEventListener("click", function () {
+           firstRole = "end";
+           askSecondPoint("출발지를 입력하세요");
+       });
+
+       // 두 번째 장소(출발지 또는 도착지)를 다시 검색창으로 물어보기
+       function askSecondPoint(placeholderText) {
+           roleSelectCard.style.display = "none";
+
+           keywordInput.placeholder = placeholderText;
+           keywordInput.value = "";
+
+           searchPath.style.zIndex = "3";
+           searchPath.classList.add("expand");
+           inputPath.style.display = "block";
+           inputText.style.display = "none";
+           menuIcon.style.display = "none";
+           overlay.style.visibility = "visible";
+           overlay.classList.add("show");
+           bottomBar.classList.add("lower");
+           keywordInput.focus();
+       }
+
+       // 출발지/도착지가 다 정해졌으면 실제 경로 화면(pathSelect.jsp)으로 이동
+       function goToRoute(secondPoint) {
+           let start, end;
+           if (firstRole === "start") {
+               start = firstPoint;
+               end = secondPoint;
+           } else {
+               start = secondPoint;
+               end = firstPoint;
+           }
+
+           window.location.href = "pathSelect.jsp?start=" + encodeURIComponent(start.name)
+               + "&end=" + encodeURIComponent(end.name)
+               + "&startLat=" + start.lat + "&startLon=" + start.lon
+               + "&endLat=" + end.lat + "&endLon=" + end.lon;
+       }
+
        const container = document.getElementById("facility-container");
 
        let isDown = false;
