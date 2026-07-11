@@ -7,7 +7,7 @@
   <title>보호자 리스트</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e2f8c6a2a365a29b77d9cbddcd5e491e&libraries=services"></script>
+  		<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e2f8c6a2a365a29b77d9cbddcd5e491e&libraries=services"></script>
   <style>
     body {
       font-family: Arial, sans-serif;

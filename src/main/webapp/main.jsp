@@ -987,7 +987,7 @@
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
                   </button>
-                  <button id="Gu" class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
+                  <button id="Gu" class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">함께하는 사람들</span>
                   </button>
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
@@ -1071,7 +1071,7 @@
                 </button>
 
 
-                <button class="bottom-button" style="margin-left: 10px;" onclick="location.href='guardian.jsp'">
+                <button class="bottom-button" style="margin-left: 10px;" onclick="location.href='Alarm.do'">
                     <img src="images/하단바/알리미.png" alt="알리미" style="width: 35px; height: 35px;" >
                     <span style="margin-bottom: 4px;">알리미</span>
                 </button>

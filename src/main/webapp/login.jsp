@@ -214,8 +214,8 @@
 		</c:if>
 		
 		  <div class="extra-links">
-		    <a href="#">아이디 찾기</a>
-		    <a href="#">비밀번호 찾기</a>
+		    <a href="#" onclick="alert('아이디 찾기 기능은 아직 준비 중입니다.'); return false;">아이디 찾기</a>
+		    <a href="#" onclick="alert('비밀번호 찾기 기능은 아직 준비 중입니다.'); return false;">비밀번호 찾기</a>
 		    <a href="join.jsp">회원가입</a>
 		  </div>
 
