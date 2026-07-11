@@ -1761,89 +1761,24 @@
                 return; // 좌표 없이 들어온 경우
             }
 
-            if (routeType === "safe") {
-                // 안전경로는 경로 주변 실제 경찰서를 경유지로 삼아서 다시 길찾기
-                findSafeWaypoint(startLat, startLon, endLat, endLon, function (waypoint) {
-                    loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon, waypoint);
-                });
-            } else {
-                loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon, null);
-            }
+            loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon);
         }
 
-        // 점(lat, lon)과 출발-도착 직선 사이의 거리 (단위: m, 근사치)
-        function distanceToRouteLine(lat, lon, lat1, lon1, lat2, lon2) {
-            const R = 6371000;
-            const latRef = lat1 * Math.PI / 180;
-
-            function toXY(la, lo) {
-                return {
-                    x: R * (lo * Math.PI / 180) * Math.cos(latRef),
-                    y: R * (la * Math.PI / 180)
-                };
-            }
-
-            const p = toXY(lat, lon);
-            const a = toXY(lat1, lon1);
-            const b = toXY(lat2, lon2);
-
-            const dx = b.x - a.x, dy = b.y - a.y;
-            const lengthSq = dx * dx + dy * dy;
-            let t = lengthSq === 0 ? 0 : ((p.x - a.x) * dx + (p.y - a.y) * dy) / lengthSq;
-            t = Math.max(0, Math.min(1, t));
-
-            const projX = a.x + t * dx, projY = a.y + t * dy;
-            const ddx = p.x - projX, ddy = p.y - projY;
-            return Math.sqrt(ddx * ddx + ddy * ddy);
-        }
-
-        // 출발-도착 직선에서 너무 벗어나지 않는 가까운 경찰서를 경유지로 찾기
-        function findSafeWaypoint(startLat, startLon, endLat, endLon, callback) {
-            fetch(contextPath + "/FacilityMap.do?category=1")
-                .then(function (response) { return response.json(); })
-                .then(function (data) {
-                    if (!Array.isArray(data) || data.length === 0) {
-                        callback(null);
-                        return;
-                    }
-                    let nearest = null;
-                    let nearestDist = Infinity;
-                    data.forEach(function (fac) {
-                        const dist = distanceToRouteLine(fac.lat, fac.lon,
-                            parseFloat(startLat), parseFloat(startLon), parseFloat(endLat), parseFloat(endLon));
-                        if (dist < nearestDist) {
-                            nearestDist = dist;
-                            nearest = fac;
-                        }
-                    });
-                    // 직선 경로에서 400m 이내에 있는 경찰서만 경유지로 인정 (너무 돌아가지 않도록)
-                    callback(nearestDist <= 400 ? nearest : null);
-                })
-                .catch(function () {
-                    callback(null);
-                });
-        }
-
-        function loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon, waypoint) {
-            const data = {
-                startX: startLon,
-                startY: startLat,
-                endX: endLon,
-                endY: endLat,
-                reqCoordType: "WGS84GEO",
-                resCoordType: "WGS84GEO",
-                startName: "출발지",
-                endName: "도착지"
-            };
-            if (waypoint) {
-                data.passList = waypoint.lon + "," + waypoint.lat;
-            }
-
+        function loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon) {
             $.ajax({
                 method: "POST",
                 url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json",
                 headers: { "appKey": "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj" },
-                data: data,
+                data: {
+                    startX: startLon,
+                    startY: startLat,
+                    endX: endLon,
+                    endY: endLat,
+                    reqCoordType: "WGS84GEO",
+                    resCoordType: "WGS84GEO",
+                    startName: "출발지",
+                    endName: "도착지"
+                },
                 success: function (response) {
                     const features = response.features;
                     const coords = [];
@@ -1863,10 +1798,9 @@
                     const minutes = Math.round(totalTime / 60);
 
                     const routeLabel = routeType === "safe" ? "안전 경로" : "최단 경로";
-                    const waypointNote = waypoint ? " (경찰서 경유)" : "";
 
                     document.getElementById("navInfoTitle").innerText = routeLabel + " 안내 중";
-                    document.getElementById("navInfoDetail").innerText = minutes + "분 | " + distanceKm + "km" + waypointNote;
+                    document.getElementById("navInfoDetail").innerText = minutes + "분 | " + distanceKm + "km";
                     document.getElementById("navInfoSafety").innerText = "";
                     document.getElementById("navInfoCard").style.display = "block";
 
