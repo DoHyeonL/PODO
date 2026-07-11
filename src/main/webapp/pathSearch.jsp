@@ -181,6 +181,9 @@
   <script>
     let targetField = "";
     let debounceTimer;
+    // 검색 결과 눌렀을 때 좌표도 같이 저장해두기 (경로 그릴 때 필요함)
+    let startCoord = null; // { lat, lon }
+    let endCoord = null;
 
     function debounceSearch(value, field) {
       clearTimeout(debounceTimer);
@@ -263,6 +266,15 @@
 
             item.addEventListener("click", () => {
               document.getElementById(targetField === "start" ? "startInput" : "endInput").value = name;
+
+              // 좌표도 같이 저장
+              const coord = { lat: poi.frontLat, lon: poi.frontLon };
+              if (targetField === "start") {
+                startCoord = coord;
+              } else {
+                endCoord = coord;
+              }
+
               resultWrap.innerHTML = "";
             });
 
@@ -284,7 +296,14 @@
         alert("출발지와 도착지를 모두 입력하세요.");
         return;
       }
-      window.location.href = "pathSelect.jsp?start=" + encodeURIComponent(start) + "&end=" + encodeURIComponent(end);
+      // 검색 결과를 직접 클릭 안 하고 그냥 텍스트만 입력한 경우 좌표가 없을 수 있음
+      if (!startCoord || !endCoord) {
+        alert("검색 결과 목록에서 출발지/도착지를 클릭해서 선택해주세요.");
+        return;
+      }
+      window.location.href = "pathSelect.jsp?start=" + encodeURIComponent(start) + "&end=" + encodeURIComponent(end)
+          + "&startLat=" + startCoord.lat + "&startLon=" + startCoord.lon
+          + "&endLat=" + endCoord.lat + "&endLon=" + endCoord.lon;
     }
   </script>
 </body>

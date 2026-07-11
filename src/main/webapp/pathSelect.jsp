@@ -226,15 +226,20 @@
 <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"></script>
 
 <script>
+    // 검색 화면(pathSearch.jsp)에서 넘겨준 실제 좌표 받기
+    const urlParams = new URLSearchParams(window.location.search);
+    const startX = urlParams.get("startLon");
+    const startY = urlParams.get("startLat");
+    const endX = urlParams.get("endLon");
+    const endY = urlParams.get("endLat");
+
     const map = new Tmapv2.Map("map", {
-        center: new Tmapv2.LatLng(35.150523, 126.858611),
+        center: new Tmapv2.LatLng(startY, startX),
         width: "100%",
         height: "100%",
         zoom: 15
     });
 
-    const startX = "126.858611", startY = "35.150523";
-    const endX = "126.859754", endY = "35.161202";
     const container = document.querySelector('.path-card-container');
 
     let isMouseDown = false;
@@ -281,114 +286,65 @@
         markers.length = 0; // 마커 배열도 비움
     }
 
+    // 카드 눌렀을 때 실행 (지금은 안전경로/최단경로 둘 다 똑같이 실제 T맵 경로를 불러옴)
     function showRoute(type) {
-    	console.log("showRoute 호출 전 resultInfoArr.length:", resultInfoArr.length);
         clearMap();
-        console.log("clearMap 호출 후 resultInfoArr.length:", resultInfoArr.length);
-        
-        if (type === "safe") safe();
-        else if (type === "mainroad") mainroad();
-        else if (type === "shortest") shortest();
+        loadRealRoute();
     }
-
 
     function selectRoute(event, type) {
         event.stopPropagation();
         window.location.href = "main.jsp?type=" + encodeURIComponent(type);
     }
 
-    function fetchSafetyScore() {
-    	const coords = [
-    	    [parseFloat(startX), parseFloat(startY)],  // 경도, 위도 순서 (수정됨)
-    	    [126.855978, 35.150195], 
-    	    [126.855084, 35.151578],
-    	    [126.855029, 35.153864],
-    	    [126.855114, 35.156109],
-    	    [126.855890, 35.158766],
-    	    [126.857705, 35.158824],
-    	    [126.859307, 35.158822],
-    	    [parseFloat(endX), parseFloat(endY)]  // 경도, 위도 순서 (수정됨)
-    	];
-
-        fetch("http://localhost:5000/analyze_path", {
+    // 실제 출발지/도착지 좌표로 T맵 보행자 경로 API 호출해서 진짜 경로 그리기
+    function loadRealRoute() {
+        $.ajax({
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                coords: coords,
-                cctv_images: [
-                    "CCTV0-1.png", "CCTV1-2.png", null,
-                    "CCTV3-4.png", "CCTV4-5.png", "CCTV5-6.png",
-                    "CCTV6-7.png", "CCTV7-8.png"
-                ]
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            
-        	document.getElementById("safe-score1").innerText = "29분 | 1.9km | 2,950 걸음";
-        	document.getElementById("safe-score2").innerText = data.average_score + "점";
-            
-        })
-        .then(data => console.log(data))
-        .catch(err => {
-            console.error("안전 점수 요청 실패:", err);
-            document.getElementById("safe-score").innerText = "분석 실패";
+            url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json",
+            headers: { "appKey": "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj" },
+            data: {
+                startX: startX,
+                startY: startY,
+                endX: endX,
+                endY: endY,
+                reqCoordType: "WGS84GEO",
+                resCoordType: "WGS84GEO",
+                startName: "출발지",
+                endName: "도착지"
+            },
+            success: function (response) {
+                const features = response.features;
+
+                // 경로 좌표만 모으기 (LineString인 것만)
+                const coords = [];
+                features.forEach(function (f) {
+                    if (f.geometry.type === "LineString") {
+                        f.geometry.coordinates.forEach(function (c) {
+                            coords.push(c); // [경도, 위도]
+                        });
+                    }
+                });
+
+                drawPolyline(coords);
+
+                // 첫번째 feature에 총 거리/시간 정보가 들어있음
+                const totalDistance = features[0].properties.totalDistance; // m
+                const totalTime = features[0].properties.totalTime; // 초
+
+                const distanceKm = (totalDistance / 1000).toFixed(1);
+                const minutes = Math.round(totalTime / 60);
+                const steps = Math.round(totalDistance / 0.7); // 대충 보폭 70cm로 계산
+
+                document.getElementById("safe-score1").innerText = minutes + "분 | " + distanceKm + "km | " + steps + " 걸음";
+                document.getElementById("safe-score2").innerText = "안전 점수 : 계산 예정";
+            },
+            error: function (request, status, error) {
+                console.error("경로 요청 실패:", request.responseText);
+                document.getElementById("safe-score1").innerText = "경로를 찾지 못했습니다.";
+            }
         });
     }
-
- // ▶▶▶ 경로 함수들
-	function safe() {
-		
-		console.log("safe 함수 호출됨");
-    	clearMap();
-		
-	    drawPolyline([
-	        [126.858611, 35.150523],
-	        [126.855978, 35.150195],
-	        [126.855084, 35.151578],
-	        [126.855029, 35.153864],
-	        [126.855114, 35.156109],
-	        [126.855890, 35.158766],
-	        [126.857705, 35.158824],
-	        [126.859307, 35.158822],
-	        [126.859754, 35.161202]
-	    ]);
-	}
-	
-	function mainroad() {
-		
-		console.log("mainroad 함수 호출됨");
-		clearMap();
-		
-	    drawPolyline([
-	        [126.858611, 35.150523],
-	        [126.856078, 35.150105],
-	        [126.855062, 35.151707],
-	        [126.855035, 35.155882],
-	        [126.855833, 35.157958],
-	        [126.855933, 35.161888],
-	        [126.859543, 35.161806],
-	        [126.859534, 35.161228],
-	        [126.859754, 35.161202]
-	    ]);
-	}
-	
-	function shortest() {
-		
-		console.log("shortest 함수 호출됨");
-		clearMap();
-	    
-		drawPolyline([
-	        [126.858611, 35.150523],
-	        [126.858441, 35.151739],
-	        [126.858355, 35.152844],
-	        [126.858465, 35.153630],
-	        [126.859365, 35.155500],
-	        [126.859395, 35.158741],
-	        [126.859597, 35.161201],
-	        [126.859754, 35.161202]
-	    ]);
-	}
 
    
     function drawPolyline(coords) {
@@ -431,10 +387,9 @@
         
     }
 
-    // 최초 로딩 시 안전 경로 + 안전 점수 실행
+    // 최초 로딩 시 실제 경로 불러오기
     window.onload = function () {
-        showRoute("shortest");
-        fetchSafetyScore();
+        loadRealRoute();
     };
 
     
