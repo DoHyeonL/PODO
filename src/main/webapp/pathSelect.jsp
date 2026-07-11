@@ -223,7 +223,7 @@
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"></script>
+<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"></script>
 
 <script>
     const map = new Tmapv2.Map("map", {

@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <title>POI 주소 검색으로 마커 표시</title>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"></script>
+  <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"></script>
   <style>
     html, body {
       margin-top: 0;
@@ -188,7 +188,7 @@
             resCoordType: "WGS84GEO",
             reqCoordType: "WGS84GEO",
             count: 1,
-            appKey: "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
+            appKey: "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"
           },
           success: function (response) {
             if (response.searchPoiInfo.pois.poi.length > 0) {
@@ -242,7 +242,7 @@
       method: "GET",
       url: "https://apis.openapi.sk.com/tmap/geo/postcode",
       headers: {
-        "appKey": "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
+        "appKey": "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"
       },
       data: {
         coordType: "WGS84GEO",
@@ -301,7 +301,7 @@
                 resCoordType: "WGS84GEO",
                 reqCoordType: "WGS84GEO",
                 count: 1,
-                appKey: "C0A4SwhCGE2ocuN4vTAeD7ClrI5Jb1Kk5nj6or4F"
+                appKey: "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj"
             },
             success: function (response) {
                 if (response.searchPoiInfo.pois.poi.length > 0) {
