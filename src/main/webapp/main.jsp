@@ -1272,6 +1272,11 @@
                   sidebarGuest.classList.remove('show');
               }
            overlay.classList.remove('show');
+
+           // 신고 접수 창도 바깥 클릭하면 같이 닫히게
+           if (declareModal.style.display === 'flex') {
+               declareModal.style.display = 'none';
+           }
            
            emergency.classList.remove('show');  
            searchPath.classList.remove('expand');
