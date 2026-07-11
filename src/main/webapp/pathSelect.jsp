@@ -280,10 +280,15 @@
         markers.length = 0; // 마커 배열도 비움
     }
 
-    // 카드 눌렀을 때 실행 (지금은 안전경로/최단경로 둘 다 똑같이 실제 T맵 경로를 불러옴)
+    let shortestCoords = null;
+    let safeCoords = null;
+
+    // 카드 눌렀을 때 실행 - 이미 계산해둔 경로를 지도에 다시 그려줌
     function showRoute(type) {
-        clearMap();
-        loadRealRoute();
+        const coords = type === "safe" ? safeCoords : shortestCoords;
+        if (coords) {
+            drawPolyline(coords);
+        }
     }
 
     function selectRoute(event, type) {
@@ -295,22 +300,27 @@
             + "&endLat=" + endY + "&endLon=" + endX;
     }
 
-    // 실제 출발지/도착지 좌표로 T맵 보행자 경로 API 호출해서 진짜 경로 그리기
-    function loadRealRoute() {
+    // 실제 T맵 보행자 경로 API 호출 (경유지를 넘기면 그 경유지를 거쳐가는 경로로 요청)
+    function fetchPedestrianRoute(waypoint, callback) {
+        const data = {
+            startX: startX,
+            startY: startY,
+            endX: endX,
+            endY: endY,
+            reqCoordType: "WGS84GEO",
+            resCoordType: "WGS84GEO",
+            startName: "출발지",
+            endName: "도착지"
+        };
+        if (waypoint) {
+            data.passList = waypoint.lon + "," + waypoint.lat;
+        }
+
         $.ajax({
             method: "POST",
             url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json",
             headers: { "appKey": "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj" },
-            data: {
-                startX: startX,
-                startY: startY,
-                endX: endX,
-                endY: endY,
-                reqCoordType: "WGS84GEO",
-                resCoordType: "WGS84GEO",
-                startName: "출발지",
-                endName: "도착지"
-            },
+            data: data,
             success: function (response) {
                 const features = response.features;
 
@@ -324,35 +334,120 @@
                     }
                 });
 
-                drawPolyline(coords);
-
-                // 첫번째 feature에 총 거리/시간 정보가 들어있음
                 const totalDistance = features[0].properties.totalDistance; // m
                 const totalTime = features[0].properties.totalTime; // 초
-
                 const distanceKm = (totalDistance / 1000).toFixed(1);
                 const minutes = Math.round(totalTime / 60);
                 const steps = Math.round(totalDistance / 0.7); // 대충 보폭 70cm로 계산
 
-                const routeDetail = minutes + "분 | " + distanceKm + "km | " + steps + " 걸음";
-
-                // 지금은 안전경로/최단경로 둘 다 같은 실제 경로라 카드 숫자도 똑같이 보여줌
-                document.getElementById("safe-score1").innerText = routeDetail;
-                document.getElementById("safe-score2").innerText = "안전 점수 : 계산 예정";
-                document.getElementById("shortest-detail").innerText = routeDetail;
+                callback({
+                    coords: coords,
+                    detail: minutes + "분 | " + distanceKm + "km | " + steps + " 걸음"
+                });
             },
             error: function (request, status, error) {
                 console.error("경로 요청 실패:", request.responseText);
-                document.getElementById("safe-score1").innerText = "경로를 찾지 못했습니다.";
-                document.getElementById("shortest-detail").innerText = "경로를 찾지 못했습니다.";
+                callback(null);
             }
         });
     }
 
-   
+    // 두 좌표 사이 거리 (하버사인 공식, 단위: m)
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371000;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+            + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180)
+            * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    // 점(lat, lon)과 출발-도착 직선 사이의 거리 (단위: m, 근사치)
+    function distanceToRouteLine(lat, lon, lat1, lon1, lat2, lon2) {
+        const R = 6371000;
+        const latRef = lat1 * Math.PI / 180;
+
+        function toXY(la, lo) {
+            return {
+                x: R * (lo * Math.PI / 180) * Math.cos(latRef),
+                y: R * (la * Math.PI / 180)
+            };
+        }
+
+        const p = toXY(lat, lon);
+        const a = toXY(lat1, lon1);
+        const b = toXY(lat2, lon2);
+
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const lengthSq = dx * dx + dy * dy;
+        let t = lengthSq === 0 ? 0 : ((p.x - a.x) * dx + (p.y - a.y) * dy) / lengthSq;
+        t = Math.max(0, Math.min(1, t));
+
+        const projX = a.x + t * dx, projY = a.y + t * dy;
+        const ddx = p.x - projX, ddy = p.y - projY;
+        return Math.sqrt(ddx * ddx + ddy * ddy);
+    }
+
+    // 출발-도착 직선에서 너무 벗어나지 않는 가까운 경찰서를 경유지로 찾기
+    function findSafeWaypoint(callback) {
+        fetch("FacilityMap.do?category=1")
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+                if (!Array.isArray(data) || data.length === 0) {
+                    callback(null);
+                    return;
+                }
+                let nearest = null;
+                let nearestDist = Infinity;
+                data.forEach(function (fac) {
+                    const dist = distanceToRouteLine(fac.lat, fac.lon,
+                        parseFloat(startY), parseFloat(startX), parseFloat(endY), parseFloat(endX));
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearest = fac;
+                    }
+                });
+                // 직선 경로에서 400m 이내에 있는 경찰서만 경유지로 인정 (너무 돌아가지 않도록)
+                callback(nearestDist <= 400 ? nearest : null);
+            })
+            .catch(function () {
+                callback(null);
+            });
+    }
+
+    // 최단 경로 불러오기 (경유지 없이 그냥 최단 거리)
+    function loadShortestRoute() {
+        fetchPedestrianRoute(null, function (result) {
+            if (!result) {
+                document.getElementById("shortest-detail").innerText = "경로를 찾지 못했습니다.";
+                return;
+            }
+            shortestCoords = result.coords;
+            document.getElementById("shortest-detail").innerText = result.detail;
+            drawPolyline(shortestCoords);
+        });
+    }
+
+    // 안전 경로 불러오기 (경로 주변 실제 경찰서를 경유지로 삼아서 다시 길찾기)
+    function loadSafeRoute() {
+        findSafeWaypoint(function (waypoint) {
+            fetchPedestrianRoute(waypoint, function (result) {
+                if (!result) {
+                    document.getElementById("safe-score1").innerText = "경로를 찾지 못했습니다.";
+                    return;
+                }
+                safeCoords = result.coords;
+                document.getElementById("safe-score1").innerText = result.detail
+                    + (waypoint ? " (경찰서 경유)" : "");
+                document.getElementById("safe-score2").innerText = "안전 점수 : 계산 예정";
+            });
+        });
+    }
+
     function drawPolyline(coords) {
     	// 경로를 새로 그리기 전에 기존 경로와 마커를 삭제
-    	console.log("drawPolyline 함수 호출됨", coords);
         clearMap();
 
         // 새로운 경로 그리기
@@ -364,7 +459,7 @@
             map: map
         });
         resultInfoArr.push(polyline);
-        
+
         if (coords.length > 0) {
         	const startMarker = new Tmapv2.Marker({
                 position: new Tmapv2.LatLng(coords[0][1], coords[0][0]), // 출발지
@@ -375,7 +470,7 @@
             startMarker.setMap(map);
             markers.push(startMarker); // 생성된 마커를 배열에 추가
 
-            
+
             if (coords.length > 1) {
             	const endMarker = new Tmapv2.Marker({
                     position: new Tmapv2.LatLng(coords[coords.length - 1][1], coords[coords.length - 1][0]), // 도착지
@@ -387,12 +482,13 @@
                 markers.push(endMarker); // 생성된 마커를 배열에 추가
             }
         }
-        
+
     }
 
-    // 최초 로딩 시 실제 경로 불러오기
+    // 최초 로딩 시 최단경로/안전경로 둘 다 계산
     window.onload = function () {
-        loadRealRoute();
+        loadShortestRoute();
+        loadSafeRoute();
     };
 
     
