@@ -53,7 +53,14 @@
 		set password = #{password}, name = #{name}, address = #{address}, phone = #{phone}, email = #{email}
 		where user_id = #{user_id}
 	</update>
-	
+
+	<!-- 아이디 중복확인 (같은 아이디 개수 세서 0이면 사용 가능) -->
+	<select id="checkId" parameterType="String" resultType="int">
+		select count(*)
+		from tb_user
+		where user_id = #{user_id}
+	</select>
+
 	</mapper>
 		
 

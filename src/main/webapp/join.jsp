@@ -375,11 +375,12 @@
           <label for="id">아이디</label>
           <div class="input-with-button">
             <input type="text" id="id" name="user_id" class="input-field" placeholder="아이디 입력">
-            <button type="button" class="check-btn">중복확인</button>
+            <button type="button" id="checkIdBtn" class="check-btn">중복확인</button>
           </div>
+          <p id="checkIdResult" style="margin-top: 5px; font-size: 13px;"></p>
         </div>
-        
-      
+
+
         <div class="form-group">
           <label for="pw">비밀번호</label>
           <input type="password" id="pw" name="password" class="input-field" placeholder="비밀번호 입력">
@@ -481,7 +482,7 @@
 
     const form = document.querySelector('.signup-form');
     const nameInput = document.getElementById('name');
-    const user_idInput = document.getElementById('user_id');
+    const user_idInput = document.getElementById('id'); // 원래 'user_id'로 찾고 있었는데 실제 input id는 'id'라서 못 찾고 있었음, 고침
     const passwordInput = document.getElementById('password');
     const pwOkInput = document.getElementById('pw_ok');
     const addressInput = document.getElementById('address');
@@ -501,8 +502,36 @@
         document.getElementById('myModal').style.display = 'none';
       });
     }
-    
-    
+
+    // 아이디 중복확인 버튼
+    const checkIdBtn = document.getElementById('checkIdBtn');
+    const checkIdResult = document.getElementById('checkIdResult');
+
+    checkIdBtn.addEventListener('click', function () {
+      const id = user_idInput.value.trim();
+
+      if (!id) {
+        checkIdResult.style.color = 'red';
+        checkIdResult.innerText = '아이디를 먼저 입력해주세요.';
+        return;
+      }
+
+      fetch('CheckId.do?user_id=' + encodeURIComponent(id))
+        .then(function (res) {
+          return res.text();
+        })
+        .then(function (result) {
+          if (result === 'dup') {
+            checkIdResult.style.color = 'red';
+            checkIdResult.innerText = '이미 사용중인 아이디입니다.';
+          } else {
+            checkIdResult.style.color = 'green';
+            checkIdResult.innerText = '사용 가능한 아이디입니다.';
+          }
+        });
+    });
+
+
 
 function removeGuardian(button) {
   button.parentElement.remove(); // 자기 부모(div 전체)를 삭제

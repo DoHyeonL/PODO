@@ -66,6 +66,14 @@ public class MemberDAO {
 		sqlSession.close();
 		return row;
 	}
-	
-	
+
+	// 아이디 중복확인용, 같은 아이디 몇개 있는지 세서 반환
+	public int checkId(String user_id) {
+		SqlSession sqlSession = factory.openSession(true);
+		int count = sqlSession.selectOne("checkId", user_id);
+		sqlSession.close();
+		return count;
+	}
+
+
 }
