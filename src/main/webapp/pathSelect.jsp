@@ -206,7 +206,7 @@
 
         <div class="path-card" onclick="showRoute('shortest')">
             <div class="path-title">최단 경로</div>
-            <div class="path-detail">19분 | 1.3km | 1,953걸음</div>
+            <div id="shortest-detail" class="path-detail">분석 중</div>
             <button class="select-btn" onclick="selectRoute(event, 'shortest')">안내</button>
         </div>
         </div>
@@ -334,12 +334,17 @@
                 const minutes = Math.round(totalTime / 60);
                 const steps = Math.round(totalDistance / 0.7); // 대충 보폭 70cm로 계산
 
-                document.getElementById("safe-score1").innerText = minutes + "분 | " + distanceKm + "km | " + steps + " 걸음";
+                const routeDetail = minutes + "분 | " + distanceKm + "km | " + steps + " 걸음";
+
+                // 지금은 안전경로/최단경로 둘 다 같은 실제 경로라 카드 숫자도 똑같이 보여줌
+                document.getElementById("safe-score1").innerText = routeDetail;
                 document.getElementById("safe-score2").innerText = "안전 점수 : 계산 예정";
+                document.getElementById("shortest-detail").innerText = routeDetail;
             },
             error: function (request, status, error) {
                 console.error("경로 요청 실패:", request.responseText);
                 document.getElementById("safe-score1").innerText = "경로를 찾지 못했습니다.";
+                document.getElementById("shortest-detail").innerText = "경로를 찾지 못했습니다.";
             }
         });
     }
