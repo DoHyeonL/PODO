@@ -474,9 +474,9 @@
     const form = document.querySelector('.signup-form');
     const nameInput = document.getElementById('name');
     const user_idInput = document.getElementById('id'); // 원래 'user_id'로 찾고 있었는데 실제 input id는 'id'라서 못 찾고 있었음, 고침
-    const passwordInput = document.getElementById('password');
+    const passwordInput = document.getElementById('pw'); // 실제 input id는 'pw'라서 'password'로는 못 찾고 있었음, 고침
     const pwOkInput = document.getElementById('pw_ok');
-    const addressInput = document.getElementById('address');
+    const addressInput = document.getElementById('ad'); // 실제 input id는 'ad'라서 'address'로는 못 찾고 있었음, 고침
     const phone2Input = document.querySelector('input[name="phone2"]');
     const emailInput = document.getElementById('email');
     const agreeCheckbox = document.getElementById('agree');
@@ -555,9 +555,7 @@ function removeGuardian(button) {
         return;
       }
 
-      e.preventDefault(); // 기본 전송 막고
-      window.location.href = 'main.html'; // 이동
-
+      // 검증을 다 통과했으면 Join.do로 실제 폼 제출이 그대로 진행됨
     });
   });
 </script>

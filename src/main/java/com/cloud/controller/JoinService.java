@@ -49,7 +49,7 @@ public class JoinService implements Command {
 			        } else if (row <= 0) {
 			            return "redirect:/main.jsp";
 			        } else {
-			            return "redirect:/guardian_error.jsp"; // 보호자 저장 실패 시
+			            return "redirect:/login.jsp"; // 보호자 저장 실패 시
 			        }
 			    }
 			}
