@@ -22,7 +22,6 @@ public class FrontController extends HttpServlet {
     public void init() throws ServletException {
         map.put("Join.do", new JoinService());
         map.put("Login.do", new LoginService());
-        map.put("SelectAll.do", new SelectAllService());
         map.put("Logout.do", new LogoutService());
         map.put("Update.do", new UpdateService());
         map.put("EmailCheck.do", new EmailCheckService());

@@ -984,7 +984,7 @@
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="goToSearch()">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">안심길찾기</span>
                   </button>
-                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">자주가는 장소</span>
                   </button>
                   <button id="Gu" class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='guardian.jsp'">
@@ -993,7 +993,7 @@
                   <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='Alarm.do'">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">알리미</span>
                   </button>
-                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                  <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='report.jsp'">
                       <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold;">신고함</span>
                   </button>
                   <button class='textBtn' style="margin-top: 30px; margin-left: 40px;" 
@@ -1019,10 +1019,10 @@
                 </button>
 
             
-                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='join.html'">
+                <button class='textBtn' style="margin-top: 20px; margin-left: 40px;" onclick="location.href='report.jsp'">
                     <span style="font-size: clamp(14px, 3vw, 18px); font-weight: bold; ">
                         신고함
-                    </span>    
+                    </span>
                 </button>
            
             
@@ -1065,7 +1065,7 @@
 
             <div id="bottom-bar">
 
-                <button class="bottom-button"  onclick="location.href='mypage.html'">
+                <button class="bottom-button">
                     <img src="images/하단바/주변.png" alt="주변" style="width: 35px; height: 35px;">
                     <span>주변</span>
                 </button>
@@ -1083,11 +1083,11 @@
                     <span style="margin-bottom: 4px;">신고</span>
                 </button>
 
-                <button class="bottom-button" onclick="location.href='mypage.html'">
+                <button class="bottom-button">
                     <img src="images/하단바/자주가는경로.png" alt="즐겨찾기">
                     <span>즐겨찾기</span>
                 </button>
-                <button class="bottom-button" onclick="location.href='login.jsp'">
+                <button class="bottom-button" onclick="if (!isLoggedIn) { location.href='login.jsp'; }">
                     <img src="images/하단바/마이.png" alt="마이">
                     <span>마이</span>
                 </button>

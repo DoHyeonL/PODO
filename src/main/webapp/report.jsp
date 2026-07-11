@@ -151,7 +151,7 @@
     <div class="report-card">
       <p><strong>시간 :</strong> 2025-05-09 10:44</p>
       <p><strong>위치 :</strong> 광주 남구 송암동 123</p>
-      <p><strong>내용 :</strong> 골목길에서 이상한 옷 차림의 스인개 이도현 목격</p>
+      <p><strong>내용 :</strong> 골목길에서 낯선 사람이 뒤따라오는 것 같음</p>
     </div>
     <div class="report-section"><br>
 
@@ -176,7 +176,7 @@
 
 
   <div class="button-group">
-    <a href="main2.jsp" class="btn btn-guardian">이전으로</a>
+    <a href="main.jsp" class="btn btn-guardian">이전으로</a>
   </div>
 
 
