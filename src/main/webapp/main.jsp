@@ -663,6 +663,19 @@
             margin-top: 6px;
         }
 
+        #navHomeBtn {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 20px;
+            color: #999;
+            line-height: 1;
+        }
+
+        #navHomeBtn:hover {
+            color: #333;
+        }
+
         
 
                 /* <reset-style> ============================ */
@@ -1140,6 +1153,7 @@
             </div>
 
             <div id="navInfoCard" class="shadow">
+                <button id="navHomeBtn" onclick="exitNavigation()">✕</button>
                 <div id="navInfoTitle"></div>
                 <div id="navInfoDetail"></div>
                 <div id="navInfoSafety"></div>
@@ -1904,6 +1918,11 @@
             navPolylines = [];
             navMarkers.forEach(function (m) { m.setMap(null); });
             navMarkers = [];
+        }
+
+        // 경로 안내 중에 홈 화면으로 돌아가기 (X버튼)
+        function exitNavigation() {
+            window.location.href = "main.jsp";
         }
 
         // 페이지 로딩 시 경로 표시
