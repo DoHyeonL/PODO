@@ -91,7 +91,6 @@
     // 카테고리별 마커 불러오기
     function showMarkersByCategory(category) {
         const url = contextPath + "/FacilityMap.do?category=" + category;
-        console.log("요청 URL:", url);  // 요청 URL 확인
 
         fetch(url)
             .then(response => {
@@ -101,7 +100,6 @@
                 return response.json();
             })
             .then(data => {
-                console.log("시설 데이터 수신됨:", data);  // 데이터 확인
                 if (!Array.isArray(data) || data.length === 0) {
                     console.warn("해당 카테고리 마커 없음");
                     return;
@@ -113,7 +111,6 @@
 
                 // 새로운 카테고리 데이터 마커 추가
                 data.forEach(fac => {
-                    console.log("마커 생성:", fac);  // 마커 생성 전 값 확인
                     const marker = new Tmapv2.Marker({
                         position: new Tmapv2.LatLng(fac.lat, fac.lon),
                         icon: fac.icon_path,  // 아이콘 경로 확인
@@ -1050,9 +1047,9 @@
                 <div class="facility">소방서</div>
             </button>
             
-            <button class="facilityBtn" onclick="toggleMarkersByCategory(3)">
+            <button class="facilityBtn" onclick="alert('CCTV 위치 데이터는 아직 준비 중입니다.')">
                 <img src="images/시설물/CCTV.png" alt="CCTV">
-                <div class="facility">CCTV</div>
+                <div class="facility">CCTV (준비중)</div>
             </button>
             
             <button class="facilityBtn" onclick="toggleMarkersByCategory(4)">

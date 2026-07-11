@@ -352,7 +352,6 @@
    
     function drawPolyline(coords) {
     	// 경로를 새로 그리기 전에 기존 경로와 마커를 삭제
-    	console.log("drawPolyline 함수 호출됨", coords);
         clearMap();
 
         // 새로운 경로 그리기

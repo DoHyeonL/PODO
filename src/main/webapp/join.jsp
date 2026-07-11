@@ -471,15 +471,6 @@
 
 
   document.addEventListener('DOMContentLoaded', function () {
-    const savedGuardianData = JSON.parse(localStorage.getItem("guardianDataList"));
-
-    if (savedGuardianData && savedGuardianData.length > 0) {
-      console.log("저장된 보호자 정보:", savedGuardianData);
-    } else {
-      console.log("저장된 보호자 정보 없음");
-    }
-
-
     const form = document.querySelector('.signup-form');
     const nameInput = document.getElementById('name');
     const user_idInput = document.getElementById('id'); // 원래 'user_id'로 찾고 있었는데 실제 input id는 'id'라서 못 찾고 있었음, 고침
@@ -683,8 +674,6 @@ function removeGuardian(button) {
      const g_relation = relationInput?.value?.trim();
      const g_phone = phoneInput?.value?.trim();
 
-     console.log("🟨 g_name 값:", g_name);
-
      if (!g_name || !g_relation || !g_phone) {
        alert("모든 항목을 입력해주세요.");
        return;
@@ -701,8 +690,6 @@ function removeGuardian(button) {
      nameDiv.className = 'guardian-name';
      nameDiv.style.color = 'black';
      nameDiv.textContent = '👤 ' + g_name+'(보호자)'; // 👉 템플릿 리터럴 대신 단순 연결로 변경
-
-     console.log("✅ guardian-name div (textContent):", nameDiv.textContent); // 실제 들어간 값 확인
 
      const removeBtn = document.createElement('button');
      removeBtn.type = 'button';
