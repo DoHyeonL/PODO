@@ -204,12 +204,6 @@
         </div>
        
 
-        <div class="path-card" onclick="showRoute('mainroad')">
-            <div class="path-title">큰길 위주 경로</div>
-            <div class="path-detail">33분 | 1.9km | 3,319 걸음</div>
-            <button class="select-btn" onclick="selectRoute(event, 'mainroad')">안내</button>
-        </div>
-
         <div class="path-card" onclick="showRoute('shortest')">
             <div class="path-title">최단 경로</div>
             <div class="path-detail">19분 | 1.3km | 1,953걸음</div>

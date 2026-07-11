@@ -1742,6 +1742,7 @@
 
        let navMarkers = [];
        let navPolylines = [];
+       let facilityMarkers = [];
 
        // pathSelect.jsp에서 안내 버튼 눌렀을 때 실제 좌표로 진짜 경로 그리기
        function showRoute(routeType) {
@@ -1796,9 +1797,7 @@
                     const distanceKm = (totalDistance / 1000).toFixed(1);
                     const minutes = Math.round(totalTime / 60);
 
-                    const routeLabel = routeType === "safe" ? "안전 경로"
-                        : routeType === "mainroad" ? "큰길 위주 경로"
-                        : "최단 경로";
+                    const routeLabel = routeType === "safe" ? "안전 경로" : "최단 경로";
 
                     document.getElementById("navInfoTitle").innerText = routeLabel + " 안내 중";
                     document.getElementById("navInfoDetail").innerText = minutes + "분 | " + distanceKm + "km";
@@ -1843,6 +1842,7 @@
             const categories = [1, 2, 4]; // 경찰서, 소방서, 편의점
             const radius = 200;
             const counts = { 1: 0, 2: 0, 4: 0 };
+            const nearbyFacilities = []; // 점수에 실제로 반영된 시설들 (지도에 마커로 보여줄 것)
             let requestsLeft = categories.length;
 
             categories.forEach(function (category) {
@@ -1853,6 +1853,7 @@
                             data.forEach(function (fac) {
                                 if (isNearRoute(fac.lat, fac.lon, coords, radius)) {
                                     counts[category]++;
+                                    nearbyFacilities.push(fac);
                                 }
                             });
                         }
@@ -1864,6 +1865,7 @@
                         requestsLeft--;
                         if (requestsLeft === 0) {
                             showSafetyResult(counts);
+                            showNearbyFacilityMarkers(nearbyFacilities);
                         }
                     });
             });
@@ -1876,6 +1878,19 @@
             document.getElementById("navInfoSafety").innerText =
                 "안전 점수 : " + score + "점 (경로 주변 200m 이내 경찰서 " + counts[1]
                 + "곳, 소방서 " + counts[2] + "곳, 편의점 " + counts[4] + "곳)";
+        }
+
+        // 안전 점수 계산에 실제로 반영된 시설들을 지도 위에 마커로 표시
+        function showNearbyFacilityMarkers(nearbyFacilities) {
+            nearbyFacilities.forEach(function (fac) {
+                const marker = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(fac.lat, fac.lon),
+                    icon: fac.icon_path,
+                    iconSize: new Tmapv2.Size(28, 28),
+                    map: map
+                });
+                facilityMarkers.push(marker);
+            });
         }
 
         // 경로를 그리는 함수 (출발/도착 마커만 표시)
@@ -1918,6 +1933,8 @@
             navPolylines = [];
             navMarkers.forEach(function (m) { m.setMap(null); });
             navMarkers = [];
+            facilityMarkers.forEach(function (m) { m.setMap(null); });
+            facilityMarkers = [];
         }
 
         // 경로 안내 중에 홈 화면으로 돌아가기 (X버튼)
