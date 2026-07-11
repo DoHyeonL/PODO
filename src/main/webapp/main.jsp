@@ -630,6 +630,39 @@
             background-color: #0056b3;
         }
 
+        #navInfoCard {
+            position: absolute;
+            left: 50%;
+            bottom: 90px;
+            transform: translateX(-50%);
+            width: 380px;
+            max-width: 90%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 16px 20px;
+            z-index: 2;
+            display: none;
+            box-sizing: border-box;
+        }
+
+        #navInfoTitle {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        #navInfoDetail {
+            font-size: 14px;
+            color: #555;
+        }
+
+        #navInfoSafety {
+            font-size: 13px;
+            color: #007bff;
+            margin-top: 6px;
+        }
+
         
 
                 /* <reset-style> ============================ */
@@ -1104,6 +1137,12 @@
                     <button class="roleBtn" id="setStartBtn">출발지로 설정</button>
                     <button class="roleBtn" id="setEndBtn">도착지로 설정</button>
                 </div>
+            </div>
+
+            <div id="navInfoCard" class="shadow">
+                <div id="navInfoTitle"></div>
+                <div id="navInfoDetail"></div>
+                <div id="navInfoSafety"></div>
             </div>
 
             <div id="declareModal" >
@@ -1686,96 +1725,168 @@
        
        const urlParams = new URLSearchParams(window.location.search);
        const routeType = urlParams.get('type');
-         
+
+       let navMarkers = [];
+       let navPolylines = [];
+
+       // pathSelect.jsp에서 안내 버튼 눌렀을 때 실제 좌표로 진짜 경로 그리기
        function showRoute(routeType) {
-            initTmap(); // 기존 경로와 마커 제거
-            
-                        
-            switch(routeType) {
-                case 'safe':
-                    safeRoute(); // 안전 경로
-                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 운천역 중심
-                    map.setZoom(17);
-                    break;
-                case 'mainroad':
-                    mainroadRoute(); // 큰길 경로
-                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 시청 중심
-                    map.setZoom(17);
-                    break;
-                case 'shortest':
-                    shortestRoute(); // 최단 경로
-                    map.setCenter(new Tmapv2.LatLng(35.150509, 126.858589)); // 시청 중심
-                    map.setZoom(17);
-                    break;
+            initTmap();
+
+            if (!routeType) {
+                return; // 그냥 메인화면 접속한 경우 (안내 중이 아님)
             }
+
+            const startLat = urlParams.get("startLat");
+            const startLon = urlParams.get("startLon");
+            const endLat = urlParams.get("endLat");
+            const endLon = urlParams.get("endLon");
+
+            if (!startLat || !startLon || !endLat || !endLon) {
+                return; // 좌표 없이 들어온 경우
+            }
+
+            loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon);
         }
 
-        // 각 경로 함수 (안전 경로, 큰길 경로, 최단 경로)
-        function safeRoute() {
-            drawPolyline([
-                [126.858611, 35.150523],
-                [126.856079, 35.150154],
-                [126.855123, 35.151668],
-                [126.855112, 35.155585],
-                [126.855273, 35.156358],
-                [126.855930, 35.158026],
-                [126.855988, 35.158737],
-                [126.859261, 35.158764],
-                [126.859362, 35.160187],
-                [126.859581 ,35.160189],
-                [126.859636 ,35.161182],
-                [126.859754, 35.161202]
-            ]);
+        function loadRealRouteOnMain(routeType, startLat, startLon, endLat, endLon) {
+            $.ajax({
+                method: "POST",
+                url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json",
+                headers: { "appKey": "vD2v8S3ooW650frcHc8R91xdR9ea6EKKAsVFiLaj" },
+                data: {
+                    startX: startLon,
+                    startY: startLat,
+                    endX: endLon,
+                    endY: endLat,
+                    reqCoordType: "WGS84GEO",
+                    resCoordType: "WGS84GEO",
+                    startName: "출발지",
+                    endName: "도착지"
+                },
+                success: function (response) {
+                    const features = response.features;
+                    const coords = [];
+                    features.forEach(function (f) {
+                        if (f.geometry.type === "LineString") {
+                            f.geometry.coordinates.forEach(function (c) { coords.push(c); });
+                        }
+                    });
+
+                    drawPolyline(coords);
+                    map.setCenter(new Tmapv2.LatLng(startLat, startLon));
+                    map.setZoom(16);
+
+                    const totalDistance = features[0].properties.totalDistance;
+                    const totalTime = features[0].properties.totalTime;
+                    const distanceKm = (totalDistance / 1000).toFixed(1);
+                    const minutes = Math.round(totalTime / 60);
+
+                    const routeLabel = routeType === "safe" ? "안전 경로"
+                        : routeType === "mainroad" ? "큰길 위주 경로"
+                        : "최단 경로";
+
+                    document.getElementById("navInfoTitle").innerText = routeLabel + " 안내 중";
+                    document.getElementById("navInfoDetail").innerText = minutes + "분 | " + distanceKm + "km";
+                    document.getElementById("navInfoSafety").innerText = "";
+                    document.getElementById("navInfoCard").style.display = "block";
+
+                    if (routeType === "safe") {
+                        calculateSafetyScore(coords);
+                    }
+                },
+                error: function (request, status, error) {
+                    console.error("경로 요청 실패:", request.responseText);
+                }
+            });
         }
 
-        function mainroadRoute() {
-            drawPolyline([
-               [126.858611, 35.150523],
-                [126.856079, 35.150154],
-                [126.855123, 35.151668],
-                [126.855112, 35.155585],
-                [126.855273, 35.156358],
-                [126.855930, 35.158026],
-                [126.855988, 35.158737],
-                [126.856007, 35.161697],
-                [126.856446, 35.161876],
-                [126.859402, 35.161725],
-                [126.859407, 35.161912],
-                [126.859709, 35.161906],
-                [126.859646, 35.161232],
-                [126.859754, 35.161202]
-            ]);
+        // 두 좌표 사이 거리 계산 (하버사인 공식, 단위: m)
+        function haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180)
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
         }
 
-        function shortestRoute() {
-            drawPolyline([
-                [126.858611, 35.150523],
-                [126.858722, 35.150680],
-                [126.858456, 35.151829],
-                [126.858397, 35.152876],
-                [126.858511, 35.153662],
-                [126.858737, 35.154284],
-                [126.859450, 35.155639],
-                [126.859446, 35.158785],
-                [126.859628, 35.161163],
-                [126.859754, 35.161202]
-            ]);
+        // 시설물이 경로 좌표들 중 하나와 반경 이내로 가까운지 확인
+        function isNearRoute(lat, lon, coords, radiusM) {
+            for (let i = 0; i < coords.length; i++) {
+                const dist = haversineDistance(lat, lon, coords[i][1], coords[i][0]);
+                if (dist <= radiusM) {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        // 경로를 그리는 함수
+        // 경로 주변 200m 이내 안전시설(경찰서/소방서/편의점) 개수로 안전 점수 계산
+        function calculateSafetyScore(coords) {
+            const categories = [1, 2, 4]; // 경찰서, 소방서, 편의점
+            const radius = 200;
+            const counts = { 1: 0, 2: 0, 4: 0 };
+            let requestsLeft = categories.length;
+
+            categories.forEach(function (category) {
+                fetch(contextPath + "/FacilityMap.do?category=" + category)
+                    .then(function (response) { return response.json(); })
+                    .then(function (data) {
+                        if (Array.isArray(data)) {
+                            data.forEach(function (fac) {
+                                if (isNearRoute(fac.lat, fac.lon, coords, radius)) {
+                                    counts[category]++;
+                                }
+                            });
+                        }
+                    })
+                    .catch(function () {
+                        console.error("시설 정보 불러오기 실패 (category " + category + ")");
+                    })
+                    .finally(function () {
+                        requestsLeft--;
+                        if (requestsLeft === 0) {
+                            showSafetyResult(counts);
+                        }
+                    });
+            });
+        }
+
+        function showSafetyResult(counts) {
+            const total = counts[1] + counts[2] + counts[4];
+            const score = Math.min(total * 10, 100);
+
+            document.getElementById("navInfoSafety").innerText =
+                "안전 점수 : " + score + "점 (경로 주변 200m 이내 경찰서 " + counts[1]
+                + "곳, 소방서 " + counts[2] + "곳, 편의점 " + counts[4] + "곳)";
+        }
+
+        // 경로를 그리는 함수 (출발/도착 마커만 표시)
         function drawPolyline(coords) {
-            const resultMarkerArr = [], resultInfoArr = [];
-            coords.forEach((coord, idx) => {
-                const marker = new Tmapv2.Marker({
-                    position: new Tmapv2.LatLng(coord[1], coord[0]),
-                    icon: idx === 0 ? "images/Marker/pin1.png" :
-                          idx === coords.length - 1 ? "images/Marker/pin2.png" :
-                          "null",
-                    iconSize: new Tmapv2.Size(24, 48),
+            clearMap();
+
+            if (coords.length > 0) {
+                const startMarker = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(coords[0][1], coords[0][0]),
+                    icon: "images/Marker/pin1.png",
+                    iconSize: new Tmapv2.Size(24, 38),
                     map: map
                 });
-                resultMarkerArr.push(marker);
-            });
+                navMarkers.push(startMarker);
+
+                if (coords.length > 1) {
+                    const endMarker = new Tmapv2.Marker({
+                        position: new Tmapv2.LatLng(coords[coords.length - 1][1], coords[coords.length - 1][0]),
+                        icon: "images/Marker/pin2.png",
+                        iconSize: new Tmapv2.Size(24, 38),
+                        map: map
+                    });
+                    navMarkers.push(endMarker);
+                }
+            }
 
             const latlngs = coords.map(c => new Tmapv2.LatLng(c[1], c[0]));
             const polyline = new Tmapv2.Polyline({
@@ -1784,19 +1895,15 @@
                 strokeWeight: 6,
                 map: map
             });
-            resultInfoArr.push(polyline);
+            navPolylines.push(polyline);
         }
 
         // 기존 경로 초기화
         function clearMap() {
-            if (window.resultInfoArr) {
-                window.resultInfoArr.forEach(polyline => polyline.setMap(null));
-                window.resultInfoArr = [];
-            }
-            if (window.resultMarkerArr) {
-                window.resultMarkerArr.forEach(marker => marker.setMap(null));
-                window.resultMarkerArr = [];
-            }
+            navPolylines.forEach(function (p) { p.setMap(null); });
+            navPolylines = [];
+            navMarkers.forEach(function (m) { m.setMap(null); });
+            navMarkers = [];
         }
 
         // 페이지 로딩 시 경로 표시

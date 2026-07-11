@@ -294,7 +294,11 @@
 
     function selectRoute(event, type) {
         event.stopPropagation();
-        window.location.href = "main.jsp?type=" + encodeURIComponent(type);
+        window.location.href = "main.jsp?type=" + encodeURIComponent(type)
+            + "&start=" + encodeURIComponent(urlParams.get("start") || "")
+            + "&end=" + encodeURIComponent(urlParams.get("end") || "")
+            + "&startLat=" + startY + "&startLon=" + startX
+            + "&endLat=" + endY + "&endLon=" + endX;
     }
 
     // 실제 출발지/도착지 좌표로 T맵 보행자 경로 API 호출해서 진짜 경로 그리기
