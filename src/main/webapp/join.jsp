@@ -357,7 +357,6 @@
 </head>
 <body>
 
-   <iframe src="box.html" class="background-frame" frameborder="0" scrolling="no"></iframe>
 
     <iframe src="title.html" class="text-bg-frame" frameborder="0" scrolling="no"></iframe>
 
