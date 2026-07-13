@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,7 @@
         <h2 class="form-title">회원가입</h2>
       
         <div class="form-group">
-         <label for="id">이름</label>
+         <label for="name">이름</label>
          <input type="text" id="name" name="name" class="input-field" placeholder="이름 입력">
         </div>
       
@@ -53,7 +53,7 @@
         <div class="form-group">
           <label for="phone">휴대폰 번호</label>
           <div class="phone-input">
-            <select name="phone1">
+            <select id="phone" name="phone1">
               <option>010</option>
               <option>011</option>
               <option>016</option>

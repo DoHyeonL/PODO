@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,7 @@
 
 	
 		  <div class="form-group">
-		    <label for="id">아이디</label>
+		    <label for="user_id">아이디</label>
 		    <input type="text" id="user_id" name="user_id" class="input-field" placeholder="아이디 입력">
 		  </div>
 		

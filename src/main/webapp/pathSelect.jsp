@@ -6,7 +6,7 @@
     String endAddress = request.getParameter("end");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>경로 선택</title>
