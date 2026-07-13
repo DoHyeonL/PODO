@@ -11,177 +11,12 @@
     <meta charset="UTF-8">
     <title>경로 선택</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        html,body {
-            margin-top: 0;
-            height: 103%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Helvetica Neue', sans-serif;
-            margin: 0;
-        }
-
-        #map-container {          
-            position: relative;
-            top:-50px;
-            left: 50px;
-            width: 100%;
-            min-width: 550px;
-            height: 100%;
-            overflow: hidden; 
-            margin: 0 auto;
-
-            
-        }
-
-        .map-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid #ccc;
-            overflow: hidden;
-        }
-        .path-header {
-            position: absolute;
-
-            align-items: center;
-            top: 14%;
-            left: 85px;
-            text-align: center;
-            width: 400px;
-            height: 120px;
-            border-radius: 50px;
-            background-color: #fffffffd;
-            display: flex; /* flexbox 활성화 */
-            flex-direction: column; /* 세로 방향으로 정렬 */
-            justify-content: space-between;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        .startAd{
-            position: absolute;
-            top:20px;
-        }
-
-        .endAd{
-            position: absolute;
-            top:75px;
-        }
-        
-
-        .path-header hr {
-            position: absolute;
-            top: 60px;
-            width: 80%; /* hr의 너비 조정 */
-            margin: 0 10px; /* hr 주변 여백 조정 */
-            background-color: rgba(0, 86, 179, 0.5); /* 50% 투명도 적용 */
-        }
-
-
-        .path-card-container {
-            display: flex;
-            overflow-x: hidden; /* 가로 스크롤바 숨기기 */
-            gap: 18px;
-            padding: 20px 10px;
-            position: absolute;
-            bottom: 20px;  /* 지도 아래에 경로 카드 배치 */
-            left: 10px;
-            width: 100%;
-            justify-content: space-between;
-            cursor: grab; /* 마우스 커서를 '잡기'로 변경 */
-            box-sizing: border-box; /* padding 포함해서 크기 계산 */
-            padding-right: 30px; /* 오른쪽 휠 영역 확장 */
-            
-        }
-
-        .path-card {
-            position: relative;
-            background: #ffffffef;
-            border-radius: 10px;
-            padding: 20px;
-            min-width: 280px;
-            height: 100px;
-            flex: 0 0 auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            
-        }
-
-    .path-title {
-        position: absolute;
-        top: 15px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .path-detail {
-        position: absolute;
-        margin-top: 25px;
-        color: #666;
-    }
-
-    .select-btn {
-        position: absolute;
-        bottom: 20px;
-        right: 5px;
-
-        padding: 10px 20px;
-        background-color: #007bff59;
-        color: rgba(255, 255, 255, 0.658);
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    .select-btn:hover {
-        background-color: #0056b3;
-    }
-
-    /* 경로 카드가 너무 길지 않도록 텍스트 overflow 처리 */
-    .path-card-container::-webkit-scrollbar {
-        height: 10px;
-    }
-
-    .path-card-container::-webkit-scrollbar-thumb {
-        background-color: #007bff;
-        border-radius: 5px;
-    }
-
-    .path-card-container::-webkit-scrollbar-track {
-        background-color: #f1f1f1;
-    }
-
-    .select-btn {
-        bottom:10px;
-        padding: 10px 20px;
-        width: 70px;
-        height: 40px;
-        right: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .select-btn:hover {
-            background-color: #0056b3;
-    }
-
-
-    #map {
-        width: 100%;
-        height: 300px;
-        margin-top: 20px;
-    }
-    </style>
+    <link rel="stylesheet" href="css/pathSelect.css"/>
 </head>
 <body>
-<div id="map-container">
+<main id="map-container">
     <div id="map"></div>
-    <div class="path-header">
+    <header class="path-header">
          <div class="startAd">
         출발지 : <%= startAddress %>
         </div>
@@ -189,31 +24,28 @@
         <div class="endAd">
         도착지 : <%= endAddress %>
         </div>
-    </div>
+    </header>
 
-    <div class="path-card-container">
-        <div class="path-card" onclick="showRoute('safe')">
+    <section class="path-card-container">
+        <article class="path-card" onclick="showRoute('safe')">
             <div class="path-title">안전 경로</div>
             <div class="path-detail">
                 <span id="safe-score1">분석 중</span>
-                
+
             </div>
             <br>
             <div id="safe-score2" class="path-detail">안전 점수 : 분석 중</div>
             <button class="select-btn" onclick="selectRoute(event, 'safe')">안내</button>
-        </div>
-       
+        </article>
 
-        <div class="path-card" onclick="showRoute('shortest')">
+
+        <article class="path-card" onclick="showRoute('shortest')">
             <div class="path-title">최단 경로</div>
             <div id="shortest-detail" class="path-detail">분석 중</div>
             <button class="select-btn" onclick="selectRoute(event, 'shortest')">안내</button>
-        </div>
-        </div>
-    </div>
-
-    
-</div>
+        </article>
+        </section>
+    </main>
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

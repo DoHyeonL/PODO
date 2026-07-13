@@ -8,50 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   		<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e2f8c6a2a365a29b77d9cbddcd5e491e&libraries=services"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
-
-    #guardian-list-container {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .guardian-box {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 200px;
-    }
-
-    .send-btn {
-      margin-top: 10px;
-      padding: 5px 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .send-btn:disabled {
-      background-color: gray;
-      cursor: default;
-    }
-  </style>
+  <link rel="stylesheet" href="css/alarm.css"/>
 </head>
 
 <body>
@@ -65,15 +22,15 @@
   	    });</script>
 	</c:if>
 	
- <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-    <div id="guardian-list-container">
+ <main style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+    <section id="guardian-list-container">
       <c:choose>
         <c:when test="${empty guardianList}">
           <p>등록된 보호자가 없습니다.</p>
         </c:when>
         <c:otherwise>
           <c:forEach var="g" items="${guardianList}">
-            <div class="guardian-box animate__animated animate__rollIn">
+            <article class="guardian-box animate__animated animate__rollIn">
               <p>이름: ${g.g_name}</p>
               <p>관계: ${g.g_relationship}</p>
               <p>전화번호: ${g.g_phone}</p>
@@ -84,11 +41,11 @@
  				<input type="hidden" name="address">
                 <button class="send-btn" type="submit">알림 보내기</button>
               </form>
-            </div>
+            </article>
           </c:forEach>
         </c:otherwise>
       </c:choose>
-    </div>
+    </section>
 
     <!--  버튼을 리스트 바로 아래 중앙 정렬 -->
     <div style="margin-top: 30px;">
@@ -96,7 +53,7 @@
         ⬅ 이전으로
       </button>
     </div>
-    </div>
+    </main>
 	<!--  현재 위치를 보여줄 지도 영역 -->
 <div id="map" style="width: 100%; height: 300px; margin-top: 30px; display: none;"></div>
 	

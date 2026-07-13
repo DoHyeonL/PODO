@@ -1,0 +1,336 @@
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+   }
+
+.text-bg-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none; /* 클릭 방지 */
+}
+
+.background-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none; /* 클릭 방지 - 지도 등 UI 방해 안 되게 */
+}
+
+.form-title {
+  font-family: 'yg-jalnan', sans-serif;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+html,body {
+        margin-top: 0;
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Helvetica Neue', sans-serif;
+        margin: 0;
+        background-color: #ffffff;
+    }
+
+#form-container {
+
+    background-color: #ffffff;
+    width: 600px;
+    height: 100%;
+    position: absolute;
+    margin-left: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);*/
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  overflow: hidden;
+
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.input-field, .phone-input select, .phone-input input[type="tel"] {
+  height: 44px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: white;
+}
+
+.btn {
+  background-color: #6e67cf;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #8cd875;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.phone-input {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+    box-sizing: border-box;
+    }
+
+    .input-with-button {
+    display: flex;
+    gap: 8px;
+    }
+
+    .input-with-button .input-field {
+    flex: 1; /* 입력칸이 최대한 공간을 차지 */
+    }
+
+    .check-btn {
+    height: 44px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #eee;
+    cursor: pointer;
+    transition: background 0.3s;
+    }
+
+    .check-btn:hover {
+    background-color: #ddd;
+    }
+
+    .sub-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    .sub-checkbox-group input[type="checkbox"] {
+      margin-right: 6px;
+    }
+    .sub-checkbox-group div {
+      display: flex;
+      align-items: center;
+    }
+
+    #myModal {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.788);
+      margin-left:95px;
+      display: flex;
+      align-items: center;
+      top : 170px;
+      height: 500px;
+  }
+
+  .guardian-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(1, 243, 142, 0.2);
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+
+  .guardian-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    top: 24px;
+  }
+
+.formBtn {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.formBtn-cancel {
+  background-color: #ccc;
+  color: #333;
+}
+
+.formBtn-save {
+  background-color: #6e67cf;
+  color: white;
+}
+.formBtn-save2 {
+  background-color: #7bf577;
+  color: white;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.formBtn-save:hover {
+  background-color: #8cd875;
+}
+
+.formBtn-add {
+  background-color: #eee;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.guardian-entry {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.input-field {
+  height: 40px;
+  padding: 0 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.saved-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.saved-item {
+  width: 270px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #acaba69d;
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.formRemove-btn {
+  margin-right: 0px;
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.formRemove-btn:hover {
+background-color: #e60000;
+}

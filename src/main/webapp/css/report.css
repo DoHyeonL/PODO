@@ -1,0 +1,127 @@
+.form-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+body {
+  background: linear-gradient(135deg, #98cebc5e, #ACB6E5);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.login-form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.input-field {
+  height: 44px;
+  padding: 0 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: white;
+}
+
+.btn {
+  background-color: #6e67cf;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #8cd875;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+}
+
+.btn-cancel {
+  background-color: #ccc;
+  color: #333;
+
+}
+
+.btn-save:hover {
+  background-color: #8cd875;
+}
+
+.report-section {
+margin-bottom: 24px;
+}
+
+.report-card {
+background: #f9f9f9;
+padding: 12px;
+border-radius: 8px;
+margin-bottom: 12px;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.report-section h3 {
+color: #444;
+margin-bottom: 8px;
+}
+
+.btn-guardian {
+background-color: #aeb1b0;
+color: white;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+flex: 1; /* 버튼 그룹 안에서 동일한 너비 확보 */
+padding: 12px;
+border-radius: 8px;
+font-size: 16px;
+transition: background 0.3s;
+text-align: center;
+}
+
+.btn-guardian:hover {
+background-color: #73d16f;
+}
+
+.btn-save {
+background-color: #6e67cf;
+color: white;
+flex: 1; /* 추가: 이전 버튼과 너비 동일하게 */
+}
