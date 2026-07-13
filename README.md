@@ -83,23 +83,17 @@ Java, Spring MVC, JSP, MyBatis, MySQL, T-Map API, jQuery
 
 ## 화면 구성
 
-### 로그인
-![로그인 화면](screenshots/01_로그인.png)
-
-### 메인 + 사이드바
-![사이드바 화면](screenshots/02_사이드바.png)
-
-### 실시간 검색
-![실시간 검색 화면](screenshots/03_실시간검색.png)
-
-### 출발지/도착지 선택
-![출발지 도착지 선택 화면](screenshots/04_출발도착선택.png)
-
-### 경로 카드 비교
-![경로 카드 비교 화면](screenshots/05_경로카드비교.png)
-
-### 안전 경로 안내
-![안전 경로 안내 화면](screenshots/06_안전경로안내.png)
-
-### 보호자 목록
-![보호자 목록 화면](screenshots/07_보호자.png)
+<table>
+  <tr>
+    <td align="center"><img src="screenshots/01_로그인.png" width="200"/><br/>로그인</td>
+    <td align="center"><img src="screenshots/02_사이드바.png" width="200"/><br/>메인 + 사이드바</td>
+    <td align="center"><img src="screenshots/03_실시간검색.png" width="200"/><br/>실시간 검색</td>
+    <td align="center"><img src="screenshots/04_출발도착선택.png" width="200"/><br/>출발지/도착지 선택</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="screenshots/05_경로카드비교.png" width="200"/><br/>경로 카드 비교</td>
+    <td align="center"><img src="screenshots/06_안전경로안내.png" width="200"/><br/>안전 경로 안내</td>
+    <td align="center"><img src="screenshots/07_보호자.png" width="200"/><br/>보호자 목록</td>
+    <td></td>
+  </tr>
+</table>
